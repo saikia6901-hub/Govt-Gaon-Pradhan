@@ -197,3 +197,37 @@ margin-top:15px;
 font-weight:bold;
 
 }
+
+/* Dashboard */
+
+.dashboard{
+    max-width:900px;
+    margin:40px auto;
+    background:#fff;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+.dashboard h2{
+    color:#0b3d91;
+    margin-bottom:20px;
+}
+
+.dashboard input,
+.dashboard select,
+.dashboard textarea{
+
+width:100%;
+padding:12px;
+margin-bottom:15px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+
+}
+
+.dashboard textarea{
+height:100px;
+resize:vertical;
+}
