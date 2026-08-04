@@ -125,3 +125,75 @@ footer{
 }
 
 }
+
+/* Login Page */
+
+.login-container{
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+height:100vh;
+
+}
+
+.login-box{
+
+background:white;
+
+padding:40px;
+
+width:380px;
+
+border-radius:12px;
+
+box-shadow:0 5px 20px rgba(0,0,0,.15);
+
+text-align:center;
+
+}
+
+.login-box h2{
+
+color:#0b3d91;
+
+margin-bottom:10px;
+
+}
+
+.login-box p{
+
+margin-bottom:20px;
+
+color:#666;
+
+}
+
+.login-box input{
+
+width:100%;
+
+padding:12px;
+
+margin-bottom:15px;
+
+border:1px solid #ccc;
+
+border-radius:6px;
+
+font-size:16px;
+
+}
+
+#message{
+
+color:red;
+
+margin-top:15px;
+
+font-weight:bold;
+
+}
