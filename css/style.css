@@ -231,3 +231,57 @@ font-size:16px;
 height:100px;
 resize:vertical;
 }
+
+/* Certificate */
+
+.certificate{
+
+width:210mm;
+
+min-height:297mm;
+
+background:white;
+
+margin:30px auto;
+
+padding:50px;
+
+border:8px double #0b3d91;
+
+box-shadow:0 0 15px rgba(0,0,0,.15);
+
+}
+
+.certificate h1{
+
+text-align:center;
+
+color:#0b3d91;
+
+}
+
+.certificate h2{
+
+text-align:center;
+
+margin-top:10px;
+
+}
+
+.certificate h3{
+
+text-align:center;
+
+margin:30px;
+
+}
+
+.signature{
+
+display:flex;
+
+justify-content:flex-end;
+
+margin-top:80px;
+
+}
