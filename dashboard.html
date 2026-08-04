@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard | Gaon Pradhan Portal</title>
+
+<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+    <img src="assets/logo.png" class="logo">
+
+    <div>
+        <h1>Gaon Pradhan Certificate Portal</h1>
+        <p>Dashboard</p>
+    </div>
+</header>
+
+<div class="dashboard">
+
+<h2>Generate New Certificate</h2>
+
+<form id="certificateForm">
+
+<input type="text" id="name" placeholder="Applicant Name" required>
+
+<input type="text" id="father" placeholder="Father's Name" required>
+
+<input type="text" id="mother" placeholder="Mother's Name">
+
+<input type="text" id="village" placeholder="Village" required>
+
+<input type="text" id="post" placeholder="Post Office">
+
+<input type="text" id="ps" placeholder="Police Station">
+
+<input type="text" id="district" placeholder="District">
+
+<select id="certificateType">
+<option>Residence Certificate</option>
+<option>Income Certificate</option>
+<option>Character Certificate</option>
+<option>Other Certificate</option>
+</select>
+
+<textarea id="purpose" placeholder="Purpose"></textarea>
+
+<button type="button" class="btn" onclick="generateCertificate()">
+Generate Certificate
+</button>
+
+</form>
+
+<br>
+
+<a href="history.html" class="btn">Certificate History</a>
+
+<a href="login.html" class="btn">Logout</a>
+
+</div>
+
+<script src="js/certificate.js"></script>
+
+</body>
+</html>
