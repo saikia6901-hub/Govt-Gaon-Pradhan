@@ -1,10 +1,13 @@
 import { db, collection, addDoc } from "./firebase.js";
 
+import { getNextCertificateNumber } from "./serial.js";
+
 window.generateCertificate = async function () {
+    const certificateNumber = await getNextCertificateNumber();
 
     const data = {
 
-        certificateNo: "GP-" + Date.now(),
+        certificateNo: certificateNumber,
 
         name: document.getElementById("name").value,
 
