@@ -285,3 +285,37 @@ justify-content:flex-end;
 margin-top:80px;
 
 }
+
+table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin-top:20px;
+
+}
+
+table th{
+
+background:#0b3d91;
+
+color:white;
+
+padding:12px;
+
+}
+
+table td{
+
+padding:12px;
+
+border:1px solid #ddd;
+
+}
+
+table tr:nth-child(even){
+
+background:#f4f4f4;
+
+}
