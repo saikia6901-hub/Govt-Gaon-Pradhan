@@ -1,45 +1,47 @@
-function generateCertificate(){
+import { db, collection, addDoc } from "./firebase.js";
 
-localStorage.setItem("name",
-document.getElementById("name").value);
+window.generateCertificate = async function () {
 
-localStorage.setItem("father",
-document.getElementById("father").value);
+    const data = {
 
-localStorage.setItem("village",
-document.getElementById("village").value);
+        certificateNo: "GP-" + Date.now(),
 
-localStorage.setItem("ps",
-document.getElementById("ps").value);
+        name: document.getElementById("name").value,
 
-localStorage.setItem("district",
-document.getElementById("district").value);
+        father: document.getElementById("father").value,
 
-window.location.href="certificate.html";
+        mother: document.getElementById("mother").value,
 
-}
+        village: document.getElementById("village").value,
 
-if(document.getElementById("certificateNo")){
+        post: document.getElementById("post").value,
 
-document.getElementById("certificateNo").innerHTML=
-"GP-2026-"+Math.floor(Math.random()*100000);
+        ps: document.getElementById("ps").value,
 
-document.getElementById("date").innerHTML=
-new Date().toLocaleDateString();
+        district: document.getElementById("district").value,
 
-document.getElementById("name").innerHTML=
-localStorage.getItem("name");
+        certificateType: document.getElementById("certificateType").value,
 
-document.getElementById("father").innerHTML=
-localStorage.getItem("father");
+        purpose: document.getElementById("purpose").value,
 
-document.getElementById("village").innerHTML=
-localStorage.getItem("village");
+        issueDate: new Date().toLocaleDateString()
 
-document.getElementById("ps").innerHTML=
-localStorage.getItem("ps");
+    };
 
-document.getElementById("district").innerHTML=
-localStorage.getItem("district");
+    try {
 
-}
+        await addDoc(collection(db, "certificates"), data);
+
+        alert("Certificate Saved Successfully.");
+
+        localStorage.setItem("certificate", JSON.stringify(data));
+
+        window.location.href = "certificate.html";
+
+    } catch (error) {
+
+        alert("Error : " + error.message);
+
+    }
+
+};
