@@ -1,17 +1,26 @@
-function login(){
+import { auth } from "./firebase.js";
 
-let username=document.getElementById("username").value;
+import {
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
-let password=document.getElementById("password").value;
+window.login = async function () {
 
-if(username==="admin" && password==="12345"){
+  const email = document.getElementById("username").value;
+  const password = document.getElementById("password").value;
 
-window.location.href="dashboard.html";
+  try {
 
-}else{
+    await signInWithEmailAndPassword(auth, email, password);
 
-document.getElementById("message").innerHTML="Invalid Username or Password";
+    alert("Login Successful");
 
-}
+    window.location.href = "dashboard.html";
 
-}
+  } catch (error) {
+
+    document.getElementById("message").innerHTML = error.message;
+
+  }
+
+};
