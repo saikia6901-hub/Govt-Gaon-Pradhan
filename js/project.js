@@ -8,6 +8,7 @@ onAuthStateChanged(auth, (user) => {
   if (!user) {
     window.location.href = "login.html";
   }
+  document.getElementById("userEmail").innerText = "Logged in as: " + user.email;
 });
 
 window.logout = async function () {
