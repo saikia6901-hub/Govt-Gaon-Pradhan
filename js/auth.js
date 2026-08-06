@@ -1,5 +1,3 @@
-alert("auth.js loaded");
-
 import { auth } from "./firebase.js";
 
 import {
