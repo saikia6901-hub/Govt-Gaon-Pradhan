@@ -1,114 +1,68 @@
 import { db } from "./firebase.js";
-
 import {
-collection,
-getDocs
-
+  collection,
+  getDocs,
+  deleteDoc,
+  doc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 const tbody = document.querySelector("#certificateTable tbody");
 
-const querySnapshot = await getDocs(collection(db,"certificates"));
+async function loadHistory() {
 
-querySnapshot.forEach((doc)=>{
+  tbody.innerHTML = "";
 
-const data = doc.data();
+  const snapshot = await getDocs(collection(db, "certificates"));
 
-tbody.innerHTML += `
-<tr>
+  snapshot.forEach((certificate) => {
 
-<td>${data.certificateNo}</td>
+    const data = certificate.data();
 
-<td>${data.name}</td>
+    tbody.innerHTML += `
+      <tr>
+        <td>${data.certificateNo}</td>
+        <td>${data.name}</td>
+        <td>${data.certificateType}</td>
+        <td>${data.issueDate}</td>
+        <td>
+          <button onclick="viewCertificate('${certificate.id}')">👁 View</button>
 
-<td>${data.certificateType}</td>
+          <button onclick="reprintCertificate('${certificate.id}')">🖨 Reprint</button>
 
-<td>${data.issueDate}</td>
+          <button onclick="deleteCertificate('${certificate.id}')">🗑 Delete</button>
+        </td>
+      </tr>
+    `;
 
-</tr>
-`;
-
-});
-
-import { db } from "./firebase.js";
-
-import {
-collection,
-getDocs,
-deleteDoc,
-doc
-} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
-
-async function loadHistory(){
-
-const snapshot = await getDocs(collection(db,"certificates"));
-
-const table=document.getElementById("historyTable");
-
-table.innerHTML="";
-
-snapshot.forEach((certificate)=>{
-
-const data=certificate.data();
-
-table.innerHTML +=`
-
-<tr>
-
-<td>${data.certificateNo}</td>
-
-<td>${data.name}</td>
-
-<td>${data.issueDate}</td>
-
-<td>
-
-<button onclick="viewCertificate('${certificate.id}')">
-View
-</button>
-
-<button onclick="reprintCertificate('${certificate.id}')">
-Reprint
-</button>
-
-<button onclick="deleteCertificate('${certificate.id}')">
-Delete
-</button>
-
-</td>
-
-</tr>
-
-`;
-
-});
+  });
 
 }
 
-window.deleteCertificate=async(id)=>{
+window.deleteCertificate = async function(id) {
 
-if(confirm("Delete this certificate?")){
+  if (confirm("Delete this certificate?")) {
 
-await deleteDoc(doc(db,"certificates",id));
+    await deleteDoc(doc(db, "certificates", id));
 
-alert("Deleted Successfully");
+    alert("Certificate Deleted");
 
-loadHistory();
+    loadHistory();
 
-}
+  }
 
 };
+
 window.viewCertificate = async function(id) {
 
   const snapshot = await getDocs(collection(db, "certificates"));
 
-  snapshot.forEach((docItem) => {
+  snapshot.forEach((item) => {
 
-    if (docItem.id === id) {
+    if (item.id === id) {
 
       localStorage.setItem(
         "certificate",
-        JSON.stringify(docItem.data())
+        JSON.stringify(item.data())
       );
 
       window.location.href = "certificate.html";
@@ -119,24 +73,6 @@ window.viewCertificate = async function(id) {
 
 };
 
-window.reprintCertificate = async function(id) {
+window.reprintCertificate = window.viewCertificate;
 
-  const snapshot = await getDocs(collection(db, "certificates"));
-
-  snapshot.forEach((docItem) => {
-
-    if (docItem.id === id) {
-
-      localStorage.setItem(
-        "certificate",
-        JSON.stringify(docItem.data())
-      );
-
-      window.location.href = "certificate.html";
-
-    }
-
-  });
-
-};
-
+loadHistory();
