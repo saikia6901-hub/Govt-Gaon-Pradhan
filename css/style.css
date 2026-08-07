@@ -1,7 +1,15 @@
 /* ===========================
    Gaon Pradhan Portal Style
 =========================== */
+@font-face {
+    font-family: "banglafont";
+    src: url("assets/bangla.ttf");
+}
 
+
+.certificate {
+    font-family: "banglafont", sans-serif;
+}
 *{
     margin:0;
     padding:0;
