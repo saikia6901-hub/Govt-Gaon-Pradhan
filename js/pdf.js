@@ -15,41 +15,39 @@ window.downloadPDF = async function () {
     const pageWidth = 210;
     const pageHeight = (canvas.height * pageWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, pageWidth, pageHeight);
+    pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        pageWidth,
+        pageHeight
+    );
 
-    const data = JSON.parse(localStorage.getItem("certificate"));
 
-    const fileName =
-        `${data.certificateNo}-${data.name}.pdf`
-            .replace(/\s+/g, "-");
+    // Signature Add
+    const signature = new Image();
 
-    pdf.save(fileName);
+    signature.src = "assets/signature.png";
+
+
+    signature.onload = function(){
+
+        pdf.addImage(
+            signature,
+            "PNG",
+            150,
+            230,
+            40,
+            20
+        );
+
+
+        pdf.save(
+            `${data.certificateNo}-${data.name}.pdf`
+            .replace(/\s+/g,"-")
+        );
+
+    };
 
 };
-
-const signature = new Image();
-
-signature.src = "assets/signature.png";
-
-
-signature.onload = function(){
-
-pdf.addImage(
-signature,
-"PNG",
-150,
-230,
-40,
-20
-);
-
-
-pdf.text(
-"Gaon Pradhan",
-155,
-255
-);
-
-pdf.save("certificate.pdf");
-
-}
