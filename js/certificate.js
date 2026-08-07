@@ -3,7 +3,7 @@ import { db, collection, addDoc } from "./firebase.js";
 import { getNextCertificateNumber } from "./serial.js";
 
 window.generateCertificate = async function () {
-    const certificateNumber = await getNextCertificateNumber();
+    const certificateNumber = "TEST-0001";
 
     const data = {
 
