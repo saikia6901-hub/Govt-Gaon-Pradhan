@@ -14,3 +14,13 @@ if (!data) {
 }
 document.getElementById("verification").textContent =
 Math.random().toString(36).substring(2,10).toUpperCase();
+const verifyURL =
+window.location.origin +
+"/verify.html?cert=" +
+encodeURIComponent(data.certificateNo);
+
+new QRCode(document.getElementById("qrcode"), {
+    text: verifyURL,
+    width: 120,
+    height: 120
+});
