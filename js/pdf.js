@@ -26,3 +26,30 @@ window.downloadPDF = async function () {
     pdf.save(fileName);
 
 };
+
+const signature = new Image();
+
+signature.src = "assets/signature.png";
+
+
+signature.onload = function(){
+
+pdf.addImage(
+signature,
+"PNG",
+150,
+230,
+40,
+20
+);
+
+
+pdf.text(
+"Gaon Pradhan",
+155,
+255
+);
+
+pdf.save("certificate.pdf");
+
+}
