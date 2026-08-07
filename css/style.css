@@ -2,7 +2,7 @@
    Gaon Pradhan Portal Style
 =========================== */
 @font-face {
-    font-family: "MyAssamese";
+    font-family: "MyAssamese" !important;
     src: url("assets/bangla.ttf") format("truetype");
 }
 
