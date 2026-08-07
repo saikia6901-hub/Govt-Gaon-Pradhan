@@ -404,3 +404,26 @@ font-size:16px;
     opacity:.08;
     pointer-events:none;
 }
+
+.signature{
+    text-align:center;
+}
+
+.signature img{
+    width:120px;
+    display:block;
+    margin:0 auto;
+}
+
+.signature-text{
+    text-align:center;
+    margin-top:5px;
+}
+
+.designation{
+    font-weight:bold;
+}
+
+.name{
+    margin-top:3px;
+}
