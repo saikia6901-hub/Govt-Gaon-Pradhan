@@ -2,13 +2,12 @@
    Gaon Pradhan Portal Style
 =========================== */
 @font-face {
-    font-family: "banglafont";
-    src: url("assets/bangla.ttf");
+    font-family: "MyAssamese";
+    src: url("assets/bangla.ttf") format("truetype");
 }
 
-
 .certificate {
-    font-family: "banglafont", sans-serif;
+    font-family: "MyAssamese", sans-serif;
 }
 *{
     margin:0;
