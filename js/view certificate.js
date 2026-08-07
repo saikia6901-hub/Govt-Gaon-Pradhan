@@ -12,3 +12,5 @@ if (!data) {
     document.getElementById("district").textContent = data.district;
     document.getElementById("date").textContent = data.issueDate;
 }
+document.getElementById("verification").textContent =
+Math.random().toString(36).substring(2,10).toUpperCase();
