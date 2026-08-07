@@ -1,3 +1,4 @@
+alert("viewCertificate.js loaded");
 const data = JSON.parse(localStorage.getItem("certificate"));
 
 if (!data) {
