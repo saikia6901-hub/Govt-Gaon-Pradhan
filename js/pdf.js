@@ -24,25 +24,6 @@ window.downloadPDF = async function () {
         pageHeight
     );
 
-
-    // Signature Add
-    const signature = new Image();
-
-    signature.src = "assets/signature.png";
-
-
-    signature.onload = function(){
-
-        pdf.addImage(
-            signature,
-            "PNG",
-            150,
-            230,
-            40,
-            20
-        );
-
-
         pdf.save(
             `${data.certificateNo}-${data.name}.pdf`
             .replace(/\s+/g,"-")
