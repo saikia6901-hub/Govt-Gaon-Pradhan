@@ -24,3 +24,5 @@ new QRCode(document.getElementById("qrcode"), {
     width: 120,
     height: 120
 });
+
+alert(data.certificateNo);
