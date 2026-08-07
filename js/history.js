@@ -98,3 +98,45 @@ loadHistory();
 }
 
 };
+window.viewCertificate = async function(id) {
+
+  const snapshot = await getDocs(collection(db, "certificates"));
+
+  snapshot.forEach((docItem) => {
+
+    if (docItem.id === id) {
+
+      localStorage.setItem(
+        "certificate",
+        JSON.stringify(docItem.data())
+      );
+
+      window.location.href = "certificate.html";
+
+    }
+
+  });
+
+};
+
+window.reprintCertificate = async function(id) {
+
+  const snapshot = await getDocs(collection(db, "certificates"));
+
+  snapshot.forEach((docItem) => {
+
+    if (docItem.id === id) {
+
+      localStorage.setItem(
+        "certificate",
+        JSON.stringify(docItem.data())
+      );
+
+      window.location.href = "certificate.html";
+
+    }
+
+  });
+
+};
+
