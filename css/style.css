@@ -405,25 +405,25 @@ font-size:16px;
     pointer-events:none;
 }
 
-.signature{
-    text-align:center;
+.signature-section{
+    width: 220px;
+    margin-left: auto;   /* Right side লৈ নিব */
+    text-align: center;
+    margin-top: 20px;
 }
 
-.signature img{
-    width:120px;
-    display:block;
-    margin:0 auto;
-}
-
-.signature-text{
-    text-align:center;
-    margin-top:5px;
+.signature-section img{
+    width: 120px;
+    height: auto;
+    display: block;
+    margin: 0 auto 5px auto;
 }
 
 .designation{
-    font-weight:bold;
+    font-weight: bold;
+    font-size: 16px;
 }
 
 .name{
-    margin-top:3px;
+    font-size: 15px;
 }
