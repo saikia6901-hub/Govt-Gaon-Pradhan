@@ -1,3 +1,4 @@
+alert("certificate.js loaded");
 import { db, collection, addDoc } from "./firebase.js";
 
 import { getNextCertificateNumber } from "./serial.js";
