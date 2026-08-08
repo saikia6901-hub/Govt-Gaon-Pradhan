@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>District Management | Gaon Pradhan Portal</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+<body>
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>Gaon Pradhan Certificate Portal</h1>
+
+        <p>District Management</p>
+
+        <p id="adminEmail"></p>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <h2>District Management</h2>
+
+    <p>
+        Manage Assam District Master Data
+    </p>
+
+
+    <!-- Add District -->
+
+    <div class="card">
+
+        <h3>Add District</h3>
+
+        <form id="districtForm">
+
+            <input
+                type="text"
+                id="districtName"
+                placeholder="District Name"
+                required
+            >
+
+            <input
+                type="text"
+                id="districtCode"
+                placeholder="District Code"
+                required
+            >
+
+            <select id="districtStatus">
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Add District
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- District List -->
+
+    <div class="card">
+
+        <h3>District List</h3>
+
+        <div id="districtList">
+
+            <p>
+                Loading districts...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <button
+        class="btn"
+        onclick="window.location.href='admin-dashboard.html'"
+    >
+        Back to Admin Dashboard
+    </button>
+
+
+    <button
+        class="btn"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</main>
+
+
+<script
+    type="module"
+    src="js/districts.js"
+></script>
+
+</body>
+
+</html>
