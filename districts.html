@@ -47,26 +47,8 @@
         Manage Assam District Master Data
     </p>
 
-<div class="card">
 
-    <h3>Official District Data</h3>
-
-    <p>
-        Import the official Assam district master list.
-    </p>
-
-    <button
-        type="button"
-        class="btn"
-        id="importDistrictsBtn"
-    >
-        Import Official Districts
-    </button>
-
-    <p id="importStatus"></p>
-
-</div>
-    <!-- Add District -->
+    <!-- ADD DISTRICT -->
 
     <div class="card">
 
@@ -115,7 +97,33 @@
     <br>
 
 
-    <!-- District List -->
+    <!-- OFFICIAL IMPORT -->
+
+    <div class="card">
+
+        <h3>Official District Data</h3>
+
+        <p>
+            Import the official Assam district master list.
+        </p>
+
+        <button
+            type="button"
+            class="btn"
+            id="importDistrictsBtn"
+        >
+            Import Official Districts
+        </button>
+
+        <p id="importStatus"></p>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- DISTRICT LIST -->
 
     <div class="card">
 
@@ -151,6 +159,84 @@
     </button>
 
 </main>
+
+
+<!-- EDIT DISTRICT MODAL -->
+
+<div
+    id="editModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.6);
+        padding:20px;
+        z-index:9999;
+    "
+>
+
+    <div
+        class="card"
+        style="
+            max-width:500px;
+            margin:80px auto;
+        "
+    >
+
+        <h3>Edit District</h3>
+
+        <input
+            type="hidden"
+            id="editDistrictId"
+        >
+
+        <input
+            type="text"
+            id="editDistrictName"
+            placeholder="District Name"
+        >
+
+        <br><br>
+
+        <input
+            type="text"
+            id="editDistrictCode"
+            placeholder="District Code"
+        >
+
+        <br><br>
+
+        <select id="editDistrictStatus">
+
+            <option value="active">
+                Active
+            </option>
+
+            <option value="inactive">
+                Inactive
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <button
+            class="btn"
+            id="saveEditBtn"
+        >
+            Save Changes
+        </button>
+
+        <button
+            class="btn"
+            id="cancelEditBtn"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
 
 
 <script
