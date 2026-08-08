@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Super Admin | Gaon Pradhan Portal</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="header">
+
+    <img src="assets/logo.png" class="logo">
+
+    <div>
+        <h1>Gaon Pradhan Certificate Portal</h1>
+        <p>Super Admin Panel</p>
+        <p id="adminEmail"></p>
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <h2>Administration Dashboard</h2>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Total Applicants</h3>
+            <h1 id="totalApplicants">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Gaon Pradhans</h3>
+            <h1 id="totalPradhans">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Applications</h3>
+            <h1 id="totalApplications">0</h1>
+        </div>
+
+        <div class="card">
+            <h3>Total Certificates</h3>
+            <h1 id="totalCertificates">0</h1>
+        </div>
+
+    </div>
+
+
+    <h2>Master Data Management</h2>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Districts</h3>
+            <button class="btn" type="button">
+                Manage Districts
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>Revenue Circles</h3>
+            <button class="btn" type="button">
+                Manage Revenue Circles
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>Lots</h3>
+            <button class="btn" type="button">
+                Manage Lots
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>Villages</h3>
+            <button class="btn" type="button">
+                Manage Villages
+            </button>
+        </div>
+
+    </div>
+
+
+    <h2>User Management</h2>
+
+    <div class="stats">
+
+        <div class="card">
+            <h3>Gaon Pradhan</h3>
+            <button class="btn" type="button">
+                Manage Pradhans
+            </button>
+        </div>
+
+        <div class="card">
+            <h3>Applicants</h3>
+            <button class="btn" type="button">
+                Manage Applicants
+            </button>
+        </div>
+
+    </div>
+
+
+    <br>
+
+    <button class="btn" onclick="logout()">
+        Logout
+    </button>
+
+</main>
+
+
+<script type="module" src="js/admin-dashboard.js"></script>
+
+</body>
+</html>
