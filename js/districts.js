@@ -16,7 +16,8 @@ import {
 
 import {
   doc,
-  getDoc
+  getDoc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -252,3 +253,202 @@ window.logout = async function () {
   }
 
 };
+
+// ========================================
+// OFFICIAL ASSAM DISTRICT MASTER LIST
+// ========================================
+
+const officialDistricts = [
+  "Baksa",
+  "Barpeta",
+  "Biswanath",
+  "Bongaigaon",
+  "Bajali",
+  "Cachar",
+  "Charaideo",
+  "Chirang",
+  "Darrang",
+  "Dhemaji",
+  "Dhubri",
+  "Dibrugarh",
+  "Dima Hasao",
+  "Goalpara",
+  "Golaghat",
+  "Hailakandi",
+  "Hojai",
+  "Jorhat",
+  "Kamrup",
+  "Kamrup Metropolitan",
+  "Karbi Anglong",
+  "Kokrajhar",
+  "Lakhimpur",
+  "Majuli",
+  "Morigaon",
+  "Nagaon",
+  "Nalbari",
+  "Sivasagar",
+  "Sonitpur",
+  "Shribhumi",
+  "South Salmara-Mancachar",
+  "Tamulpur",
+  "Tinsukia",
+  "Udalguri",
+  "West Karbi Anglong"
+];
+
+
+// ========================================
+// CREATE SAFE DOCUMENT ID
+// ========================================
+
+function createDistrictId(name) {
+
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+}
+
+
+// ========================================
+// IMPORT OFFICIAL DISTRICTS
+// ========================================
+
+const importButton =
+  document.getElementById("importDistrictsBtn");
+
+const importStatus =
+  document.getElementById("importStatus");
+
+
+if (importButton) {
+
+  importButton.addEventListener("click", async () => {
+
+    const user = auth.currentUser;
+
+    if (!user) {
+
+      alert("Please login first.");
+
+      return;
+
+    }
+
+
+    importButton.disabled = true;
+
+    importButton.textContent = "Importing...";
+
+    importStatus.textContent =
+      "Checking official district data...";
+
+
+    try {
+
+      // Verify Super Admin again
+      const userRef = doc(db, "users", user.uid);
+
+      const userSnap = await getDoc(userRef);
+
+
+      if (!userSnap.exists()) {
+
+        throw new Error("User profile not found.");
+
+      }
+
+
+      const userData = userSnap.data();
+
+
+      if (userData.role !== "super_admin") {
+
+        throw new Error(
+          "Only Super Admin can import district data."
+        );
+
+      }
+
+
+      let imported = 0;
+
+
+      for (const districtName of officialDistricts) {
+
+        const districtId =
+          createDistrictId(districtName);
+
+
+        const districtRef =
+          doc(db, "districts", districtId);
+
+
+        await setDoc(
+          districtRef,
+          {
+            districtId: districtId,
+
+            name: districtName,
+
+            state: "Assam",
+
+            status: "active",
+
+            source: "Government of Assam - General Administration Department",
+
+            updatedAt: serverTimestamp(),
+
+            updatedBy: user.uid
+          },
+          { merge: true }
+        );
+
+
+        imported++;
+
+      }
+
+
+      importStatus.textContent =
+        `${imported} official districts imported successfully.`;
+
+      alert(
+        `${imported} official Assam districts imported successfully.`
+      );
+
+
+      loadDistricts();
+
+
+    } catch (error) {
+
+      console.error(
+        "Official district import error:",
+        error
+      );
+
+
+      importStatus.textContent =
+        "Import failed. Please try again.";
+
+
+      alert(
+        "District import failed: " +
+        error.message
+      );
+
+
+    } finally {
+
+      importButton.disabled = false;
+
+      importButton.textContent =
+        "Import Official Districts";
+
+    }
+
+  });
+
+}
