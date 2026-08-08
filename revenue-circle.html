@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Revenue Circle Management | Gaon Pradhan Portal</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>Gaon Pradhan Certificate Portal</h1>
+
+        <p>Revenue Circle Management</p>
+
+        <p id="adminEmail"></p>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <h2>Revenue Circle Management</h2>
+
+    <p>
+        Manage Revenue Circles under Assam Districts
+    </p>
+
+
+    <!-- ADD REVENUE CIRCLE -->
+
+    <div class="card">
+
+        <h3>Add Revenue Circle</h3>
+
+        <form id="circleForm">
+
+
+            <label>
+                Select District
+            </label>
+
+            <select
+                id="districtSelect"
+                required
+            >
+
+                <option value="">
+                    Loading districts...
+                </option>
+
+            </select>
+
+
+            <input
+                type="text"
+                id="circleName"
+                placeholder="Revenue Circle Name"
+                required
+            >
+
+
+            <select
+                id="circleStatus"
+            >
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Add Revenue Circle
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- REVENUE CIRCLE LIST -->
+
+    <div class="card">
+
+        <h3>Revenue Circle List</h3>
+
+        <div id="circleList">
+
+            <p>
+                Loading Revenue Circles...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <button
+        class="btn"
+        onclick="
+            window.location.href='admin-dashboard.html'
+        "
+    >
+        Back to Admin Dashboard
+    </button>
+
+
+    <button
+        class="btn"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</main>
+
+
+<script
+    type="module"
+    src="js/revenue-circles.js"
+></script>
+
+</body>
+
+</html>
