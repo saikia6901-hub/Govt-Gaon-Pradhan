@@ -24,7 +24,10 @@ const form = document.getElementById("districtForm");
 const districtList = document.getElementById("districtList");
 
 
-// Check Super Admin
+// ========================================
+// SUPER ADMIN CHECK
+// ========================================
+
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
@@ -38,17 +41,21 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap = await getDoc(userRef);
 
     if (!userSnap.exists()) {
+
       alert("User profile not found.");
       window.location.href = "login.html";
       return;
+
     }
 
     const userData = userSnap.data();
 
     if (userData.role !== "super_admin") {
+
       alert("Access denied. Super Admin only.");
       window.location.href = "dashboard.html";
       return;
+
     }
 
     document.getElementById("adminEmail").textContent =
@@ -59,6 +66,7 @@ onAuthStateChanged(auth, async (user) => {
   } catch (error) {
 
     console.error("Authentication error:", error);
+
     alert("Unable to verify administrator.");
 
   }
@@ -66,7 +74,10 @@ onAuthStateChanged(auth, async (user) => {
 });
 
 
-// Add District
+// ========================================
+// ADD DISTRICT
+// ========================================
+
 form.addEventListener("submit", async (event) => {
 
   event.preventDefault();
@@ -82,8 +93,11 @@ form.addEventListener("submit", async (event) => {
 
 
   if (!name || !code) {
+
     alert("Please enter District Name and District Code.");
+
     return;
+
   }
 
 
@@ -95,9 +109,13 @@ form.addEventListener("submit", async (event) => {
 
       code: code,
 
+      state: "Assam",
+
       status: status,
 
       createdAt: serverTimestamp(),
+
+      updatedAt: serverTimestamp(),
 
       createdBy: auth.currentUser.uid
 
@@ -122,7 +140,10 @@ form.addEventListener("submit", async (event) => {
 });
 
 
-// Load Districts
+// ========================================
+// LOAD DISTRICTS
+// ========================================
+
 async function loadDistricts() {
 
   districtList.innerHTML =
@@ -145,6 +166,7 @@ async function loadDistricts() {
         "<p>No districts added yet.</p>";
 
       return;
+
     }
 
 
@@ -162,6 +184,11 @@ async function loadDistricts() {
           <p>
             Code:
             <strong>${escapeHtml(data.code || "")}</strong>
+          </p>
+
+          <p>
+            State:
+            <strong>${escapeHtml(data.state || "Assam")}</strong>
           </p>
 
           <p>
@@ -190,7 +217,10 @@ async function loadDistricts() {
 }
 
 
-// Basic HTML escaping
+// ========================================
+// HTML SECURITY
+// ========================================
+
 function escapeHtml(value) {
 
   return String(value)
@@ -203,7 +233,10 @@ function escapeHtml(value) {
 }
 
 
-// Logout
+// ========================================
+// LOGOUT
+// ========================================
+
 window.logout = async function () {
 
   try {
