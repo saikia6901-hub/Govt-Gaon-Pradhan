@@ -26,7 +26,14 @@ const districtSelect =
 
 const circleList =
   document.getElementById("circleList");
+const editCircleModal =
+  document.getElementById("editCircleModal");
 
+const saveCircleEditBtn =
+  document.getElementById("saveCircleEditBtn");
+
+const cancelCircleEditBtn =
+  document.getElementById("cancelCircleEditBtn");
 
 // ========================================
 // SUPER ADMIN CHECK
@@ -380,6 +387,16 @@ async function loadCircles() {
               }
             </strong>
           </p>
+          <button
+  class="btn"
+  onclick="
+    editCircle(
+      '${circleDoc.id}'
+    )
+  "
+>
+  Edit
+</button>
 
           <button
             class="btn"
@@ -560,3 +577,195 @@ window.logout =
     }
 
   };
+
+// ========================================
+// EDIT REVENUE CIRCLE
+// ========================================
+
+window.editCircle =
+  async function (circleId) {
+
+    try {
+
+      const circleRef =
+        doc(
+          db,
+          "revenueCircles",
+          circleId
+        );
+
+      const circleSnap =
+        await getDoc(circleRef);
+
+
+      if (!circleSnap.exists()) {
+
+        alert(
+          "Revenue Circle not found."
+        );
+
+        return;
+
+      }
+
+
+      const data =
+        circleSnap.data();
+
+
+      document.getElementById(
+        "editCircleId"
+      ).value =
+        circleId;
+
+
+      document.getElementById(
+        "editCircleName"
+      ).value =
+        data.name || "";
+
+
+      document.getElementById(
+        "editCircleStatus"
+      ).value =
+        data.status || "active";
+
+
+      editCircleModal.style.display =
+        "block";
+
+
+    } catch (error) {
+
+      console.error(
+        "Edit Revenue Circle error:",
+        error
+      );
+
+      alert(
+        "Unable to open Revenue Circle."
+      );
+
+    }
+
+  };
+
+
+// ========================================
+// SAVE REVENUE CIRCLE EDIT
+// ========================================
+
+if (saveCircleEditBtn) {
+
+  saveCircleEditBtn.addEventListener(
+    "click",
+    async () => {
+
+      const circleId =
+        document.getElementById(
+          "editCircleId"
+        ).value;
+
+
+      const name =
+        document.getElementById(
+          "editCircleName"
+        ).value.trim();
+
+
+      const status =
+        document.getElementById(
+          "editCircleStatus"
+        ).value;
+
+
+      if (!name) {
+
+        alert(
+          "Revenue Circle Name is required."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const circleRef =
+          doc(
+            db,
+            "revenueCircles",
+            circleId
+          );
+
+
+        await updateDoc(
+          circleRef,
+          {
+
+            name:
+              name,
+
+            status:
+              status,
+
+            updatedAt:
+              serverTimestamp(),
+
+            updatedBy:
+              auth.currentUser.uid
+
+          }
+        );
+
+
+        alert(
+          "Revenue Circle updated successfully."
+        );
+
+
+        editCircleModal.style.display =
+          "none";
+
+
+        loadCircles();
+
+
+      } catch (error) {
+
+        console.error(
+          "Update Revenue Circle error:",
+          error
+        );
+
+
+        alert(
+          "Unable to update Revenue Circle."
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+// ========================================
+// CANCEL EDIT
+// ========================================
+
+if (cancelCircleEditBtn) {
+
+  cancelCircleEditBtn.addEventListener(
+    "click",
+    () => {
+
+      editCircleModal.style.display =
+        "none";
+
+    }
+  );
+
+}
