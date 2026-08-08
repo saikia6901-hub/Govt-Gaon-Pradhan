@@ -127,7 +127,74 @@
             </p>
 
         </div>
+<!-- EDIT REVENUE CIRCLE MODAL -->
 
+<div
+    id="editCircleModal"
+    style="
+        display:none;
+        position:fixed;
+        inset:0;
+        background:rgba(0,0,0,0.6);
+        padding:20px;
+        z-index:9999;
+    "
+>
+
+    <div
+        class="card"
+        style="
+            max-width:500px;
+            margin:80px auto;
+        "
+    >
+
+        <h3>Edit Revenue Circle</h3>
+
+        <input
+            type="hidden"
+            id="editCircleId"
+        >
+
+        <input
+            type="text"
+            id="editCircleName"
+            placeholder="Revenue Circle Name"
+        >
+
+        <br><br>
+
+        <select id="editCircleStatus">
+
+            <option value="active">
+                Active
+            </option>
+
+            <option value="inactive">
+                Inactive
+            </option>
+
+        </select>
+
+        <br><br>
+
+        <button
+            class="btn"
+            id="saveCircleEditBtn"
+        >
+            Save Changes
+        </button>
+
+        <button
+            class="btn"
+            id="cancelCircleEditBtn"
+        >
+            Cancel
+        </button>
+
+    </div>
+
+</div>
     </div>
 
 
