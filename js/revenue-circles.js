@@ -28,6 +28,11 @@ const circleList =
   document.getElementById("circleList");
 const filterDistrict =
   document.getElementById("filterDistrict");
+const searchCircle =
+  document.getElementById("searchCircle");
+
+const filterStatus =
+  document.getElementById("filterStatus");
 const editCircleModal =
   document.getElementById("editCircleModal");
 
@@ -370,6 +375,17 @@ async function loadCircles() {
       const selectedDistrict =
   filterDistrict.value;
 
+const selectedStatus =
+  filterStatus.value;
+
+const searchText =
+  searchCircle.value
+    .trim()
+    .toLowerCase();
+
+
+// District filter
+
 if (
   selectedDistrict &&
   data.districtId !== selectedDistrict
@@ -377,6 +393,29 @@ if (
   return;
 }
 
+
+// Status filter
+
+if (
+  selectedStatus &&
+  status !== selectedStatus
+) {
+  return;
+}
+
+
+// Search filter
+
+const circleName =
+  String(data.name || "")
+    .toLowerCase();
+
+if (
+  searchText &&
+  !circleName.includes(searchText)
+) {
+  return;
+}
       const action =
         status === "active"
           ? "Deactivate"
@@ -803,6 +842,41 @@ if (cancelCircleEditBtn) {
 if (filterDistrict) {
 
   filterDistrict.addEventListener(
+    "change",
+    () => {
+
+      loadCircles();
+
+    }
+  );
+
+}
+
+// ========================================
+// SEARCH REVENUE CIRCLE
+// ========================================
+
+if (searchCircle) {
+
+  searchCircle.addEventListener(
+    "input",
+    () => {
+
+      loadCircles();
+
+    }
+  );
+
+}
+
+
+// ========================================
+// STATUS FILTER
+// ========================================
+
+if (filterStatus) {
+
+  filterStatus.addEventListener(
     "change",
     () => {
 
