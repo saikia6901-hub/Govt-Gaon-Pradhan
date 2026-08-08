@@ -26,6 +26,8 @@ const districtSelect =
 
 const circleList =
   document.getElementById("circleList");
+const filterDistrict =
+  document.getElementById("filterDistrict");
 const editCircleModal =
   document.getElementById("editCircleModal");
 
@@ -105,6 +107,9 @@ async function loadDistricts() {
   districtSelect.innerHTML =
     `<option value="">Select District</option>`;
 
+  filterDistrict.innerHTML =
+    `<option value="">All Districts</option>`;
+
   const districtQuery =
     query(
       collection(db, "districts"),
@@ -130,6 +135,18 @@ async function loadDistricts() {
       data.name;
 
     districtSelect.appendChild(option);
+    const filterOption =
+  document.createElement("option");
+
+filterOption.value =
+  districtDoc.id;
+
+filterOption.textContent =
+  data.name;
+
+filterDistrict.appendChild(
+  filterOption
+);
 
   });
 
@@ -350,6 +367,15 @@ async function loadCircles() {
       const status =
         data.status || "inactive";
 
+      const selectedDistrict =
+  filterDistrict.value;
+
+if (
+  selectedDistrict &&
+  data.districtId !== selectedDistrict
+) {
+  return;
+}
 
       const action =
         status === "active"
@@ -764,6 +790,23 @@ if (cancelCircleEditBtn) {
 
       editCircleModal.style.display =
         "none";
+
+    }
+  );
+
+}
+
+// ========================================
+// DISTRICT FILTER
+// ========================================
+
+if (filterDistrict) {
+
+  filterDistrict.addEventListener(
+    "change",
+    () => {
+
+      loadCircles();
 
     }
   );
