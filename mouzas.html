@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Mouza Management | Gaon Pradhan Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>
+            Gaon Pradhan Certificate Portal
+        </h1>
+
+        <p>
+            Mouza Management
+        </p>
+
+        <p id="adminEmail"></p>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <h2>
+        Mouza Management
+    </h2>
+
+    <p>
+        Manage Mouzas under Revenue Circles
+    </p>
+
+
+    <!-- ================================= -->
+    <!-- ADD MOUZA -->
+    <!-- ================================= -->
+
+    <div class="card">
+
+        <h3>
+            Add Mouza
+        </h3>
+
+
+        <form id="mouzaForm">
+
+
+            <label for="districtSelect">
+                Select District
+            </label>
+
+            <select
+                id="districtSelect"
+                required
+            >
+
+                <option value="">
+                    Loading districts...
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <label for="circleSelect">
+                Select Revenue Circle
+            </label>
+
+            <select
+                id="circleSelect"
+                required
+            >
+
+                <option value="">
+                    Select Revenue Circle
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <input
+                type="text"
+                id="mouzaName"
+                placeholder="Mouza Name"
+                required
+            >
+
+
+            <br><br>
+
+
+            <select
+                id="mouzaStatus"
+            >
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Add Mouza
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ================================= -->
+    <!-- MOUZA LIST -->
+    <!-- ================================= -->
+
+    <div class="card">
+
+        <h3>
+            Mouza List
+        </h3>
+
+
+        <label for="filterDistrict">
+            Filter by District
+        </label>
+
+        <select id="filterDistrict">
+
+            <option value="">
+                All Districts
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label for="filterCircle">
+            Filter by Revenue Circle
+        </label>
+
+        <select id="filterCircle">
+
+            <option value="">
+                All Revenue Circles
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <label for="searchMouza">
+            Search Mouza
+        </label>
+
+        <input
+            type="text"
+            id="searchMouza"
+            placeholder="Search by Mouza Name"
+        >
+
+
+        <br><br>
+
+
+        <label for="filterStatus">
+            Filter by Status
+        </label>
+
+        <select id="filterStatus">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option value="active">
+                Active
+            </option>
+
+            <option value="inactive">
+                Inactive
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <div id="mouzaList">
+
+            <p>
+                Loading Mouzas...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ================================= -->
+    <!-- EDIT MOUZA MODAL -->
+    <!-- ================================= -->
+
+    <div
+        id="editMouzaModal"
+        style="
+            display:none;
+            position:fixed;
+            inset:0;
+            background:rgba(0,0,0,0.6);
+            padding:20px;
+            z-index:9999;
+        "
+    >
+
+        <div
+            class="card"
+            style="
+                max-width:500px;
+                margin:80px auto;
+            "
+        >
+
+            <h3>
+                Edit Mouza
+            </h3>
+
+
+            <input
+                type="hidden"
+                id="editMouzaId"
+            >
+
+
+            <input
+                type="text"
+                id="editMouzaName"
+                placeholder="Mouza Name"
+            >
+
+
+            <br><br>
+
+
+            <select id="editMouzaStatus">
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <button
+                class="btn"
+                id="saveMouzaEditBtn"
+            >
+                Save Changes
+            </button>
+
+
+            <button
+                class="btn"
+                id="cancelMouzaEditBtn"
+            >
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <button
+        class="btn"
+        onclick="
+            window.location.href='admin-dashboard.html'
+        "
+    >
+        Back to Admin Dashboard
+    </button>
+
+
+    <button
+        class="btn"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</main>
+
+
+<script
+    type="module"
+    src="js/mouzas.js"
+></script>
+
+</body>
+
+</html>
