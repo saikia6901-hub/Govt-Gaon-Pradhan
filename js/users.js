@@ -1,3 +1,4 @@
+console.log("USERS.JS LOADED SUCCESSFULLY");
 import { auth, db } from "./firebase.js";
 
 import {
