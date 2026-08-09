@@ -239,12 +239,141 @@ async function loadDistricts() {
 
 districtSelect.addEventListener(
   "change",
-  () => {
+  async () => {
+
+    const districtId =
+      districtSelect.value;
 
     console.log(
-      "Selected District:",
-      districtSelect.value
+      "Selected District ID:",
+      districtId
     );
+
+
+    circleSelect.innerHTML =
+      `<option value="">
+        Loading Revenue Circles...
+      </option>`;
+
+
+    if (!districtId) {
+
+      circleSelect.innerHTML =
+        `<option value="">
+          Select Revenue Circle
+        </option>`;
+
+      return;
+    }
+
+
+    try {
+
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "revenueCircles"
+          )
+        );
+
+
+      circleSelect.innerHTML =
+        `<option value="">
+          Select Revenue Circle
+        </option>`;
+
+
+      let found = 0;
+
+
+      snapshot.forEach(
+        (circleDoc) => {
+
+          const data =
+            circleDoc.data();
+
+
+          console.log(
+            "Revenue Circle:",
+            circleDoc.id,
+            data
+          );
+
+
+          if (
+            data.districtId ===
+            districtId &&
+            data.status ===
+            "active"
+          ) {
+
+            const option =
+              document.createElement(
+                "option"
+              );
+
+
+            option.value =
+              circleDoc.id;
+
+
+            option.textContent =
+              data.name;
+
+
+            circleSelect.appendChild(
+              option
+            );
+
+
+            found++;
+
+          }
+
+        }
+      );
+
+
+      if (found === 0) {
+
+        circleSelect.innerHTML =
+          `<option value="">
+            No Active Revenue Circle Found
+          </option>`;
+
+      }
+
+
+      console.log(
+        "Revenue Circles Found:",
+        found
+      );
+
+
+    } catch (error) {
+
+      console.error(
+        "Revenue Circle loading error:",
+        error
+      );
+
+
+      circleSelect.innerHTML =
+        `<option value="">
+          Error loading Revenue Circles
+        </option>`;
+
+
+      alert(
+        "Unable to load Revenue Circles: " +
+        error.message
+      );
+
+    }
+
+  }
+);
 
     // Revenue Circle will be added
     // in the next step.
