@@ -10,7 +10,6 @@ import {
   getDocs,
   query,
   orderBy,
-  where,
   doc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
@@ -33,21 +32,34 @@ const villageSelect =
 
 
 // ========================================
-// SUPER ADMIN CHECK
+// AUTHENTICATION
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
 
-    window.location.href =
-      "login.html";
+    window.location.href = "login.html";
 
     return;
   }
 
 
+  // Show email immediately
+  const adminEmail =
+    document.getElementById("adminEmail");
+
+  if (adminEmail) {
+
+    adminEmail.textContent =
+      "Logged in as: " + user.email;
+
+  }
+
+
   try {
+
+    // Check user profile
 
     const userRef =
       doc(
@@ -56,6 +68,7 @@ onAuthStateChanged(auth, async (user) => {
         user.uid
       );
 
+
     const userSnap =
       await getDoc(userRef);
 
@@ -63,19 +76,21 @@ onAuthStateChanged(auth, async (user) => {
     if (!userSnap.exists()) {
 
       alert(
-        "User profile not found."
+        "User profile not found in Firestore."
       );
 
-      window.location.href =
-        "login.html";
-
       return;
-
     }
 
 
     const userData =
       userSnap.data();
+
+
+    console.log(
+      "Current user role:",
+      userData.role
+    );
 
 
     if (
@@ -91,16 +106,10 @@ onAuthStateChanged(auth, async (user) => {
         "dashboard.html";
 
       return;
-
     }
 
 
-    document.getElementById(
-      "adminEmail"
-    ).textContent =
-      "Logged in as: " +
-      user.email;
-
+    // Load districts
 
     await loadDistricts();
 
@@ -108,12 +117,13 @@ onAuthStateChanged(auth, async (user) => {
   } catch (error) {
 
     console.error(
-      "Authentication error:",
+      "Users page error:",
       error
     );
 
     alert(
-      "Unable to verify administrator."
+      "Error loading User Management: " +
+      error.message
     );
 
   }
@@ -133,174 +143,136 @@ async function loadDistricts() {
     </option>`;
 
 
-  const districtQuery =
-    query(
-      collection(
-        db,
-        "districts"
-      ),
-      orderBy("name")
-    );
+  try {
 
-
-  const snapshot =
-    await getDocs(
-      districtQuery
-    );
-
-
-  snapshot.forEach(
-    (districtDoc) => {
-
-      const data =
-        districtDoc.data();
-
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        districtDoc.id;
-
-
-      option.textContent =
-        data.name;
-
-
-      districtSelect.appendChild(
-        option
+    const districtQuery =
+      query(
+        collection(
+          db,
+          "districts"
+        ),
+        orderBy("name")
       );
 
+
+    const snapshot =
+      await getDocs(
+        districtQuery
+      );
+
+
+    if (snapshot.empty) {
+
+      districtSelect.innerHTML =
+        `<option value="">
+          No District Found
+        </option>`;
+
+      return;
+
     }
-  );
-
-}
 
 
-// ========================================
-// LOAD REVENUE CIRCLES
-// ========================================
+    snapshot.forEach(
+      (districtDoc) => {
 
-async function loadRevenueCircles(
-  districtId
-) {
-
-  circleSelect.innerHTML =
-    `<option value="">
-      Select Revenue Circle
-    </option>`;
+        const data =
+          districtDoc.data();
 
 
-  resetSelect(
-    mouzaSelect,
-    "Select Mouza"
-  );
-
-  resetSelect(
-    lotSelect,
-    "Select Lot"
-  );
-
-  resetSelect(
-    villageSelect,
-    "Select Village"
-  );
+        const option =
+          document.createElement(
+            "option"
+          );
 
 
-  if (!districtId) {
+        option.value =
+          districtDoc.id;
 
-    return;
+
+        option.textContent =
+          data.name;
+
+
+        districtSelect.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    console.log(
+      "Districts loaded:",
+      snapshot.size
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "District loading error:",
+      error
+    );
+
+
+    districtSelect.innerHTML =
+      `<option value="">
+        Error loading districts
+      </option>`;
+
+
+    alert(
+      "Unable to load districts: " +
+      error.message
+    );
 
   }
 
-
-  const circleQuery =
-    query(
-      collection(
-        db,
-        "revenueCircles"
-      ),
-      where(
-        "districtId",
-        "==",
-        districtId
-      ),
-      orderBy("name")
-    );
-
-
-  const snapshot =
-    await getDocs(
-      circleQuery
-    );
-
-
-  snapshot.forEach(
-    (circleDoc) => {
-
-      const data =
-        circleDoc.data();
-
-
-      if (
-        data.status !==
-        "active"
-      ) {
-
-        return;
-
-      }
-
-
-      const option =
-        document.createElement(
-          "option"
-        );
-
-
-      option.value =
-        circleDoc.id;
-
-
-      option.textContent =
-        data.name;
-
-
-      circleSelect.appendChild(
-        option
-      );
-
-    }
-  );
-
 }
 
 
 // ========================================
-// LOAD MOUZAS
+// DISTRICT CHANGE
 // ========================================
 
-async function loadMouzas(
-  circleId
-) {
+districtSelect.addEventListener(
+  "change",
+  () => {
 
-  resetSelect(
-    mouzaSelect,
-    "Select Mouza"
-  );
+    console.log(
+      "Selected District:",
+      districtSelect.value
+    );
 
-  resetSelect(
-    lotSelect,
-    "Select Lot"
-  );
+    // Revenue Circle will be added
+    // in the next step.
 
-  resetSelect(
-    villageSelect,
-    "Select Village"
-  );
+  }
+);
 
 
-  if (!circleId) {
+// ========================================
+// LOGOUT
+// ========================================
+
+window.logout =
+  async function () {
+
+    try {
+
+      await signOut(auth);
+
+      window.location.href =
+        "login.html";
+
+    } catch (error) {
+
+      console.error(
+        "Logout error:",
+        error
+      );
+
+    }
+
+  };
