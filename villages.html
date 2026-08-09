@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>Village Management | Gaon Pradhan Portal</title>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0b3d91;
+      color: white;
+      padding: 18px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 25px auto;
+      padding: 0 15px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .card h2 {
+      margin-top: 0;
+      color: #0b3d91;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 15px;
+      background: white;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: #0b3d91;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 6px;
+      padding: 10px 16px;
+      background: #0b3d91;
+      color: white;
+      cursor: pointer;
+      font-size: 14px;
+      margin-right: 6px;
+      margin-top: 10px;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+    }
+
+    .btn-secondary {
+      background: #64748b;
+    }
+
+    .filter-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .village-card {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      background: #fff;
+    }
+
+    .village-card h3 {
+      margin: 0 0 10px;
+      color: #0b3d91;
+    }
+
+    .village-card p {
+      margin: 6px 0;
+      font-size: 14px;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      max-width: 500px;
+      margin: 70px auto;
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      color: #0b3d91;
+    }
+
+    @media (max-width: 768px) {
+
+      .form-grid,
+      .filter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 19px;
+      }
+
+      main {
+        margin-top: 15px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+  <header>
+
+    <h1>
+      Gaon Pradhan Portal
+    </h1>
+
+    <p>
+      Village Management
+    </p>
+
+    <p id="adminEmail"></p>
+
+  </header>
+
+
+  <main>
+
+
+    <!-- ============================= -->
+    <!-- ADD VILLAGE -->
+    <!-- ============================= -->
+
+    <section class="card">
+
+      <h2>
+        Add New Village
+      </h2>
+
+
+      <form id="villageForm">
+
+        <div class="form-grid">
+
+
+          <div class="form-group">
+
+            <label for="districtSelect">
+              District
+            </label>
+
+            <select
+              id="districtSelect"
+              required
+            >
+
+              <option value="">
+                Select District
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="circleSelect">
+              Revenue Circle
+            </label>
+
+            <select
+              id="circleSelect"
+              required
+            >
+
+              <option value="">
+                Select Revenue Circle
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="mouzaSelect">
+              Mouza
+            </label>
+
+            <select
+              id="mouzaSelect"
+              required
+            >
+
+              <option value="">
+                Select Mouza
+              </option>
+
+            </select>
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="villageName">
+              Village Name
+            </label>
+
+            <input
+              type="text"
+              id="villageName"
+              placeholder="Enter Village Name"
+              required
+            >
+
+          </div>
+
+
+          <div class="form-group">
+
+            <label for="villageStatus">
+              Status
+            </label>
+
+            <select
+              id="villageStatus"
+              required
+            >
+
+              <option value="active">
+                Active
+              </option>
+
+              <option value="inactive">
+                Inactive
+              </option>
+
+            </select>
+
+          </div>
+
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="btn"
+        >
+          Add Village
+        </button>
+
+      </form>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- FILTERS -->
+    <!-- ============================= -->
+
+    <section class="card">
+
+      <h2>
+        Search & Filter Villages
+      </h2>
+
+
+      <div class="filter-grid">
+
+
+        <div class="form-group">
+
+          <label for="filterDistrict">
+            District
+          </label>
+
+          <select id="filterDistrict">
+
+            <option value="">
+              All Districts
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="filterCircle">
+            Revenue Circle
+          </label>
+
+          <select id="filterCircle">
+
+            <option value="">
+              All Revenue Circles
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="filterMouza">
+            Mouza
+          </label>
+
+          <select id="filterMouza">
+
+            <option value="">
+              All Mouzas
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="filterStatus">
+            Status
+          </label>
+
+          <select id="filterStatus">
+
+            <option value="">
+              All Status
+            </option>
+
+            <option value="active">
+              Active
+            </option>
+
+            <option value="inactive">
+              Inactive
+            </option>
+
+          </select>
+
+        </div>
+
+
+      </div>
+
+
+      <div
+        class="form-group"
+        style="margin-top:15px;"
+      >
+
+        <label for="searchVillage">
+          Search Village
+        </label>
+
+        <input
+          type="search"
+          id="searchVillage"
+          placeholder="Search by village name..."
+        >
+
+      </div>
+
+    </section>
+
+
+
+    <!-- ============================= -->
+    <!-- VILLAGE LIST -->
+    <!-- ============================= -->
+
+    <section class="card">
+
+      <h2>
+        Village List
+      </h2>
+
+      <div id="villageList">
+
+        <p>
+          Loading Villages...
+        </p>
+
+      </div>
+
+    </section>
+
+
+  </main>
+
+
+
+  <!-- ============================= -->
+  <!-- EDIT VILLAGE MODAL -->
+  <!-- ============================= -->
+
+  <div
+    id="editVillageModal"
+    class="modal"
+  >
+
+    <div class="modal-content">
+
+      <h2>
+        Edit Village
+      </h2>
+
+
+      <input
+        type="hidden"
+        id="editVillageId"
+      >
+
+
+      <div class="form-group">
+
+        <label for="editVillageName">
+          Village Name
+        </label>
+
+        <input
+          type="text"
+          id="editVillageName"
+        >
+
+      </div>
+
+
+      <div
+        class="form-group"
+        style="margin-top:15px;"
+      >
+
+        <label for="editVillageStatus">
+          Status
+        </label>
+
+        <select id="editVillageStatus">
+
+          <option value="active">
+            Active
+          </option>
+
+          <option value="inactive">
+            Inactive
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <button
+        type="button"
+        id="saveVillageEditBtn"
+        class="btn"
+      >
+        Save Changes
+      </button>
+
+
+      <button
+        type="button"
+        id="cancelVillageEditBtn"
+        class="btn btn-secondary"
+      >
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ============================= -->
+  <!-- JAVASCRIPT -->
+  <!-- ============================= -->
+
+  <script
+    type="module"
+    src="js/villages.js"
+  ></script>
+
+
+</body>
+
+  </html>
