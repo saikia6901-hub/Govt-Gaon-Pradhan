@@ -242,6 +242,136 @@ districtSelect.addEventListener(
   async () => {
 
     const districtId =
+      districtSelect.value.trim().toLowerCase();
+
+    console.log(
+      "Selected District ID:",
+      districtId
+    );
+
+    circleSelect.innerHTML =
+      `<option value="">
+        Loading Revenue Circles...
+      </option>`;
+
+    if (!districtId) {
+      circleSelect.innerHTML =
+        `<option value="">
+          Select Revenue Circle
+        </option>`;
+      return;
+    }
+
+    try {
+
+      // Load ALL revenue circles
+      const snapshot =
+        await getDocs(
+          collection(
+            db,
+            "revenueCircles"
+          )
+        );
+
+      circleSelect.innerHTML =
+        `<option value="">
+          Select Revenue Circle
+        </option>`;
+
+      let found = 0;
+
+      snapshot.forEach((circleDoc) => {
+
+        const data =
+          circleDoc.data();
+
+        const circleDistrictId =
+          String(
+            data.districtId || ""
+          )
+          .trim()
+          .toLowerCase();
+
+        const circleStatus =
+          String(
+            data.status || ""
+          )
+          .trim()
+          .toLowerCase();
+
+        console.log(
+          "Checking Circle:",
+          data.name,
+          "District:",
+          circleDistrictId,
+          "Status:",
+          circleStatus
+        );
+
+        // Match district
+        if (
+          circleDistrictId ===
+          districtId
+        ) {
+
+          const option =
+            document.createElement(
+              "option"
+            );
+
+          option.value =
+            circleDoc.id;
+
+          option.textContent =
+            data.name || circleDoc.id;
+
+          circleSelect.appendChild(
+            option
+          );
+
+          found++;
+
+        }
+
+      });
+
+      if (found === 0) {
+
+        circleSelect.innerHTML =
+          `<option value="">
+            No Revenue Circle Found
+          </option>`;
+
+      }
+
+      console.log(
+        "Revenue Circles Found:",
+        found
+      );
+
+    } catch (error) {
+
+      console.error(
+        "Revenue Circle error:",
+        error
+      );
+
+      circleSelect.innerHTML =
+        `<option value="">
+          Error loading Revenue Circles
+        </option>`;
+
+      alert(
+        "Revenue Circle error: " +
+        error.message
+      );
+
+    }
+
+  }
+);
+
+    const districtId =
       districtSelect.value;
 
     console.log(
