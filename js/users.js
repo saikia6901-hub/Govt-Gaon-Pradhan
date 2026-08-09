@@ -1,4 +1,3 @@
-console.log("USERS.JS LOADED SUCCESSFULLY");
 import { auth, db } from "./firebase.js";
 
 import {
@@ -9,12 +8,17 @@ import {
 import {
   collection,
   getDocs,
-  query,
-  orderBy,
   doc,
   getDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
+
+// ========================================
+// HTML ELEMENTS
+// ========================================
+
+const adminEmail =
+  document.getElementById("adminEmail");
 
 const districtSelect =
   document.getElementById("districtSelect");
@@ -22,33 +26,23 @@ const districtSelect =
 const circleSelect =
   document.getElementById("circleSelect");
 
-const mouzaSelect =
-  document.getElementById("mouzaSelect");
-
-const lotSelect =
-  document.getElementById("lotSelect");
-
-const villageSelect =
-  document.getElementById("villageSelect");
-
 
 // ========================================
-// AUTHENTICATION
+// AUTH CHECK
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
 
-    window.location.href = "login.html";
+    window.location.href =
+      "login.html";
 
     return;
   }
 
 
-  // Show email immediately
-  const adminEmail =
-    document.getElementById("adminEmail");
+  // Show logged in email
 
   if (adminEmail) {
 
@@ -60,7 +54,7 @@ onAuthStateChanged(auth, async (user) => {
 
   try {
 
-    // Check user profile
+    // Get user profile
 
     const userRef =
       doc(
@@ -77,7 +71,7 @@ onAuthStateChanged(auth, async (user) => {
     if (!userSnap.exists()) {
 
       alert(
-        "User profile not found in Firestore."
+        "User profile not found."
       );
 
       return;
@@ -88,11 +82,7 @@ onAuthStateChanged(auth, async (user) => {
       userSnap.data();
 
 
-    console.log(
-      "Current user role:",
-      userData.role
-    );
-
+    // Super Admin check
 
     if (
       userData.role !==
@@ -123,7 +113,7 @@ onAuthStateChanged(auth, async (user) => {
     );
 
     alert(
-      "Error loading User Management: " +
+      "Unable to load User Management: " +
       error.message
     );
 
@@ -146,19 +136,12 @@ async function loadDistricts() {
 
   try {
 
-    const districtQuery =
-      query(
+    const snapshot =
+      await getDocs(
         collection(
           db,
           "districts"
-        ),
-        orderBy("name")
-      );
-
-
-    const snapshot =
-      await getDocs(
-        districtQuery
+        )
       );
 
 
@@ -170,8 +153,10 @@ async function loadDistricts() {
         </option>`;
 
       return;
-
     }
+
+
+    const districts = [];
 
 
     snapshot.forEach(
@@ -181,6 +166,33 @@ async function loadDistricts() {
           districtDoc.data();
 
 
+        districts.push({
+
+          id:
+            districtDoc.id,
+
+          name:
+            data.name || districtDoc.id
+
+        });
+
+      }
+    );
+
+
+    // Sort alphabetically
+
+    districts.sort(
+      (a, b) =>
+        a.name.localeCompare(
+          b.name
+        )
+    );
+
+
+    districts.forEach(
+      (district) => {
+
         const option =
           document.createElement(
             "option"
@@ -188,11 +200,11 @@ async function loadDistricts() {
 
 
         option.value =
-          districtDoc.id;
+          district.id;
 
 
         option.textContent =
-          data.name;
+          district.name;
 
 
         districtSelect.appendChild(
@@ -200,12 +212,6 @@ async function loadDistricts() {
         );
 
       }
-    );
-
-
-    console.log(
-      "Districts loaded:",
-      snapshot.size
     );
 
 
@@ -224,7 +230,7 @@ async function loadDistricts() {
 
 
     alert(
-      "Unable to load districts: " +
+      "District loading error: " +
       error.message
     );
 
@@ -234,7 +240,7 @@ async function loadDistricts() {
 
 
 // ========================================
-// DISTRICT CHANGE
+// DISTRICT → REVENUE CIRCLE
 // ========================================
 
 districtSelect.addEventListener(
@@ -242,143 +248,8 @@ districtSelect.addEventListener(
   async () => {
 
     const districtId =
-      districtSelect.value.trim().toLowerCase();
-
-    console.log(
-      "Selected District ID:",
-      districtId
-    );
-
-    circleSelect.innerHTML =
-      `<option value="">
-        Loading Revenue Circles...
-      </option>`;
-
-    if (!districtId) {
-      circleSelect.innerHTML =
-        `<option value="">
-          Select Revenue Circle
-        </option>`;
-      return;
-    }
-
-    try {
-
-      // Load ALL revenue circles
-      const snapshot =
-        await getDocs(
-          collection(
-            db,
-            "revenueCircles"
-          )
-        );
-
-      circleSelect.innerHTML =
-        `<option value="">
-          Select Revenue Circle
-        </option>`;
-
-      let found = 0;
-
-      snapshot.forEach((circleDoc) => {
-
-        const data =
-          circleDoc.data();
-
-        const circleDistrictId =
-          String(
-            data.districtId || ""
-          )
-          .trim()
-          .toLowerCase();
-
-        const circleStatus =
-          String(
-            data.status || ""
-          )
-          .trim()
-          .toLowerCase();
-
-        console.log(
-          "Checking Circle:",
-          data.name,
-          "District:",
-          circleDistrictId,
-          "Status:",
-          circleStatus
-        );
-
-        // Match district
-        if (
-          circleDistrictId ===
-          districtId
-        ) {
-
-          const option =
-            document.createElement(
-              "option"
-            );
-
-          option.value =
-            circleDoc.id;
-
-          option.textContent =
-            data.name || circleDoc.id;
-
-          circleSelect.appendChild(
-            option
-          );
-
-          found++;
-
-        }
-
-      });
-
-      if (found === 0) {
-
-        circleSelect.innerHTML =
-          `<option value="">
-            No Revenue Circle Found
-          </option>`;
-
-      }
-
-      console.log(
-        "Revenue Circles Found:",
-        found
-      );
-
-    } catch (error) {
-
-      console.error(
-        "Revenue Circle error:",
-        error
-      );
-
-      circleSelect.innerHTML =
-        `<option value="">
-          Error loading Revenue Circles
-        </option>`;
-
-      alert(
-        "Revenue Circle error: " +
-        error.message
-      );
-
-    }
-
-  }
-);
-
-    const districtId =
       districtSelect.value;
 
-    console.log(
-      "Selected District ID:",
-      districtId
-    );
-
 
     circleSelect.innerHTML =
       `<option value="">
@@ -398,6 +269,9 @@ districtSelect.addEventListener(
 
 
     try {
+
+      // Get all Revenue Circles
+      // No Firestore index required
 
       const snapshot =
         await getDocs(
@@ -424,18 +298,25 @@ districtSelect.addEventListener(
             circleDoc.data();
 
 
-          console.log(
-            "Revenue Circle:",
-            circleDoc.id,
-            data
-          );
+          const circleDistrictId =
+            String(
+              data.districtId || ""
+            )
+            .trim()
+            .toLowerCase();
+
+
+          const selectedDistrictId =
+            String(
+              districtId
+            )
+            .trim()
+            .toLowerCase();
 
 
           if (
-            data.districtId ===
-            districtId &&
-            data.status ===
-            "active"
+            circleDistrictId ===
+            selectedDistrictId
           ) {
 
             const option =
@@ -449,7 +330,8 @@ districtSelect.addEventListener(
 
 
             option.textContent =
-              data.name;
+              data.name ||
+              circleDoc.id;
 
 
             circleSelect.appendChild(
@@ -469,17 +351,10 @@ districtSelect.addEventListener(
 
         circleSelect.innerHTML =
           `<option value="">
-            No Active Revenue Circle Found
+            No Revenue Circle Found
           </option>`;
 
       }
-
-
-      console.log(
-        "Revenue Circles Found:",
-        found
-      );
-
 
     } catch (error) {
 
@@ -496,17 +371,11 @@ districtSelect.addEventListener(
 
 
       alert(
-        "Unable to load Revenue Circles: " +
+        "Revenue Circle error: " +
         error.message
       );
 
     }
-
-  }
-);
-
-    // Revenue Circle will be added
-    // in the next step.
 
   }
 );
