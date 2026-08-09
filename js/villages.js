@@ -125,9 +125,10 @@ onAuthStateChanged(auth, async (user) => {
       "Logged in as: " + user.email;
 
 
-    await loadDistricts();
-
-    await loadVillages();
+    await Promise.all([
+  loadDistricts(),
+  loadVillages()
+]);
 
 
   } catch (error) {
