@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Applicant Dashboard
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>
+            Gaon Pradhan Certificate Portal
+        </h1>
+
+        <p>
+            Applicant Dashboard
+        </p>
+
+        <p id="applicantEmail">
+            Loading...
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<div class="dashboard">
+
+
+    <!-- ============================== -->
+    <!-- WELCOME -->
+    <!-- ============================== -->
+
+    <div class="card">
+
+        <h2>
+            Welcome, Applicant
+        </h2>
+
+        <p id="applicantName">
+            Loading...
+        </p>
+
+        <p id="profileStatus">
+            Profile Status: Loading...
+        </p>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ============================== -->
+    <!-- DASHBOARD MENU -->
+    <!-- ============================== -->
+
+    <div class="card">
+
+        <h2>
+            Applicant Services
+        </h2>
+
+
+        <br>
+
+
+        <a
+            href="applicant-profile.html"
+            class="btn"
+        >
+            👤 My Profile
+        </a>
+
+
+        <br><br>
+
+
+        <button
+            class="btn"
+            onclick="applyCertificate()"
+        >
+            📄 Apply for Certificate
+        </button>
+
+
+        <br><br>
+
+
+        <button
+            class="btn"
+            onclick="myApplications()"
+        >
+            📋 My Applications
+        </button>
+
+
+        <br><br>
+
+
+        <button
+            class="btn"
+            onclick="logout()"
+        >
+            🚪 Logout
+        </button>
+
+    </div>
+
+
+</div>
+
+
+
+<script
+    type="module"
+    src="js/applicant-dashboard.js"
+></script>
+
+
+</body>
+
+</html>
