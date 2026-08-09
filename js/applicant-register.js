@@ -12,15 +12,15 @@ import {
 
 
 const form =
-  document.getElementById(
-    "applicantRegisterForm"
-  );
+  document.getElementById("applicantRegisterForm");
 
 const message =
-  document.getElementById(
-    "registerMessage"
-  );
+  document.getElementById("registerMessage");
 
+
+// ========================================
+// REGISTRATION
+// ========================================
 
 form.addEventListener(
   "submit",
@@ -28,6 +28,10 @@ form.addEventListener(
 
     event.preventDefault();
 
+
+    // ==================================
+    // GET FORM DATA
+    // ==================================
 
     const name =
       document.getElementById(
@@ -59,39 +63,19 @@ form.addEventListener(
       ).value;
 
 
-    const district =
-      document.getElementById(
-        "districtSelect"
-      ).value;
-
-
-    const circle =
-      document.getElementById(
-        "circleSelect"
-      ).value;
-
-
-    const mouza =
-      document.getElementById(
-        "mouzaSelect"
-      ).value;
-
-
-    const lot =
-      document.getElementById(
-        "lotSelect"
-      ).value;
-
-
-    const village =
-      document.getElementById(
-        "villageSelect"
-      ).value;
-
-
     // ==================================
     // VALIDATION
     // ==================================
+
+    if (!name) {
+
+      message.textContent =
+        "Please enter your full name.";
+
+      return;
+
+    }
+
 
     if (
       mobile.length !== 10 ||
@@ -100,6 +84,28 @@ form.addEventListener(
 
       message.textContent =
         "Please enter a valid 10 digit mobile number.";
+
+      return;
+
+    }
+
+
+    if (!email) {
+
+      message.textContent =
+        "Please enter your email address.";
+
+      return;
+
+    }
+
+
+    if (
+      password.length < 6
+    ) {
+
+      message.textContent =
+        "Password must contain at least 6 characters.";
 
       return;
 
@@ -119,15 +125,9 @@ form.addEventListener(
     }
 
 
-    if (password.length < 6) {
-
-      message.textContent =
-        "Password must contain at least 6 characters.";
-
-      return;
-
-    }
-
+    // ==================================
+    // START REGISTRATION
+    // ==================================
 
     message.textContent =
       "Creating your account...";
@@ -136,7 +136,7 @@ form.addEventListener(
     try {
 
       // ==================================
-      // CREATE FIREBASE AUTH ACCOUNT
+      // CREATE FIREBASE AUTH USER
       // ==================================
 
       const userCredential =
@@ -151,8 +151,14 @@ form.addEventListener(
         userCredential.user;
 
 
+      console.log(
+        "Firebase Auth user created:",
+        user.uid
+      );
+
+
       // ==================================
-      // CREATE USER PROFILE
+      // CREATE FIRESTORE USER PROFILE
       // ==================================
 
       await setDoc(
@@ -163,4 +169,112 @@ form.addEventListener(
         ),
         {
 
-         
+          uid:
+            user.uid,
+
+          name:
+            name,
+
+          email:
+            email,
+
+          mobile:
+            mobile,
+
+          role:
+            "applicant",
+
+          status:
+            "active",
+
+          profileCompleted:
+            false,
+
+          createdAt:
+            serverTimestamp(),
+
+          updatedAt:
+            serverTimestamp()
+
+        }
+      );
+
+
+      console.log(
+        "Applicant profile created in Firestore."
+      );
+
+
+      // ==================================
+      // SUCCESS
+      // ==================================
+
+      message.textContent =
+        "Account created successfully.";
+
+
+      alert(
+        "Applicant account created successfully."
+      );
+
+
+      // Go to login
+
+      window.location.href =
+        "login.html";
+
+
+    } catch (error) {
+
+      console.error(
+        "Applicant registration error:",
+        error
+      );
+
+
+      // ==================================
+      // ERROR HANDLING
+      // ==================================
+
+      if (
+        error.code ===
+        "auth/email-already-in-use"
+      ) {
+
+        message.textContent =
+          "This email address is already registered.";
+
+      }
+
+      else if (
+        error.code ===
+        "auth/invalid-email"
+      ) {
+
+        message.textContent =
+          "Please enter a valid email address.";
+
+      }
+
+      else if (
+        error.code ===
+        "auth/weak-password"
+      ) {
+
+        message.textContent =
+          "Password must contain at least 6 characters.";
+
+      }
+
+      else {
+
+        message.textContent =
+          "Registration failed: " +
+          error.message;
+
+      }
+
+    }
+
+  }
+);
