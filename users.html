@@ -1,1 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        User Management | Gaon Pradhan Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>
+            Gaon Pradhan Certificate Portal
+        </h1>
+
+        <p>
+            User Management
+        </p>
+
+        <p id="adminEmail"></p>
+
+    </div>
+
+</header>
+
+
+<main class="dashboard">
+
+    <h2>
+        User Management
+    </h2>
+
+    <p>
+        Manage Portal Users and Role Assignments
+    </p>
+
+
+    <!-- ================================= -->
+    <!-- USER PROFILE FORM -->
+    <!-- ================================= -->
+
+    <div class="card">
+
+        <h3>
+            Add User Profile
+        </h3>
+
+
+        <form id="userForm">
+
+
+            <label for="userName">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="userName"
+                placeholder="Enter Full Name"
+                required
+            >
+
+
+            <br><br>
+
+
+            <label for="userEmail">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="userEmail"
+                placeholder="Enter Email Address"
+                required
+            >
+
+
+            <br><br>
+
+
+            <label for="userRole">
+                Select Role
+            </label>
+
+            <select
+                id="userRole"
+                required
+            >
+
+                <option value="">
+                    Select Role
+                </option>
+
+                <option value="circle_officer">
+                    Circle Officer
+                </option>
+
+                <option value="sk">
+                    S.K.
+                </option>
+
+                <option value="mandal">
+                    Mandal
+                </option>
+
+                <option value="gaon_pradhan">
+                    Gaon Pradhan
+                </option>
+
+                <option value="applicant">
+                    Applicant
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- DISTRICT -->
+
+            <label for="districtSelect">
+                District
+            </label>
+
+            <select
+                id="districtSelect"
+            >
+
+                <option value="">
+                    Select District
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- REVENUE CIRCLE -->
+
+            <label for="circleSelect">
+                Revenue Circle
+            </label>
+
+            <select
+                id="circleSelect"
+            >
+
+                <option value="">
+                    Select Revenue Circle
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- MOUZA -->
+
+            <label for="mouzaSelect">
+                Mouza
+            </label>
+
+            <select
+                id="mouzaSelect"
+            >
+
+                <option value="">
+                    Select Mouza
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- LOT -->
+
+            <label for="lotSelect">
+                Lot
+            </label>
+
+            <select
+                id="lotSelect"
+            >
+
+                <option value="">
+                    Select Lot
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- VILLAGE -->
+
+            <label for="villageSelect">
+                Village
+            </label>
+
+            <select
+                id="villageSelect"
+            >
+
+                <option value="">
+                    Select Village
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- STATUS -->
+
+            <label for="userStatus">
+                Status
+            </label>
+
+            <select
+                id="userStatus"
+            >
+
+                <option value="active">
+                    Active
+                </option>
+
+                <option value="inactive">
+                    Inactive
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Save User Profile
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <br>
+
+
+    <!-- ================================= -->
+    <!-- USER SEARCH -->
+    <!-- ================================= -->
+
+    <div class="card">
+
+        <h3>
+            User List
+        </h3>
+
+
+        <input
+            type="text"
+            id="searchUser"
+            placeholder="Search by Name or Email"
+        >
+
+
+        <br><br>
+
+
+        <select id="filterRole">
+
+            <option value="">
+                All Roles
+            </option>
+
+            <option value="circle_officer">
+                Circle Officer
+            </option>
+
+            <option value="sk">
+                S.K.
+            </option>
+
+            <option value="mandal">
+                Mandal
+            </option>
+
+            <option value="gaon_pradhan">
+                Gaon Pradhan
+            </option>
+
+            <option value="applicant">
+                Applicant
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <select id="filterStatus">
+
+            <option value="">
+                All Status
+            </option>
+
+            <option value="active">
+                Active
+            </option>
+
+            <option value="inactive">
+                Inactive
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <div id="userList">
+
+            <p>
+                Loading Users...
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <br>
+
+
+    <button
+        class="btn"
+        onclick="
+            window.location.href='admin-dashboard.html'
+        "
+    >
+        Back to Admin Dashboard
+    </button>
+
+
+    <button
+        class="btn"
+        onclick="logout()"
+    >
+        Logout
+    </button>
+
+</main>
+
+
+<script
+    type="module"
+    src="js/users.js"
+></script>
+
+</body>
+
+</html>
