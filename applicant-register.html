@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Applicant Registration | Gaon Pradhan Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<header class="header">
+
+    <img
+        src="assets/logo.png"
+        class="logo"
+    >
+
+    <div>
+
+        <h1>
+            Gaon Pradhan Certificate Portal
+        </h1>
+
+        <p>
+            Applicant Registration
+        </p>
+
+    </div>
+
+</header>
+
+
+
+<main class="dashboard">
+
+
+    <div class="card">
+
+        <h2>
+            Create Applicant Account
+        </h2>
+
+        <p>
+            Register yourself to apply for certificates
+            online.
+        </p>
+
+
+        <form id="applicantRegisterForm">
+
+
+            <!-- NAME -->
+
+            <label for="applicantName">
+                Full Name
+            </label>
+
+            <input
+                type="text"
+                id="applicantName"
+                placeholder="Enter your full name"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- MOBILE -->
+
+            <label for="applicantMobile">
+                Mobile Number
+            </label>
+
+            <input
+                type="tel"
+                id="applicantMobile"
+                placeholder="Enter 10 digit mobile number"
+                maxlength="10"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- EMAIL -->
+
+            <label for="applicantEmail">
+                Email Address
+            </label>
+
+            <input
+                type="email"
+                id="applicantEmail"
+                placeholder="Enter your email address"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- PASSWORD -->
+
+            <label for="applicantPassword">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="applicantPassword"
+                placeholder="Create password"
+                minlength="6"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <label for="confirmPassword">
+                Confirm Password
+            </label>
+
+            <input
+                type="password"
+                id="confirmPassword"
+                placeholder="Re-enter password"
+                minlength="6"
+                required
+            >
+
+
+            <br><br>
+
+
+            <!-- DISTRICT -->
+
+            <label for="districtSelect">
+                District
+            </label>
+
+            <select
+                id="districtSelect"
+                required
+            >
+
+                <option value="">
+                    Select District
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- REVENUE CIRCLE -->
+
+            <label for="circleSelect">
+                Revenue Circle
+            </label>
+
+            <select
+                id="circleSelect"
+                required
+            >
+
+                <option value="">
+                    Select Revenue Circle
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- MOUZA -->
+
+            <label for="mouzaSelect">
+                Mouza
+            </label>
+
+            <select
+                id="mouzaSelect"
+                required
+            >
+
+                <option value="">
+                    Select Mouza
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- LOT -->
+
+            <label for="lotSelect">
+                Lot
+            </label>
+
+            <select
+                id="lotSelect"
+                required
+            >
+
+                <option value="">
+                    Select Lot
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- VILLAGE -->
+
+            <label for="villageSelect">
+                Village
+            </label>
+
+            <select
+                id="villageSelect"
+                required
+            >
+
+                <option value="">
+                    Select Village
+                </option>
+
+            </select>
+
+
+            <br><br>
+
+
+            <!-- REGISTER BUTTON -->
+
+            <button
+                type="submit"
+                class="btn"
+            >
+                Create Account
+            </button>
+
+
+        </form>
+
+
+        <br>
+
+
+        <p id="registerMessage"></p>
+
+
+        <p>
+            Already have an account?
+        </p>
+
+
+        <a
+            href="login.html"
+            class="btn"
+        >
+            Applicant Login
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+<script
+    type="module"
+    src="js/applicant-register.js"
+></script>
+
+
+</body>
+
+</html>
