@@ -568,11 +568,26 @@
 <script>
   alert("VILLAGES HTML LOADED");
 </script>
-  
-  <script
-    type="module"
-    src="js/villages.js"
-  ></script>
+
+<script type="module">
+
+  import("./js/villages.js")
+    .then(() => {
+      alert("VILLAGES.JS LOADED SUCCESSFULLY");
+    })
+    .catch((error) => {
+      alert(
+        "VILLAGES.JS ERROR:\n\n" +
+        error.message
+      );
+
+      console.error(
+        "VILLAGES.JS ERROR:",
+        error
+      );
+    });
+
+</script>
 
 
 </body>
