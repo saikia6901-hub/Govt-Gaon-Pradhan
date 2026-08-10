@@ -1,4 +1,4 @@
-console.log("VILLAGES.JS LOADED");
+alert("VILLAGES.JS LOADED");
 import { auth, db } from "./firebase.js";
 
 import {
