@@ -322,10 +322,7 @@ circleForm.addEventListener(
   "\n" +
   error.message
 );
-      );
-
-    }
-
+      
   }
 );
 
