@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="as">
 
 <head>
 
@@ -10,13 +10,26 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>
-        Applicant Dashboard
-    </title>
+    <title>Applicant Dashboard | Gaon Pradhan Certificate Portal</title>
 
     <link
         rel="stylesheet"
-        href="css/style.css"
+        href="css/dashboard.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Assamese:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
     >
 
 </head>
@@ -25,125 +38,831 @@
 <body>
 
 
-<header class="header">
+<!-- =========================================
+     SIDEBAR
+========================================= -->
 
-    <img
-        src="assets/logo.png"
-        class="logo"
-    >
-
-    <div>
-
-        <h1>
-            Gaon Pradhan Certificate Portal
-        </h1>
-
-        <p>
-            Applicant Dashboard
-        </p>
-
-        <p id="applicantEmail">
-            Loading...
-        </p>
-
-    </div>
-
-</header>
+<aside class="sidebar" id="sidebar">
 
 
+    <div class="sidebar-brand">
 
-<div class="dashboard">
+        <img
+            src="assets/logo.png"
+            alt="Gaon Pradhan Logo"
+        >
 
+        <div>
 
-    <!-- ============================== -->
-    <!-- WELCOME -->
-    <!-- ============================== -->
+            <h2>গাঁও প্ৰধান</h2>
 
-    <div class="card">
+            <span>
+                Certificate Portal
+            </span>
 
-        <h2>
-            Welcome, Applicant
-        </h2>
-
-        <p id="applicantName">
-            Loading...
-        </p>
-
-        <p id="profileStatus">
-            Profile Status: Loading...
-        </p>
+        </div>
 
     </div>
 
 
-    <br>
+    <div class="sidebar-divider"></div>
 
 
-    <!-- ============================== -->
-    <!-- DASHBOARD MENU -->
-    <!-- ============================== -->
+    <nav class="sidebar-nav">
 
-    <div class="card">
+        <a
+            href="dashboard.html"
+            class="nav-item active"
+        >
 
-        <h2>
-            Applicant Services
-        </h2>
+            <span class="nav-icon">⌂</span>
 
+            <span>Dashboard</span>
 
-        <br>
+        </a>
 
 
         <a
             href="applicant-profile.html"
-            class="btn"
+            class="nav-item"
         >
-            👤 My Profile
+
+            <span class="nav-icon">👤</span>
+
+            <span>My Profile</span>
+
         </a>
 
 
-        <br><br>
-
-
         <button
-            class="btn"
+            class="nav-item nav-button"
             onclick="applyCertificate()"
         >
-            📄 Apply for Certificate
+
+            <span class="nav-icon">📄</span>
+
+            <span>Apply Certificate</span>
+
         </button>
 
 
-        <br><br>
-
-
         <button
-            class="btn"
+            class="nav-item nav-button"
             onclick="myApplications()"
         >
-            📋 My Applications
+
+            <span class="nav-icon">📋</span>
+
+            <span>My Applications</span>
+
         </button>
 
 
-        <br><br>
+        <a
+            href="#"
+            class="nav-item"
+        >
 
+            <span class="nav-icon">🔔</span>
+
+            <span>Notifications</span>
+
+            <span class="nav-badge">0</span>
+
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
 
         <button
-            class="btn"
+            class="logout-button"
             onclick="logout()"
         >
-            🚪 Logout
+
+            <span>🚪</span>
+
+            <span>Logout</span>
+
         </button>
 
     </div>
 
+</aside>
 
-</div>
 
 
+<!-- =========================================
+     MAIN AREA
+========================================= -->
+
+<main class="main-content">
+
+
+    <!-- =====================================
+         TOP HEADER
+    ====================================== -->
+
+    <header class="dashboard-header">
+
+
+        <div class="mobile-brand">
+
+            <img
+                src="assets/logo.png"
+                alt="Logo"
+            >
+
+            <div>
+
+                <strong>
+                    গাঁও প্ৰধান
+                </strong>
+
+                <small>
+                    Applicant Portal
+                </small>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+        >
+            ☰
+        </button>
+
+
+        <div class="header-right">
+
+
+            <button
+                class="notification-button"
+                title="Notifications"
+            >
+
+                🔔
+
+                <span>
+                    0
+                </span>
+
+            </button>
+
+
+            <div class="user-mini">
+
+                <div class="user-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <strong id="headerApplicantName">
+                        Applicant
+                    </strong>
+
+                    <small>
+                        Applicant
+                    </small>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================
+         PAGE CONTENT
+    ====================================== -->
+
+    <div class="page-content">
+
+
+        <!-- =================================
+             WELCOME HERO
+        ================================== -->
+
+        <section class="welcome-section">
+
+
+            <div class="welcome-content">
+
+                <span class="welcome-label">
+                    APPLICANT PORTAL
+                </span>
+
+
+                <h1>
+                    Welcome back,
+                    <strong id="welcomeApplicantName">
+                        Applicant
+                    </strong>
+                    👋
+                </h1>
+
+
+                <p>
+                    আপোনাৰ প্ৰমাণ-পত্ৰৰ আবেদন, profile আৰু
+                    digital services একে ঠাইৰ পৰা পৰিচালনা কৰক।
+                </p>
+
+
+                <div class="welcome-actions">
+
+                    <button
+                        class="primary-action"
+                        onclick="applyCertificate()"
+                    >
+
+                        <span>＋</span>
+
+                        Apply New Certificate
+
+                    </button>
+
+
+                    <button
+                        class="outline-action"
+                        onclick="myApplications()"
+                    >
+
+                        View My Applications →
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="welcome-decoration">
+
+                <div class="decoration-circle circle-one"></div>
+
+                <div class="decoration-circle circle-two"></div>
+
+                <div class="document-illustration">
+
+                    📄
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             PROFILE STATUS
+        ================================== -->
+
+        <section class="profile-status-card">
+
+
+            <div class="profile-status-left">
+
+                <div class="profile-icon">
+                    👤
+                </div>
+
+
+                <div>
+
+                    <span>
+                        PROFILE STATUS
+                    </span>
+
+
+                    <h3 id="profileStatus">
+                        Profile Status: Loading...
+                    </h3>
+
+
+                    <p>
+                        Keep your profile information updated
+                        for a smoother application process.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <a
+                href="applicant-profile.html"
+                class="profile-action"
+            >
+
+                Complete / Edit Profile →
+
+            </a>
+
+        </section>
+
+
+
+        <!-- =================================
+             STATISTICS
+        ================================== -->
+
+        <section class="stats-grid">
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon green">
+                    📋
+                </div>
+
+                <div>
+
+                    <span>
+                        TOTAL APPLICATIONS
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon orange">
+                    ⏳
+                </div>
+
+                <div>
+
+                    <span>
+                        PENDING
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon blue">
+                    ✓
+                </div>
+
+                <div>
+
+                    <span>
+                        APPROVED
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon red">
+                    !
+                </div>
+
+                <div>
+
+                    <span>
+                        REJECTED
+                    </span>
+
+                    <strong>
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             QUICK SERVICES
+        ================================== -->
+
+        <section class="content-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <span>
+                        QUICK ACCESS
+                    </span>
+
+                    <h2>
+                        Applicant Services
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="quick-services">
+
+
+                <button
+                    class="service-tile primary-tile"
+                    onclick="applyCertificate()"
+                >
+
+                    <div class="tile-icon">
+                        📝
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Apply Certificate
+                        </h3>
+
+                        <p>
+                            Start a new certificate application
+                        </p>
+
+                    </div>
+
+                    <span class="tile-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <button
+                    class="service-tile"
+                    onclick="myApplications()"
+                >
+
+                    <div class="tile-icon">
+                        📋
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            My Applications
+                        </h3>
+
+                        <p>
+                            View and track your applications
+                        </p>
+
+                    </div>
+
+                    <span class="tile-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <a
+                    href="applicant-profile.html"
+                    class="service-tile"
+                >
+
+                    <div class="tile-icon">
+                        👤
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            My Profile
+                        </h3>
+
+                        <p>
+                            View and update your information
+                        </p>
+
+                    </div>
+
+                    <span class="tile-arrow">
+                        →
+                    </span>
+
+                </a>
+
+
+                <button
+                    class="service-tile"
+                    onclick="myApplications()"
+                >
+
+                    <div class="tile-icon">
+                        🔍
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            Track Application
+                        </h3>
+
+                        <p>
+                            Check your application status
+                        </p>
+
+                    </div>
+
+                    <span class="tile-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             RECENT APPLICATIONS
+        ================================== -->
+
+        <section class="content-section">
+
+
+            <div class="section-title">
+
+                <div>
+
+                    <span>
+                        APPLICATION ACTIVITY
+                    </span>
+
+                    <h2>
+                        Recent Applications
+                    </h2>
+
+                </div>
+
+
+                <button
+                    onclick="myApplications()"
+                    class="view-all"
+                >
+
+                    View All →
+
+                </button>
+
+            </div>
+
+
+            <div class="applications-card">
+
+
+                <div class="empty-applications">
+
+                    <div class="empty-icon">
+                        📄
+                    </div>
+
+
+                    <h3>
+                        No Applications Yet
+                    </h3>
+
+
+                    <p>
+                        You haven't submitted any certificate
+                        applications yet.
+                    </p>
+
+
+                    <button
+                        onclick="applyCertificate()"
+                        class="empty-button"
+                    >
+
+                        Apply for Your First Certificate
+
+                    </button>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             HELP BANNER
+        ================================== -->
+
+        <section class="help-banner">
+
+
+            <div class="help-icon">
+                💬
+            </div>
+
+
+            <div>
+
+                <span>
+                    NEED HELP?
+                </span>
+
+                <h2>
+                    Need assistance with your application?
+                </h2>
+
+                <p>
+                    Contact your Gaon Pradhan office for
+                    assistance and support.
+                </p>
+
+            </div>
+
+
+            <a href="#">
+
+                Contact Support →
+
+            </a>
+
+        </section>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="dashboard-footer">
+
+        <div>
+
+            © 2026 Gaon Pradhan Certificate Portal
+
+        </div>
+
+        <div>
+
+            Government of Assam
+
+        </div>
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- =========================================
+     EXISTING FUNCTIONALITY
+========================================= -->
 
 <script
     type="module"
     src="js/applicant-dashboard.js"
 ></script>
+
+
+
+<!-- =========================================
+     DASHBOARD UI SCRIPT
+========================================= -->
+
+<script>
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const sidebar =
+    document.getElementById("sidebar");
+
+
+if (menuToggle && sidebar) {
+
+    menuToggle.addEventListener(
+        "click",
+        function () {
+
+            sidebar.classList.toggle("open");
+
+        }
+    );
+
+}
+
+
+/* =========================================
+   CONNECT APPLICANT NAME TO NEW UI
+========================================= */
+
+const observer =
+    new MutationObserver(function () {
+
+        const originalName =
+            document.getElementById("applicantName");
+
+        if (!originalName) return;
+
+
+        const name =
+            originalName.textContent
+                .replace("Name:", "")
+                .trim();
+
+
+        if (!name) return;
+
+
+        const welcomeName =
+            document.getElementById(
+                "welcomeApplicantName"
+            );
+
+        const headerName =
+            document.getElementById(
+                "headerApplicantName"
+            );
+
+
+        if (welcomeName) {
+            welcomeName.textContent = name;
+        }
+
+
+        if (headerName) {
+            headerName.textContent = name;
+        }
+
+    });
+
+
+const originalNameElement =
+    document.createElement("span");
+
+originalNameElement.id =
+    "applicantName";
+
+
+originalNameElement.style.display =
+    "none";
+
+
+document.body.appendChild(
+    originalNameElement
+);
+
+
+observer.observe(
+    originalNameElement,
+    {
+        childList: true,
+        subtree: true,
+        characterData: true
+    }
+);
+
+</script>
 
 
 </body>
