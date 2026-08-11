@@ -231,6 +231,16 @@ async function loadRevenueCircles(
   includeAllOption = false
 ) {
 
+  if (!targetSelect) {
+
+    console.error(
+      "Revenue Circle select element not found."
+    );
+
+    return;
+  }
+
+
   targetSelect.innerHTML =
     includeAllOption
       ? `<option value="">
@@ -247,62 +257,147 @@ async function loadRevenueCircles(
   }
 
 
-  const circleQuery =
-    query(
-      collection(
-        db,
-        "revenueCircles"
-      ),
-      where(
-        "districtId",
-        "==",
-        districtId
-      ),
-      orderBy("name")
-    );
+  try {
+
+    const circleQuery =
+      query(
+        collection(
+          db,
+          "revenueCircles"
+        ),
+        where(
+          "districtId",
+          "==",
+          districtId
+        )
+      );
 
 
-  const snapshot =
-    await getDocs(
-      circleQuery
-    );
+    const snapshot =
+      await getDocs(
+        circleQuery
+      );
 
 
-  snapshot.forEach(
-    (circleDoc) => {
-
-      const data =
-        circleDoc.data();
+    const circles = [];
 
 
-      if (
-        data.status !== "active"
-      ) {
+    snapshot.forEach(
+      (circleDoc) => {
 
-        return;
+        const data =
+          circleDoc.data();
+
+
+        // Only active Revenue Circles
+        if (
+          data.status !== "active"
+        ) {
+
+          return;
+        }
+
+
+        circles.push({
+
+          id:
+            circleDoc.id,
+
+          name:
+            data.name || ""
+
+        });
+
       }
+    );
 
+
+    // Sort alphabetically
+    circles.sort(
+      (a, b) =>
+        a.name.localeCompare(
+          b.name
+        )
+    );
+
+
+    circles.forEach(
+      (circle) => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+
+        option.value =
+          circle.id;
+
+
+        option.textContent =
+          circle.name;
+
+
+        targetSelect.appendChild(
+          option
+        );
+
+      }
+    );
+
+
+    // No circles found
+    if (
+      circles.length === 0
+    ) {
 
       const option =
         document.createElement(
           "option"
         );
 
+
       option.value =
-        circleDoc.id;
+        "";
+
 
       option.textContent =
-        data.name;
+        includeAllOption
+          ? "No Revenue Circles Found"
+          : "No Revenue Circles Found";
+
 
       targetSelect.appendChild(
         option
       );
 
     }
-  );
+
+
+  } catch (error) {
+
+    console.error(
+      "Revenue Circle loading error:",
+      error
+    );
+
+
+    targetSelect.innerHTML =
+      `<option value="">
+        Unable to load Revenue Circles
+       </option>`;
+
+
+    alert(
+      "Unable to load Revenue Circles.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
+  }
 
 }
-
 
 // ========================================
 // LOAD MOUZAS
