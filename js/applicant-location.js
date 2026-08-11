@@ -27,10 +27,31 @@ const villageSelect =
 
 
 // ========================================
+// CHECK ELEMENTS
+// ========================================
+
+if (
+    !districtSelect ||
+    !circleSelect ||
+    !mouzaSelect ||
+    !lotSelect ||
+    !villageSelect
+) {
+
+    console.error(
+        "Location dropdown element not found."
+    );
+
+}
+
+
+// ========================================
 // HELPER
 // ========================================
 
 function resetSelect(select, text) {
+
+    if (!select) return;
 
     select.innerHTML =
         `<option value="">${text}</option>`;
@@ -46,9 +67,18 @@ async function loadDistricts() {
 
     try {
 
+        resetSelect(
+            districtSelect,
+            "Loading Districts..."
+        );
+
+
         const snapshot =
             await getDocs(
-                collection(db, "districts")
+                collection(
+                    db,
+                    "districts"
+                )
             );
 
 
@@ -125,7 +155,7 @@ async function loadDistricts() {
 
         resetSelect(
             districtSelect,
-            "Unable to load District"
+            "Error loading Districts"
         );
 
     }
@@ -159,7 +189,7 @@ districtSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-            "Lot No. (Optional-if known)"
+            "Lot No. (Optional – If Known)"
         );
 
 
@@ -268,7 +298,7 @@ districtSelect.addEventListener(
         } catch (error) {
 
             console.error(
-                "Revenue Circle error:",
+                "Revenue Circle loading error:",
                 error
             );
 
@@ -304,7 +334,7 @@ circleSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-            "Lot No. (Optional-if known)"
+            "Lot No. (Optional – If Known)"
         );
 
 
@@ -433,6 +463,7 @@ circleSelect.addEventListener(
 
 // ========================================
 // MOUZA → LOT
+// LOT IS OPTIONAL
 // ========================================
 
 mouzaSelect.addEventListener(
@@ -445,7 +476,7 @@ mouzaSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-             "Lot No. (Optional-if known)"
+            "Loading Lots..."
         );
 
 
@@ -459,7 +490,7 @@ mouzaSelect.addEventListener(
 
             resetSelect(
                 lotSelect,
-                "Lot No. (Optional-if known)"
+                "Lot No. (Optional – If Known)"
             );
 
             return;
@@ -480,7 +511,7 @@ mouzaSelect.addEventListener(
 
             resetSelect(
                 lotSelect,
-                "Lot No. (Optional-if known)"
+                "Lot No. (Optional – If Known)"
             );
 
 
@@ -495,7 +526,8 @@ mouzaSelect.addEventListener(
 
                 const dataMouza =
                     String(
-                        data.mouzaId || ""
+                        data.mouzaId ||
+                        ""
                     )
                     .trim()
                     .toLowerCase();
@@ -545,10 +577,19 @@ mouzaSelect.addEventListener(
 
                 resetSelect(
                     lotSelect,
-                    "No Lot Found"
+                    "Lot No. (Optional – If Known)"
                 );
 
             }
+
+
+            // =================================
+            // LOAD VILLAGES DIRECTLY BY MOUZA
+            // =================================
+
+            await loadVillagesByMouza(
+                mouzaId
+            );
 
 
         } catch (error) {
@@ -561,7 +602,12 @@ mouzaSelect.addEventListener(
 
             resetSelect(
                 lotSelect,
-                "Error loading Lot"
+                "Lot No. (Optional – If Known)"
+            );
+
+
+            await loadVillagesByMouza(
+                mouzaId
             );
 
         }
@@ -582,19 +628,140 @@ lotSelect.addEventListener(
             lotSelect.value;
 
 
-        resetSelect(
+        const mouzaId =
+            mouzaSelect.value;
+
+
+        // If applicant skips Lot,
+        // keep all Mouza villages.
+
+        if (!lotId) {
+
+            await loadVillagesByMouza(
+                mouzaId
+            );
+
+            return;
+
+        }
+
+
+        try {
+
+            resetSelect(
+                villageSelect,
+                "Loading Villages..."
+            );
+
+
+            const snapshot =
+                await getDocs(
+                    collection(
+                        db,
+                        "villages"
+                    )
+                );
+
+
+            resetSelect(
+                villageSelect,
+                "Select Village"
+            );
+
+
+            let found = 0;
+
+
+            snapshot.forEach((item) => {
+
+                const data =
+                    item.data();
+
+
+                const dataLot =
+                    String(
+                        data.lotId || ""
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                const selectedLot =
+                    String(
+                        lotId
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                if (
+                    dataLot ===
+                    selectedLot &&
+                    data.status === "active"
+                ) {
+
+                    const option =
+                        document.createElement(
+                            "option"
+                        );
+
+
+                    option.value =
+                        item.id;
+
+
+                    option.textContent =
+                        data.name || item.id;
+
+
+                    villageSelect.appendChild(
+                        option
+                    );
+
+
+                    found++;
+
+                }
+
+            });
+
+
+            if (found === 0) {
+
+                resetSelect(
+                    villageSelect,
+                    "No Village Found"
+                );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "Village loading error:",
+                error
+            );
+
+
+            resetSelect(
+                villageSelect,
+                "Error loading Village"
+            );
+
+        }
+
+    }
+);
+
+
 // ========================================
-// MOUZA → VILLAGE
-// LOT IS OPTIONAL
+// LOAD VILLAGES BY MOUZA
 // ========================================
 
-async function loadVillagesByMouza(mouzaId) {
-
-    resetSelect(
-        villageSelect,
-        "Loading Villages..."
-    );
-
+async function loadVillagesByMouza(
+    mouzaId
+) {
 
     if (!mouzaId) {
 
@@ -609,6 +776,12 @@ async function loadVillagesByMouza(mouzaId) {
 
 
     try {
+
+        resetSelect(
+            villageSelect,
+            "Loading Villages..."
+        );
+
 
         const snapshot =
             await getDocs(
@@ -709,28 +882,6 @@ async function loadVillagesByMouza(mouzaId) {
 
 }
 
-
-// ========================================
-// MOUZA CHANGE
-// ========================================
-
-mouzaSelect.addEventListener(
-    "change",
-    async () => {
-
-        const mouzaId =
-            mouzaSelect.value;
-
-
-        // Load villages directly from Mouza.
-        // Lot is optional.
-
-        await loadVillagesByMouza(
-            mouzaId
-        );
-
-    }
-);
 
 // ========================================
 // INITIAL LOAD
