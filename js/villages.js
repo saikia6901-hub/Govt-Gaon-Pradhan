@@ -128,8 +128,6 @@ onAuthStateChanged(auth, async (user) => {
 
     await loadDistricts();
 await loadVillages();
-]);
-
 
   } catch (error) {
 
