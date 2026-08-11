@@ -315,7 +315,11 @@ circleForm.addEventListener(
       );
 
       alert(
-        "Unable to add Revenue Circle."
+  "Unable to add Revenue Circle.\n\n" +
+  error.code +
+  "\n" +
+  error.message
+);
       );
 
     }
