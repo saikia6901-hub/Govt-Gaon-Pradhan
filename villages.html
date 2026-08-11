@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
   <meta charset="UTF-8">
 
   <meta
@@ -9,7 +10,10 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Village Management | Gaon Pradhan Portal</title>
+  <title>
+    Village Management | Gaon Pradhan Certificate Portal
+  </title>
+
 
   <style>
 
@@ -17,168 +21,434 @@
       box-sizing: border-box;
     }
 
+
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family:
+        Arial,
+        sans-serif;
       background: #f4f6f8;
       color: #1f2937;
     }
 
+
+    /* ========================================
+       HEADER
+    ======================================== */
+
     header {
+
       background: #0b3d91;
       color: white;
-      padding: 18px 20px;
+
+      padding:
+        14px 20px;
+
     }
 
-    header h1 {
+
+    .header-inner {
+
+      max-width: 1100px;
+      margin: 0 auto;
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 14px;
+
+    }
+
+
+    .portal-logo {
+
+      width: 52px;
+      height: 52px;
+
+      object-fit: contain;
+
+      background: white;
+
+      border-radius: 8px;
+
+      padding: 4px;
+
+      flex-shrink: 0;
+
+    }
+
+
+    .header-text h1 {
+
       margin: 0;
+
       font-size: 22px;
+
     }
 
-    header p {
-      margin: 6px 0 0;
+
+    .header-text p {
+
+      margin:
+        4px 0 0;
+
       font-size: 14px;
+
       opacity: 0.9;
+
     }
+
+
+    #adminEmail {
+
+      margin-top: 5px;
+
+      font-size: 13px;
+
+      opacity: 0.95;
+
+    }
+
+
+    /* ========================================
+       MAIN
+    ======================================== */
 
     main {
+
       max-width: 1100px;
-      margin: 25px auto;
-      padding: 0 15px;
+
+      margin:
+        25px auto;
+
+      padding:
+        0 15px;
+
     }
+
+
+    /* ========================================
+       CARD
+    ======================================== */
 
     .card {
+
       background: white;
+
       border-radius: 10px;
+
       padding: 20px;
+
       margin-bottom: 20px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+
+      box-shadow:
+        0 2px 8px
+        rgba(
+          0,
+          0,
+          0,
+          0.08
+        );
+
     }
+
 
     .card h2 {
+
       margin-top: 0;
+
       color: #0b3d91;
+
     }
+
+
+    /* ========================================
+       FORM
+    ======================================== */
 
     .form-grid {
+
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+
+      grid-template-columns:
+        repeat(
+          2,
+          1fr
+        );
+
       gap: 15px;
+
     }
+
 
     .form-group {
+
       display: flex;
+
       flex-direction: column;
+
     }
 
+
     label {
+
       font-weight: 600;
+
       margin-bottom: 6px;
+
       font-size: 14px;
+
     }
+
 
     input,
     select {
+
       width: 100%;
-      padding: 11px 12px;
-      border: 1px solid #cbd5e1;
+
+      padding:
+        11px 12px;
+
+      border:
+        1px solid
+        #cbd5e1;
+
       border-radius: 6px;
+
       font-size: 15px;
+
       background: white;
+
     }
+
 
     input:focus,
     select:focus {
+
       outline: none;
-      border-color: #0b3d91;
+
+      border-color:
+        #0b3d91;
+
     }
+
+
+    /* ========================================
+       BUTTONS
+    ======================================== */
 
     .btn {
+
       border: none;
+
       border-radius: 6px;
-      padding: 10px 16px;
-      background: #0b3d91;
+
+      padding:
+        10px 16px;
+
+      background:
+        #0b3d91;
+
       color: white;
+
       cursor: pointer;
+
       font-size: 14px;
+
       margin-right: 6px;
+
       margin-top: 10px;
+
     }
+
 
     .btn:hover {
+
       opacity: 0.9;
+
     }
+
 
     .btn-secondary {
-      background: #64748b;
+
+      background:
+        #64748b;
+
     }
+
+
+    /* ========================================
+       FILTERS
+    ======================================== */
 
     .filter-grid {
+
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+
+      grid-template-columns:
+        repeat(
+          4,
+          1fr
+        );
+
       gap: 12px;
+
     }
+
+
+    /* ========================================
+       VILLAGE CARD
+    ======================================== */
 
     .village-card {
-      border: 1px solid #e2e8f0;
+
+      border:
+        1px solid
+        #e2e8f0;
+
       border-radius: 8px;
+
       padding: 16px;
+
       margin-bottom: 12px;
+
       background: #fff;
+
     }
+
 
     .village-card h3 {
-      margin: 0 0 10px;
-      color: #0b3d91;
+
+      margin:
+        0 0 10px;
+
+      color:
+        #0b3d91;
+
     }
+
 
     .village-card p {
+
       margin: 6px 0;
+
       font-size: 14px;
+
     }
+
+
+    /* ========================================
+       MODAL
+    ======================================== */
 
     .modal {
+
       display: none;
+
       position: fixed;
+
       z-index: 1000;
+
       left: 0;
+
       top: 0;
+
       width: 100%;
+
       height: 100%;
-      background: rgba(0,0,0,0.5);
+
+      background:
+        rgba(
+          0,
+          0,
+          0,
+          0.5
+        );
+
       padding: 20px;
+
     }
+
 
     .modal-content {
+
       background: white;
+
       max-width: 500px;
-      margin: 70px auto;
+
+      margin:
+        70px auto;
+
       padding: 25px;
+
       border-radius: 10px;
+
     }
+
 
     .modal-content h2 {
+
       margin-top: 0;
-      color: #0b3d91;
+
+      color:
+        #0b3d91;
+
     }
 
-    @media (max-width: 768px) {
+
+    /* ========================================
+       MOBILE
+    ======================================== */
+
+    @media (
+      max-width: 768px
+    ) {
 
       .form-grid,
       .filter-grid {
-        grid-template-columns: 1fr;
+
+        grid-template-columns:
+          1fr;
+
       }
 
-      header h1 {
-        font-size: 19px;
+
+      .header-inner {
+
+        align-items:
+          flex-start;
+
       }
+
+
+      .portal-logo {
+
+        width: 45px;
+
+        height: 45px;
+
+      }
+
+
+      .header-text h1 {
+
+        font-size: 19px;
+
+      }
+
 
       main {
+
         margin-top: 15px;
+
       }
 
+
       .card {
+
         padding: 15px;
+
       }
 
     }
@@ -190,27 +460,57 @@
 
 <body>
 
+
+  <!-- ========================================
+       HEADER
+  ======================================== -->
+
   <header>
 
-    <h1>
-      Gaon Pradhan Portal
-    </h1>
+    <div class="header-inner">
 
-    <p>
-      Village Management
-    </p>
 
-    <p id="adminEmail"></p>
+      <!-- LOGO -->
+
+      <img
+        src="assets/logo.png"
+        alt="Gaon Pradhan Portal Logo"
+        class="portal-logo"
+        onerror="
+          this.style.display='none';
+        "
+      >
+
+
+      <div class="header-text">
+
+        <h1>
+          Gaon Pradhan Portal
+        </h1>
+
+        <p>
+          Village Management
+        </p>
+
+        <p id="adminEmail">
+          Loading administrator...
+        </p>
+
+      </div>
+
+
+    </div>
 
   </header>
+
 
 
   <main>
 
 
-    <!-- ============================= -->
-    <!-- ADD VILLAGE -->
-    <!-- ============================= -->
+    <!-- ========================================
+         ADD VILLAGE
+    ======================================== -->
 
     <section class="card">
 
@@ -224,9 +524,13 @@
         <div class="form-grid">
 
 
+          <!-- DISTRICT -->
+
           <div class="form-group">
 
-            <label for="districtSelect">
+            <label
+              for="districtSelect"
+            >
               District
             </label>
 
@@ -244,9 +548,13 @@
           </div>
 
 
+          <!-- REVENUE CIRCLE -->
+
           <div class="form-group">
 
-            <label for="circleSelect">
+            <label
+              for="circleSelect"
+            >
               Revenue Circle
             </label>
 
@@ -264,9 +572,13 @@
           </div>
 
 
+          <!-- MOUZA -->
+
           <div class="form-group">
 
-            <label for="mouzaSelect">
+            <label
+              for="mouzaSelect"
+            >
               Mouza
             </label>
 
@@ -284,9 +596,13 @@
           </div>
 
 
+          <!-- VILLAGE -->
+
           <div class="form-group">
 
-            <label for="villageName">
+            <label
+              for="villageName"
+            >
               Village Name
             </label>
 
@@ -300,9 +616,13 @@
           </div>
 
 
+          <!-- STATUS -->
+
           <div class="form-group">
 
-            <label for="villageStatus">
+            <label
+              for="villageStatus"
+            >
               Status
             </label>
 
@@ -340,9 +660,9 @@
 
 
 
-    <!-- ============================= -->
-    <!-- FILTERS -->
-    <!-- ============================= -->
+    <!-- ========================================
+         FILTERS
+    ======================================== -->
 
     <section class="card">
 
@@ -354,13 +674,19 @@
       <div class="filter-grid">
 
 
+        <!-- FILTER DISTRICT -->
+
         <div class="form-group">
 
-          <label for="filterDistrict">
+          <label
+            for="filterDistrict"
+          >
             District
           </label>
 
-          <select id="filterDistrict">
+          <select
+            id="filterDistrict"
+          >
 
             <option value="">
               All Districts
@@ -371,13 +697,19 @@
         </div>
 
 
+        <!-- FILTER CIRCLE -->
+
         <div class="form-group">
 
-          <label for="filterCircle">
+          <label
+            for="filterCircle"
+          >
             Revenue Circle
           </label>
 
-          <select id="filterCircle">
+          <select
+            id="filterCircle"
+          >
 
             <option value="">
               All Revenue Circles
@@ -388,13 +720,19 @@
         </div>
 
 
+        <!-- FILTER MOUZA -->
+
         <div class="form-group">
 
-          <label for="filterMouza">
+          <label
+            for="filterMouza"
+          >
             Mouza
           </label>
 
-          <select id="filterMouza">
+          <select
+            id="filterMouza"
+          >
 
             <option value="">
               All Mouzas
@@ -405,13 +743,19 @@
         </div>
 
 
+        <!-- FILTER STATUS -->
+
         <div class="form-group">
 
-          <label for="filterStatus">
+          <label
+            for="filterStatus"
+          >
             Status
           </label>
 
-          <select id="filterStatus">
+          <select
+            id="filterStatus"
+          >
 
             <option value="">
               All Status
@@ -433,12 +777,18 @@
       </div>
 
 
+      <!-- SEARCH -->
+
       <div
         class="form-group"
-        style="margin-top:15px;"
+        style="
+          margin-top:15px;
+        "
       >
 
-        <label for="searchVillage">
+        <label
+          for="searchVillage"
+        >
           Search Village
         </label>
 
@@ -454,9 +804,9 @@
 
 
 
-    <!-- ============================= -->
-    <!-- VILLAGE LIST -->
-    <!-- ============================= -->
+    <!-- ========================================
+         VILLAGE LIST
+    ======================================== -->
 
     <section class="card">
 
@@ -479,9 +829,9 @@
 
 
 
-  <!-- ============================= -->
-  <!-- EDIT VILLAGE MODAL -->
-  <!-- ============================= -->
+  <!-- ========================================
+       EDIT VILLAGE MODAL
+  ======================================== -->
 
   <div
     id="editVillageModal"
@@ -503,7 +853,9 @@
 
       <div class="form-group">
 
-        <label for="editVillageName">
+        <label
+          for="editVillageName"
+        >
           Village Name
         </label>
 
@@ -517,14 +869,20 @@
 
       <div
         class="form-group"
-        style="margin-top:15px;"
+        style="
+          margin-top:15px;
+        "
       >
 
-        <label for="editVillageStatus">
+        <label
+          for="editVillageStatus"
+        >
           Status
         </label>
 
-        <select id="editVillageStatus">
+        <select
+          id="editVillageStatus"
+        >
 
           <option value="active">
             Active
@@ -561,14 +919,17 @@
   </div>
 
 
-<!-- ============================= -->
-<!-- JAVASCRIPT -->
-<!-- ============================= -->
 
-<script
-  type="module"
-  src="js/villages.js"
-></script>
+  <!-- ========================================
+       JAVASCRIPT
+  ======================================== -->
+
+  <script
+    type="module"
+    src="js/villages.js"
+  ></script>
+
 
 </body>
+
 </html>
