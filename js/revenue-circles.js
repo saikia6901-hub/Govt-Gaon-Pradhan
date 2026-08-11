@@ -89,17 +89,19 @@ onAuthStateChanged(auth, async (user) => {
 
   } catch (error) {
 
-    console.error(
-      "Authentication error:",
-      error
-    );
+  console.error(
+    "Authentication error:",
+    error
+  );
 
-    alert(
-      "Unable to verify administrator."
-    );
+  alert(
+    "AUTH ERROR:\n\n" +
+    error.code +
+    "\n\n" +
+    error.message
+  );
 
   }
-
 });
 
 
