@@ -49,9 +49,6 @@ const saveCircleEditBtn =
 const cancelCircleEditBtn =
   document.getElementById("cancelCircleEditBtn");
 
-const adminEmail =
-  document.getElementById("adminEmail");
-
 
 // ========================================
 // SUPER ADMIN AUTHENTICATION
@@ -70,7 +67,12 @@ onAuthStateChanged(auth, async (user) => {
   try {
 
     const userRef =
-      doc(db, "users", user.uid);
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
 
     const userSnap =
       await getDoc(userRef);
@@ -78,7 +80,9 @@ onAuthStateChanged(auth, async (user) => {
 
     if (!userSnap.exists()) {
 
-      alert("User profile not found.");
+      alert(
+        "User profile not found."
+      );
 
       window.location.href =
         "login.html";
@@ -91,7 +95,10 @@ onAuthStateChanged(auth, async (user) => {
       userSnap.data();
 
 
-    if (userData.role !== "super_admin") {
+    if (
+      userData.role !==
+      "super_admin"
+    ) {
 
       alert(
         "Access denied. Super Admin only."
@@ -104,16 +111,21 @@ onAuthStateChanged(auth, async (user) => {
     }
 
 
-    // Show logged-in email
+    const adminEmail =
+      document.getElementById(
+        "adminEmail"
+      );
+
+
     if (adminEmail) {
 
       adminEmail.textContent =
         "Logged in as: " +
-        user.email;
+        (user.email || "Unknown");
+
     }
 
 
-    // Load data
     await loadDistricts();
 
     await loadCircles();
@@ -146,18 +158,24 @@ onAuthStateChanged(auth, async (user) => {
 async function loadDistricts() {
 
   if (!districtSelect) {
+
+    console.error(
+      "districtSelect element not found."
+    );
+
     return;
   }
 
 
   districtSelect.innerHTML =
-    `<option value="">Loading districts...</option>`;
+    '<option value="">Select District</option>';
 
 
   if (filterDistrict) {
 
     filterDistrict.innerHTML =
-      `<option value="">All Districts</option>`;
+      '<option value="">All Districts</option>';
+
   }
 
 
@@ -179,26 +197,6 @@ async function loadDistricts() {
       );
 
 
-    districtSelect.innerHTML =
-      `<option value="">Select District</option>`;
-
-
-    if (filterDistrict) {
-
-      filterDistrict.innerHTML =
-        `<option value="">All Districts</option>`;
-    }
-
-
-    if (snapshot.empty) {
-
-      districtSelect.innerHTML =
-        `<option value="">No districts found</option>`;
-
-      return;
-    }
-
-
     snapshot.forEach(
       (districtDoc) => {
 
@@ -206,7 +204,8 @@ async function loadDistricts() {
           districtDoc.data();
 
 
-        // Add to main district dropdown
+        // Add to main dropdown
+
         const option =
           document.createElement(
             "option"
@@ -227,6 +226,7 @@ async function loadDistricts() {
 
 
         // Add to filter dropdown
+
         if (filterDistrict) {
 
           const filterOption =
@@ -240,13 +240,13 @@ async function loadDistricts() {
 
 
           filterOption.textContent =
-            data.name ||
-            districtDoc.id;
+            data.name || districtDoc.id;
 
 
           filterDistrict.appendChild(
             filterOption
           );
+
         }
 
       }
@@ -262,13 +262,13 @@ async function loadDistricts() {
 
 
     districtSelect.innerHTML =
-      `<option value="">Unable to load districts</option>`;
+      '<option value="">Unable to load districts</option>';
 
 
     alert(
       "Unable to load districts.\n\n" +
       (error.code || "Unknown error") +
-      "\n" +
+      "\n\n" +
       (error.message || error)
     );
 
@@ -296,17 +296,28 @@ if (circleForm) {
           : "";
 
 
+      const circleNameElement =
+        document.getElementById(
+          "circleName"
+        );
+
+
+      const circleStatusElement =
+        document.getElementById(
+          "circleStatus"
+        );
+
+
       const circleName =
-        document
-          .getElementById("circleName")
-          ?.value
-          .trim() || "";
+        circleNameElement
+          ? circleNameElement.value.trim()
+          : "";
 
 
       const status =
-        document
-          .getElementById("circleStatus")
-          ?.value || "active";
+        circleStatusElement
+          ? circleStatusElement.value
+          : "active";
 
 
       if (!districtId) {
@@ -360,9 +371,9 @@ if (circleForm) {
 
 
         const circleId =
-          `${districtId}__${createId(
-            circleName
-          )}`;
+          districtId +
+          "__" +
+          createId(circleName);
 
 
         const circleRef =
@@ -383,6 +394,20 @@ if (circleForm) {
 
           alert(
             "This Revenue Circle already exists under the selected district."
+          );
+
+          return;
+        }
+
+
+        const currentUser =
+          auth.currentUser;
+
+
+        if (!currentUser) {
+
+          alert(
+            "Your login session has expired. Please login again."
           );
 
           return;
@@ -418,10 +443,10 @@ if (circleForm) {
               serverTimestamp(),
 
             createdBy:
-              auth.currentUser.uid,
+              currentUser.uid,
 
             updatedBy:
-              auth.currentUser.uid
+              currentUser.uid
 
           }
         );
@@ -468,6 +493,11 @@ if (circleForm) {
 async function loadCircles() {
 
   if (!circleList) {
+
+    console.error(
+      "circleList element not found."
+    );
+
     return;
   }
 
@@ -538,7 +568,8 @@ async function loadCircles() {
           "inactive";
 
 
-        // District filter
+        // DISTRICT FILTER
+
         if (
           selectedDistrict &&
           data.districtId !==
@@ -549,7 +580,8 @@ async function loadCircles() {
         }
 
 
-        // Status filter
+        // STATUS FILTER
+
         if (
           selectedStatus &&
           status !== selectedStatus
@@ -559,7 +591,8 @@ async function loadCircles() {
         }
 
 
-        // Search filter
+        // SEARCH FILTER
+
         const circleName =
           String(
             data.name || ""
@@ -631,10 +664,7 @@ async function loadCircles() {
 
             <button
               class="btn"
-              onclick="toggleCircleStatus(
-                '${circleDoc.id}',
-                '${status}'
-              )"
+              onclick="toggleCircleStatus('${circleDoc.id}','${status}')"
             >
               ${action}
             </button>
@@ -680,152 +710,6 @@ async function loadCircles() {
     );
 
   }
-
-}
-
-
-// ========================================
-// ACTIVATE / DEACTIVATE
-// ========================================
-
-window.toggleCircleStatus =
-  async function (
-    circleId,
-    currentStatus
-  ) {
-
-    const newStatus =
-      currentStatus === "active"
-        ? "inactive"
-        : "active";
-
-
-    const action =
-      newStatus === "active"
-        ? "activate"
-        : "deactivate";
-
-
-    const confirmed =
-      confirm(
-        `Are you sure you want to ${action} this Revenue Circle?`
-      );
-
-
-    if (!confirmed) {
-      return;
-    }
-
-
-    try {
-
-      const circleRef =
-        doc(
-          db,
-          "revenueCircles",
-          circleId
-        );
-
-
-      await updateDoc(
-        circleRef,
-        {
-
-          status:
-            newStatus,
-
-          updatedAt:
-            serverTimestamp(),
-
-          updatedBy:
-            auth.currentUser.uid
-
-        }
-      );
-
-
-      alert(
-        `Revenue Circle ${action}d successfully.`
-      );
-
-
-      await loadCircles();
-
-
-    } catch (error) {
-
-      console.error(
-        "Status update error:",
-        error
-      );
-
-
-      alert(
-        "Unable to update status.\n\n" +
-        (error.code || "Unknown error") +
-        "\n" +
-        (error.message || error)
-      );
-
-    }
-
-  };
-
-
-// ========================================
-// CREATE SAFE ID
-// ========================================
-
-function createId(name) {
-
-  return String(name)
-
-    .toLowerCase()
-
-    .replace(
-      /[^a-z0-9]+/g,
-      "-"
-    )
-
-    .replace(
-      /^-+|-+$/g,
-      "");
-
-}
-
-
-// ========================================
-// HTML SECURITY
-// ========================================
-
-function escapeHtml(value) {
-
-  return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
 
 }
 
@@ -889,6 +773,7 @@ window.editCircle =
 
         editId.value =
           circleId;
+
       }
 
 
@@ -896,6 +781,7 @@ window.editCircle =
 
         editName.value =
           data.name || "";
+
       }
 
 
@@ -903,6 +789,7 @@ window.editCircle =
 
         editStatus.value =
           data.status || "active";
+
       }
 
 
@@ -910,6 +797,7 @@ window.editCircle =
 
         editCircleModal.style.display =
           "block";
+
       }
 
 
@@ -924,7 +812,7 @@ window.editCircle =
       alert(
         "Unable to open Revenue Circle.\n\n" +
         (error.code || "Unknown error") +
-        "\n" +
+        "\n\n" +
         (error.message || error)
       );
 
@@ -943,23 +831,40 @@ if (saveCircleEditBtn) {
     "click",
     async () => {
 
-      const circleId =
+      const circleIdElement =
         document.getElementById(
           "editCircleId"
-        )?.value || "";
+        );
+
+
+      const nameElement =
+        document.getElementById(
+          "editCircleName"
+        );
+
+
+      const statusElement =
+        document.getElementById(
+          "editCircleStatus"
+        );
+
+
+      const circleId =
+        circleIdElement
+          ? circleIdElement.value
+          : "";
 
 
       const name =
-        document.getElementById(
-          "editCircleName"
-        )?.value
-        .trim() || "";
+        nameElement
+          ? nameElement.value.trim()
+          : "";
 
 
       const status =
-        document.getElementById(
-          "editCircleStatus"
-        )?.value || "active";
+        statusElement
+          ? statusElement.value
+          : "active";
 
 
       if (!circleId) {
@@ -984,6 +889,20 @@ if (saveCircleEditBtn) {
 
       try {
 
+        const currentUser =
+          auth.currentUser;
+
+
+        if (!currentUser) {
+
+          alert(
+            "Your login session has expired."
+          );
+
+          return;
+        }
+
+
         const circleRef =
           doc(
             db,
@@ -1006,7 +925,7 @@ if (saveCircleEditBtn) {
               serverTimestamp(),
 
             updatedBy:
-              auth.currentUser.uid
+              currentUser.uid
 
           }
         );
@@ -1021,6 +940,7 @@ if (saveCircleEditBtn) {
 
           editCircleModal.style.display =
             "none";
+
         }
 
 
@@ -1038,7 +958,7 @@ if (saveCircleEditBtn) {
         alert(
           "Unable to update Revenue Circle.\n\n" +
           (error.code || "Unknown error") +
-          "\n" +
+          "\n\n" +
           (error.message || error)
         );
 
@@ -1064,12 +984,116 @@ if (cancelCircleEditBtn) {
 
         editCircleModal.style.display =
           "none";
+
       }
 
     }
   );
 
 }
+
+
+// ========================================
+// ACTIVATE / DEACTIVATE
+// ========================================
+
+window.toggleCircleStatus =
+  async function (
+    circleId,
+    currentStatus
+  ) {
+
+    const newStatus =
+      currentStatus === "active"
+        ? "inactive"
+        : "active";
+
+
+    const action =
+      newStatus === "active"
+        ? "activate"
+        : "deactivate";
+
+
+    const confirmed =
+      confirm(
+        `Are you sure you want to ${action} this Revenue Circle?`
+      );
+
+
+    if (!confirmed) {
+
+      return;
+    }
+
+
+    try {
+
+      const currentUser =
+        auth.currentUser;
+
+
+      if (!currentUser) {
+
+        alert(
+          "Your login session has expired."
+        );
+
+        return;
+      }
+
+
+      const circleRef =
+        doc(
+          db,
+          "revenueCircles",
+          circleId
+        );
+
+
+      await updateDoc(
+        circleRef,
+        {
+
+          status:
+            newStatus,
+
+          updatedAt:
+            serverTimestamp(),
+
+          updatedBy:
+            currentUser.uid
+
+        }
+      );
+
+
+      alert(
+        `Revenue Circle ${action}d successfully.`
+      );
+
+
+      await loadCircles();
+
+
+    } catch (error) {
+
+      console.error(
+        "Status update error:",
+        error
+      );
+
+
+      alert(
+        "Unable to update status.\n\n" +
+        (error.code || "Unknown error") +
+        "\n\n" +
+        (error.message || error)
+      );
+
+    }
+
+  };
 
 
 // ========================================
@@ -1127,6 +1151,59 @@ if (filterStatus) {
 
 
 // ========================================
+// CREATE SAFE ID
+// ========================================
+
+function createId(name) {
+
+  return String(name)
+
+    .toLowerCase()
+
+    .replace(/[^a-z0-9]+/g, "-")
+
+    .replace(/^-+|-+$/g, "");
+
+}
+
+
+// ========================================
+// HTML SECURITY
+// ========================================
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+// ========================================
 // LOGOUT
 // ========================================
 
@@ -1151,7 +1228,7 @@ window.logout =
       alert(
         "Logout failed.\n\n" +
         (error.code || "Unknown error") +
-        "\n" +
+        "\n\n" +
         (error.message || error)
       );
 
