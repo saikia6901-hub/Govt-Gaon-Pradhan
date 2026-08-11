@@ -54,34 +54,23 @@ const adminEmail =
 
 
 // ========================================
-// PAGE INITIALIZATION
+// SUPER ADMIN AUTHENTICATION
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
 
-    window.location.href =
-      "login.html";
+    window.location.href = "login.html";
 
     return;
-
   }
 
 
   try {
 
-    // ------------------------------------
-    // GET USER PROFILE
-    // ------------------------------------
-
     const userRef =
-      doc(
-        db,
-        "users",
-        user.uid
-      );
-
+      doc(db, "users", user.uid);
 
     const userSnap =
       await getDoc(userRef);
@@ -89,15 +78,12 @@ onAuthStateChanged(auth, async (user) => {
 
     if (!userSnap.exists()) {
 
-      alert(
-        "User profile not found."
-      );
+      alert("User profile not found.");
 
       window.location.href =
         "login.html";
 
       return;
-
     }
 
 
@@ -105,14 +91,7 @@ onAuthStateChanged(auth, async (user) => {
       userSnap.data();
 
 
-    // ------------------------------------
-    // SUPER ADMIN CHECK
-    // ------------------------------------
-
-    if (
-      userData.role !==
-      "super_admin"
-    ) {
+    if (userData.role !== "super_admin") {
 
       alert(
         "Access denied. Super Admin only."
@@ -122,30 +101,19 @@ onAuthStateChanged(auth, async (user) => {
         "dashboard.html";
 
       return;
-
     }
 
 
-    // ------------------------------------
-    // SHOW LOGGED-IN EMAIL
-    // ------------------------------------
-
+    // Show logged-in email
     if (adminEmail) {
 
       adminEmail.textContent =
         "Logged in as: " +
-        (
-          user.email ||
-          "Unknown Email"
-        );
-
+        user.email;
     }
 
 
-    // ------------------------------------
-    // LOAD DATA
-    // ------------------------------------
-
+    // Load data
     await loadDistricts();
 
     await loadCircles();
@@ -154,22 +122,16 @@ onAuthStateChanged(auth, async (user) => {
   } catch (error) {
 
     console.error(
-      "Revenue Circle initialization error:",
+      "Authentication error:",
       error
     );
 
 
     alert(
-      "Unable to load Revenue Circle Management.\n\n" +
-      (
-        error.code ||
-        "unknown-error"
-      ) +
+      "AUTH ERROR:\n\n" +
+      (error.code || "Unknown error") +
       "\n\n" +
-      (
-        error.message ||
-        "Unknown error"
-      )
+      (error.message || error)
     );
 
   }
@@ -184,41 +146,18 @@ onAuthStateChanged(auth, async (user) => {
 async function loadDistricts() {
 
   if (!districtSelect) {
-
-    console.error(
-      "districtSelect element not found."
-    );
-
     return;
-
   }
 
 
-  // --------------------------------------
-  // RESET DISTRICT DROPDOWN
-  // --------------------------------------
-
   districtSelect.innerHTML =
-    `
-      <option value="">
-        Select District
-      </option>
-    `;
+    `<option value="">Loading districts...</option>`;
 
-
-  // --------------------------------------
-  // RESET FILTER DROPDOWN
-  // --------------------------------------
 
   if (filterDistrict) {
 
     filterDistrict.innerHTML =
-      `
-        <option value="">
-          All Districts
-        </option>
-      `;
-
+      `<option value="">All Districts</option>`;
   }
 
 
@@ -240,14 +179,23 @@ async function loadDistricts() {
       );
 
 
+    districtSelect.innerHTML =
+      `<option value="">Select District</option>`;
+
+
+    if (filterDistrict) {
+
+      filterDistrict.innerHTML =
+        `<option value="">All Districts</option>`;
+    }
+
+
     if (snapshot.empty) {
 
-      console.warn(
-        "No districts found."
-      );
+      districtSelect.innerHTML =
+        `<option value="">No districts found</option>`;
 
       return;
-
     }
 
 
@@ -258,14 +206,7 @@ async function loadDistricts() {
           districtDoc.data();
 
 
-        const districtName =
-          data.name || "";
-
-
-        // -------------------------------
-        // MAIN DISTRICT DROPDOWN
-        // -------------------------------
-
+        // Add to main district dropdown
         const option =
           document.createElement(
             "option"
@@ -277,7 +218,7 @@ async function loadDistricts() {
 
 
         option.textContent =
-          districtName;
+          data.name || districtDoc.id;
 
 
         districtSelect.appendChild(
@@ -285,10 +226,7 @@ async function loadDistricts() {
         );
 
 
-        // -------------------------------
-        // FILTER DROPDOWN
-        // -------------------------------
-
+        // Add to filter dropdown
         if (filterDistrict) {
 
           const filterOption =
@@ -302,13 +240,13 @@ async function loadDistricts() {
 
 
           filterOption.textContent =
-            districtName;
+            data.name ||
+            districtDoc.id;
 
 
           filterDistrict.appendChild(
             filterOption
           );
-
         }
 
       }
@@ -323,19 +261,16 @@ async function loadDistricts() {
     );
 
 
-    if (districtSelect) {
-
-      districtSelect.innerHTML =
-        `
-          <option value="">
-            Unable to load districts
-          </option>
-        `;
-
-    }
+    districtSelect.innerHTML =
+      `<option value="">Unable to load districts</option>`;
 
 
-    throw error;
+    alert(
+      "Unable to load districts.\n\n" +
+      (error.code || "Unknown error") +
+      "\n" +
+      (error.message || error)
+    );
 
   }
 
@@ -355,65 +290,24 @@ if (circleForm) {
       event.preventDefault();
 
 
-      // ----------------------------------
-      // CHECK AUTHENTICATION
-      // ----------------------------------
-
-      const user =
-        auth.currentUser;
-
-
-      if (!user) {
-
-        alert(
-          "Your session has expired. Please login again."
-        );
-
-        window.location.href =
-          "login.html";
-
-        return;
-
-      }
-
-
-      // ----------------------------------
-      // GET FORM VALUES
-      // ----------------------------------
-
       const districtId =
         districtSelect
           ? districtSelect.value
           : "";
 
 
-      const circleNameElement =
-        document.getElementById(
-          "circleName"
-        );
-
-
-      const statusElement =
-        document.getElementById(
-          "circleStatus"
-        );
-
-
       const circleName =
-        circleNameElement
-          ? circleNameElement.value.trim()
-          : "";
+        document
+          .getElementById("circleName")
+          ?.value
+          .trim() || "";
 
 
       const status =
-        statusElement
-          ? statusElement.value
-          : "active";
+        document
+          .getElementById("circleStatus")
+          ?.value || "active";
 
-
-      // ----------------------------------
-      // VALIDATION
-      // ----------------------------------
 
       if (!districtId) {
 
@@ -422,7 +316,6 @@ if (circleForm) {
         );
 
         return;
-
       }
 
 
@@ -433,15 +326,10 @@ if (circleForm) {
         );
 
         return;
-
       }
 
 
       try {
-
-        // -------------------------------
-        // GET DISTRICT
-        // -------------------------------
 
         const districtRef =
           doc(
@@ -464,7 +352,6 @@ if (circleForm) {
           );
 
           return;
-
         }
 
 
@@ -472,6 +359,802 @@ if (circleForm) {
           districtSnap.data();
 
 
-        // -------------------------------
-        // CREATE STABLE ID
-        // ----------------
+        const circleId =
+          `${districtId}__${createId(
+            circleName
+          )}`;
+
+
+        const circleRef =
+          doc(
+            db,
+            "revenueCircles",
+            circleId
+          );
+
+
+        const existing =
+          await getDoc(
+            circleRef
+          );
+
+
+        if (existing.exists()) {
+
+          alert(
+            "This Revenue Circle already exists under the selected district."
+          );
+
+          return;
+        }
+
+
+        await setDoc(
+          circleRef,
+          {
+
+            circleId:
+              circleId,
+
+            name:
+              circleName,
+
+            districtId:
+              districtId,
+
+            districtName:
+              districtData.name || "",
+
+            state:
+              "Assam",
+
+            status:
+              status,
+
+            createdAt:
+              serverTimestamp(),
+
+            updatedAt:
+              serverTimestamp(),
+
+            createdBy:
+              auth.currentUser.uid,
+
+            updatedBy:
+              auth.currentUser.uid
+
+          }
+        );
+
+
+        alert(
+          "Revenue Circle added successfully."
+        );
+
+
+        circleForm.reset();
+
+
+        await loadCircles();
+
+
+      } catch (error) {
+
+        console.error(
+          "Error adding Revenue Circle:",
+          error
+        );
+
+
+        alert(
+          "Unable to add Revenue Circle.\n\n" +
+          (error.code || "Unknown error") +
+          "\n\n" +
+          (error.message || error)
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+// ========================================
+// LOAD REVENUE CIRCLES
+// ========================================
+
+async function loadCircles() {
+
+  if (!circleList) {
+    return;
+  }
+
+
+  circleList.innerHTML =
+    "<p>Loading Revenue Circles...</p>";
+
+
+  try {
+
+    const circleQuery =
+      query(
+        collection(
+          db,
+          "revenueCircles"
+        ),
+        orderBy("name")
+      );
+
+
+    const snapshot =
+      await getDocs(
+        circleQuery
+      );
+
+
+    if (snapshot.empty) {
+
+      circleList.innerHTML =
+        "<p>No Revenue Circles added yet.</p>";
+
+      return;
+    }
+
+
+    const selectedDistrict =
+      filterDistrict
+        ? filterDistrict.value
+        : "";
+
+
+    const selectedStatus =
+      filterStatus
+        ? filterStatus.value
+        : "";
+
+
+    const searchText =
+      searchCircle
+        ? searchCircle.value
+            .trim()
+            .toLowerCase()
+        : "";
+
+
+    let html = "";
+
+
+    snapshot.forEach(
+      (circleDoc) => {
+
+        const data =
+          circleDoc.data();
+
+
+        const status =
+          data.status ||
+          "inactive";
+
+
+        // District filter
+        if (
+          selectedDistrict &&
+          data.districtId !==
+            selectedDistrict
+        ) {
+
+          return;
+        }
+
+
+        // Status filter
+        if (
+          selectedStatus &&
+          status !== selectedStatus
+        ) {
+
+          return;
+        }
+
+
+        // Search filter
+        const circleName =
+          String(
+            data.name || ""
+          ).toLowerCase();
+
+
+        if (
+          searchText &&
+          !circleName.includes(
+            searchText
+          )
+        ) {
+
+          return;
+        }
+
+
+        const action =
+          status === "active"
+            ? "Deactivate"
+            : "Activate";
+
+
+        const statusText =
+          status === "active"
+            ? "Active"
+            : "Inactive";
+
+
+        html += `
+
+          <div
+            class="card"
+            style="margin-bottom:15px;"
+          >
+
+            <h3>
+              ${escapeHtml(
+                data.name || ""
+              )}
+            </h3>
+
+
+            <p>
+              District:
+              <strong>
+                ${escapeHtml(
+                  data.districtName || ""
+                )}
+              </strong>
+            </p>
+
+
+            <p>
+              Status:
+              <strong>
+                ${statusText}
+              </strong>
+            </p>
+
+
+            <button
+              class="btn"
+              onclick="editCircle('${circleDoc.id}')"
+            >
+              Edit
+            </button>
+
+
+            <button
+              class="btn"
+              onclick="toggleCircleStatus(
+                '${circleDoc.id}',
+                '${status}'
+              )"
+            >
+              ${action}
+            </button>
+
+          </div>
+
+        `;
+
+      }
+    );
+
+
+    if (!html) {
+
+      circleList.innerHTML =
+        "<p>No Revenue Circles match your filters.</p>";
+
+      return;
+    }
+
+
+    circleList.innerHTML =
+      html;
+
+
+  } catch (error) {
+
+    console.error(
+      "Error loading Revenue Circles:",
+      error
+    );
+
+
+    circleList.innerHTML =
+      "<p>Unable to load Revenue Circles.</p>";
+
+
+    alert(
+      "Unable to load Revenue Circles.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
+  }
+
+}
+
+
+// ========================================
+// ACTIVATE / DEACTIVATE
+// ========================================
+
+window.toggleCircleStatus =
+  async function (
+    circleId,
+    currentStatus
+  ) {
+
+    const newStatus =
+      currentStatus === "active"
+        ? "inactive"
+        : "active";
+
+
+    const action =
+      newStatus === "active"
+        ? "activate"
+        : "deactivate";
+
+
+    const confirmed =
+      confirm(
+        `Are you sure you want to ${action} this Revenue Circle?`
+      );
+
+
+    if (!confirmed) {
+      return;
+    }
+
+
+    try {
+
+      const circleRef =
+        doc(
+          db,
+          "revenueCircles",
+          circleId
+        );
+
+
+      await updateDoc(
+        circleRef,
+        {
+
+          status:
+            newStatus,
+
+          updatedAt:
+            serverTimestamp(),
+
+          updatedBy:
+            auth.currentUser.uid
+
+        }
+      );
+
+
+      alert(
+        `Revenue Circle ${action}d successfully.`
+      );
+
+
+      await loadCircles();
+
+
+    } catch (error) {
+
+      console.error(
+        "Status update error:",
+        error
+      );
+
+
+      alert(
+        "Unable to update status.\n\n" +
+        (error.code || "Unknown error") +
+        "\n" +
+        (error.message || error)
+      );
+
+    }
+
+  };
+
+
+// ========================================
+// CREATE SAFE ID
+// ========================================
+
+function createId(name) {
+
+  return String(name)
+
+    .toLowerCase()
+
+    .replace(
+      /[^a-z0-9]+/g,
+      "-"
+    )
+
+    .replace(
+      /^-+|-+$/g,
+      "");
+
+}
+
+
+// ========================================
+// HTML SECURITY
+// ========================================
+
+function escapeHtml(value) {
+
+  return String(value)
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
+
+}
+
+
+// ========================================
+// EDIT REVENUE CIRCLE
+// ========================================
+
+window.editCircle =
+  async function (circleId) {
+
+    try {
+
+      const circleRef =
+        doc(
+          db,
+          "revenueCircles",
+          circleId
+        );
+
+
+      const circleSnap =
+        await getDoc(
+          circleRef
+        );
+
+
+      if (!circleSnap.exists()) {
+
+        alert(
+          "Revenue Circle not found."
+        );
+
+        return;
+      }
+
+
+      const data =
+        circleSnap.data();
+
+
+      const editId =
+        document.getElementById(
+          "editCircleId"
+        );
+
+
+      const editName =
+        document.getElementById(
+          "editCircleName"
+        );
+
+
+      const editStatus =
+        document.getElementById(
+          "editCircleStatus"
+        );
+
+
+      if (editId) {
+
+        editId.value =
+          circleId;
+      }
+
+
+      if (editName) {
+
+        editName.value =
+          data.name || "";
+      }
+
+
+      if (editStatus) {
+
+        editStatus.value =
+          data.status || "active";
+      }
+
+
+      if (editCircleModal) {
+
+        editCircleModal.style.display =
+          "block";
+      }
+
+
+    } catch (error) {
+
+      console.error(
+        "Edit Revenue Circle error:",
+        error
+      );
+
+
+      alert(
+        "Unable to open Revenue Circle.\n\n" +
+        (error.code || "Unknown error") +
+        "\n" +
+        (error.message || error)
+      );
+
+    }
+
+  };
+
+
+// ========================================
+// SAVE REVENUE CIRCLE EDIT
+// ========================================
+
+if (saveCircleEditBtn) {
+
+  saveCircleEditBtn.addEventListener(
+    "click",
+    async () => {
+
+      const circleId =
+        document.getElementById(
+          "editCircleId"
+        )?.value || "";
+
+
+      const name =
+        document.getElementById(
+          "editCircleName"
+        )?.value
+        .trim() || "";
+
+
+      const status =
+        document.getElementById(
+          "editCircleStatus"
+        )?.value || "active";
+
+
+      if (!circleId) {
+
+        alert(
+          "Revenue Circle ID is missing."
+        );
+
+        return;
+      }
+
+
+      if (!name) {
+
+        alert(
+          "Revenue Circle Name is required."
+        );
+
+        return;
+      }
+
+
+      try {
+
+        const circleRef =
+          doc(
+            db,
+            "revenueCircles",
+            circleId
+          );
+
+
+        await updateDoc(
+          circleRef,
+          {
+
+            name:
+              name,
+
+            status:
+              status,
+
+            updatedAt:
+              serverTimestamp(),
+
+            updatedBy:
+              auth.currentUser.uid
+
+          }
+        );
+
+
+        alert(
+          "Revenue Circle updated successfully."
+        );
+
+
+        if (editCircleModal) {
+
+          editCircleModal.style.display =
+            "none";
+        }
+
+
+        await loadCircles();
+
+
+      } catch (error) {
+
+        console.error(
+          "Update Revenue Circle error:",
+          error
+        );
+
+
+        alert(
+          "Unable to update Revenue Circle.\n\n" +
+          (error.code || "Unknown error") +
+          "\n" +
+          (error.message || error)
+        );
+
+      }
+
+    }
+  );
+
+}
+
+
+// ========================================
+// CANCEL EDIT
+// ========================================
+
+if (cancelCircleEditBtn) {
+
+  cancelCircleEditBtn.addEventListener(
+    "click",
+    () => {
+
+      if (editCircleModal) {
+
+        editCircleModal.style.display =
+          "none";
+      }
+
+    }
+  );
+
+}
+
+
+// ========================================
+// DISTRICT FILTER
+// ========================================
+
+if (filterDistrict) {
+
+  filterDistrict.addEventListener(
+    "change",
+    () => {
+
+      loadCircles();
+
+    }
+  );
+
+}
+
+
+// ========================================
+// SEARCH REVENUE CIRCLE
+// ========================================
+
+if (searchCircle) {
+
+  searchCircle.addEventListener(
+    "input",
+    () => {
+
+      loadCircles();
+
+    }
+  );
+
+}
+
+
+// ========================================
+// STATUS FILTER
+// ========================================
+
+if (filterStatus) {
+
+  filterStatus.addEventListener(
+    "change",
+    () => {
+
+      loadCircles();
+
+    }
+  );
+
+}
+
+
+// ========================================
+// LOGOUT
+// ========================================
+
+window.logout =
+  async function () {
+
+    try {
+
+      await signOut(auth);
+
+      window.location.href =
+        "login.html";
+
+    } catch (error) {
+
+      console.error(
+        "Logout error:",
+        error
+      );
+
+
+      alert(
+        "Logout failed.\n\n" +
+        (error.code || "Unknown error") +
+        "\n" +
+        (error.message || error)
+      );
+
+    }
+
+  };
