@@ -159,7 +159,7 @@ districtSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-            "Select Lot"
+            "Lot No. (Optional-if known)"
         );
 
 
@@ -304,7 +304,7 @@ circleSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-            "Select Lot"
+            "Lot No. (Optional-if known)"
         );
 
 
@@ -445,7 +445,7 @@ mouzaSelect.addEventListener(
 
         resetSelect(
             lotSelect,
-            "Loading Lots..."
+             "Lot No. (Optional-if known)"
         );
 
 
@@ -459,7 +459,7 @@ mouzaSelect.addEventListener(
 
             resetSelect(
                 lotSelect,
-                "Select Lot"
+                "Lot No. (Optional-if known)"
             );
 
             return;
@@ -480,7 +480,7 @@ mouzaSelect.addEventListener(
 
             resetSelect(
                 lotSelect,
-                "Select Lot"
+                "Lot No. (Optional-if known)"
             );
 
 
@@ -583,125 +583,154 @@ lotSelect.addEventListener(
 
 
         resetSelect(
+// ========================================
+// MOUZA → VILLAGE
+// LOT IS OPTIONAL
+// ========================================
+
+async function loadVillagesByMouza(mouzaId) {
+
+    resetSelect(
+        villageSelect,
+        "Loading Villages..."
+    );
+
+
+    if (!mouzaId) {
+
+        resetSelect(
             villageSelect,
-            "Loading Villages..."
+            "Select Village"
+        );
+
+        return;
+
+    }
+
+
+    try {
+
+        const snapshot =
+            await getDocs(
+                collection(
+                    db,
+                    "villages"
+                )
+            );
+
+
+        resetSelect(
+            villageSelect,
+            "Select Village"
         );
 
 
-        if (!lotId) {
-
-            resetSelect(
-                villageSelect,
-                "Select Village"
-            );
-
-            return;
-
-        }
+        let found = 0;
 
 
-        try {
+        snapshot.forEach((item) => {
 
-            const snapshot =
-                await getDocs(
-                    collection(
-                        db,
-                        "villages"
-                    )
-                );
+            const data =
+                item.data();
 
 
-            resetSelect(
-                villageSelect,
-                "Select Village"
-            );
+            const dataMouza =
+                String(
+                    data.mouzaId || ""
+                )
+                .trim()
+                .toLowerCase();
 
 
-            let found = 0;
+            const selectedMouza =
+                String(
+                    mouzaId
+                )
+                .trim()
+                .toLowerCase();
 
 
-            snapshot.forEach((item) => {
+            if (
+                dataMouza ===
+                selectedMouza &&
+                data.status === "active"
+            ) {
 
-                const data =
-                    item.data();
-
-
-                const dataLot =
-                    String(
-                        data.lotId || ""
-                    )
-                    .trim()
-                    .toLowerCase();
-
-
-                const selectedLot =
-                    String(
-                        lotId
-                    )
-                    .trim()
-                    .toLowerCase();
-
-
-                if (
-                    dataLot ===
-                    selectedLot &&
-                    data.status === "active"
-                ) {
-
-                    const option =
-                        document.createElement(
-                            "option"
-                        );
-
-
-                    option.value =
-                        item.id;
-
-
-                    option.textContent =
-                        data.name || item.id;
-
-
-                    villageSelect.appendChild(
-                        option
+                const option =
+                    document.createElement(
+                        "option"
                     );
 
 
-                    found++;
-
-                }
-
-            });
+                option.value =
+                    item.id;
 
 
-            if (found === 0) {
+                option.textContent =
+                    data.name || item.id;
 
-                resetSelect(
-                    villageSelect,
-                    "No Village Found"
+
+                villageSelect.appendChild(
+                    option
                 );
+
+
+                found++;
 
             }
 
+        });
 
-        } catch (error) {
 
-            console.error(
-                "Village loading error:",
-                error
-            );
-
+        if (found === 0) {
 
             resetSelect(
                 villageSelect,
-                "Error loading Village"
+                "No Village Found"
             );
 
         }
 
+
+    } catch (error) {
+
+        console.error(
+            "Village loading error:",
+            error
+        );
+
+
+        resetSelect(
+            villageSelect,
+            "Error loading Village"
+        );
+
+    }
+
+}
+
+
+// ========================================
+// MOUZA CHANGE
+// ========================================
+
+mouzaSelect.addEventListener(
+    "change",
+    async () => {
+
+        const mouzaId =
+            mouzaSelect.value;
+
+
+        // Load villages directly from Mouza.
+        // Lot is optional.
+
+        await loadVillagesByMouza(
+            mouzaId
+        );
+
     }
 );
-
 
 // ========================================
 // INITIAL LOAD
