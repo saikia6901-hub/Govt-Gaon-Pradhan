@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Apply for Certificate | Gaon Pradhan Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/applicant-dashboard.css"
+    >
+
+    <style>
+
+        /* =====================================
+           APPLICATION PAGE
+        ===================================== */
+
+        .application-page {
+
+            width: min(1050px, 94%);
+
+            margin: 0 auto;
+
+            padding: 30px 0 60px;
+
+        }
+
+
+        .application-hero {
+
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 30px;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #063d25,
+                    #046a38
+                );
+
+            color: #ffffff;
+
+            box-shadow:
+                0 15px 40px
+                rgba(3,44,27,0.12);
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .application-hero h1 {
+
+            font-size: 28px;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .application-hero p {
+
+            color:
+                rgba(255,255,255,0.72);
+
+            font-size: 13px;
+
+        }
+
+
+        .application-number-label {
+
+            margin-top: 18px;
+
+            display: inline-block;
+
+            padding: 7px 12px;
+
+            border-radius: 20px;
+
+            background:
+                rgba(255,255,255,0.10);
+
+            color:
+                #f1c75b;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+        }
+
+
+        .application-card {
+
+            background: #ffffff;
+
+            border: 1px solid #e3e9e5;
+
+            border-radius: 16px;
+
+            padding: 25px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 5px 20px
+                rgba(3,44,27,0.05);
+
+        }
+
+
+        .application-section-title {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 20px;
+
+            padding-bottom: 13px;
+
+            border-bottom:
+                1px solid #e8eeea;
+
+        }
+
+
+        .application-section-icon {
+
+            width: 40px;
+
+            height: 40px;
+
+            display: grid;
+
+            place-items: center;
+
+            border-radius: 10px;
+
+            background: #eaf6ef;
+
+            font-size: 18px;
+
+        }
+
+
+        .application-section-title h2 {
+
+            font-size: 17px;
+
+            color: #172b22;
+
+        }
+
+
+        .application-section-title p {
+
+            font-size: 10px;
+
+            color: #66756e;
+
+        }
+
+
+        .form-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(2, 1fr);
+
+            gap: 17px;
+
+        }
+
+
+        .form-group {
+
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 6px;
+
+        }
+
+
+        .form-group.full {
+
+            grid-column: 1 / -1;
+
+        }
+
+
+        .form-group label {
+
+            font-size: 11px;
+
+            font-weight: 800;
+
+            color: #34463e;
+
+        }
+
+
+        .required {
+
+            color: #c0392b;
+
+        }
+
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+
+            width: 100%;
+
+            border: 1px solid #dfe7e2;
+
+            background: #fbfdfc;
+
+            border-radius: 9px;
+
+            padding: 12px 13px;
+
+            outline: none;
+
+            color: #172b22;
+
+            font-size: 12px;
+
+            transition: 0.2s ease;
+
+        }
+
+
+        .form-group textarea {
+
+            min-height: 100px;
+
+            resize: vertical;
+
+        }
+
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+
+            border-color: #046a38;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(4,106,56,0.08);
+
+        }
+
+
+        .readonly-field {
+
+            background:
+                #f1f5f3 !important;
+
+            color:
+                #66756e !important;
+
+            cursor:
+                not-allowed;
+
+        }
+
+
+        .location-note {
+
+            padding: 11px 13px;
+
+            margin-bottom: 18px;
+
+            border-left:
+                3px solid #046a38;
+
+            background:
+                #f3faf6;
+
+            color:
+                #52645c;
+
+            border-radius: 6px;
+
+            font-size: 11px;
+
+        }
+
+
+        .application-footer {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 15px;
+
+            padding: 18px 0 0;
+
+        }
+
+
+        .form-message {
+
+            font-size: 11px;
+
+            color: #66756e;
+
+        }
+
+
+        .submit-button {
+
+            border: 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #046a38,
+                    #063d25
+                );
+
+            color: #ffffff;
+
+            border-radius: 9px;
+
+            padding: 13px 24px;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: 0.25s ease;
+
+            box-shadow:
+                0 7px 18px
+                rgba(4,106,56,0.18);
+
+        }
+
+
+        .submit-button:hover {
+
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 12px 25px
+                rgba(4,106,56,0.25);
+
+        }
+
+
+        .submit-button:disabled {
+
+            opacity: 0.6;
+
+            cursor: not-allowed;
+
+            transform: none;
+
+        }
+
+
+        .back-button {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-bottom: 15px;
+
+            color: #046a38;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+        }
+
+
+        .security-note {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            background: #f8faf9;
+
+            border: 1px solid #e7ece9;
+
+            border-radius: 9px;
+
+            color: #66756e;
+
+            font-size: 10px;
+
+        }
+
+
+        /* =====================================
+           MOBILE
+        ===================================== */
+
+        @media (max-width: 650px) {
+
+            .application-page {
+
+                width: 94%;
+
+                padding-top: 18px;
+
+            }
+
+
+            .application-hero {
+
+                padding: 24px 20px;
+
+            }
+
+
+            .application-hero h1 {
+
+                font-size: 23px;
+
+            }
+
+
+            .application-card {
+
+                padding: 19px;
+
+            }
+
+
+            .form-grid {
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .form-group.full {
+
+                grid-column: auto;
+
+            }
+
+
+            .application-footer {
+
+                align-items: stretch;
+
+                flex-direction: column;
+
+            }
+
+
+            .submit-button {
+
+                width: 100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================
+     HEADER
+===================================== -->
+
+<header class="dashboard-header">
+
+    <div class="mobile-brand">
+
+        <img
+            src="assets/logo.png"
+            alt="Gaon Pradhan Logo"
+        >
+
+        <div>
+
+            <strong>
+                Gaon Pradhan
+            </strong>
+
+            <small>
+                Certificate Portal
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="user-mini">
+
+            <div class="user-avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong id="headerApplicantName">
+                    Applicant
+                </strong>
+
+                <small>
+                    Applicant Account
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main class="application-page">
+
+
+    <a
+        href="applicant-dashboard.html"
+        class="back-button"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+
+    <!-- =================================
+         HERO
+    ================================== -->
+
+    <section class="application-hero">
+
+        <h1>
+            Apply for Certificate
+        </h1>
+
+        <p>
+            Submit your certificate application
+            through the Gaon Pradhan Certificate Portal.
+        </p>
+
+        <span class="application-number-label">
+            🛡 Secure Applicant Service
+        </span>
+
+    </section>
+
+
+
+    <!-- =================================
+         APPLICATION FORM
+    ================================== -->
+
+    <form id="applicationForm">
+
+
+        <!-- ===============================
+             CERTIFICATE DETAILS
+        ================================ -->
+
+        <section class="application-card">
+
+            <div class="application-section-title">
+
+                <div class="application-section-icon">
+                    📄
+                </div>
+
+                <div>
+
+                    <h2>
+                        Certificate Details
+                    </h2>
+
+                    <p>
+                        Select the certificate you want to apply for.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Certificate Type
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="certificateType"
+                        required
+                    >
+
+                        <option value="">
+                            Select Certificate Type
+                        </option>
+
+                        <option value="Income Certificate">
+                            Income Certificate
+                        </option>
+
+                        <option value="Unmarried Certificate">
+                            Unmarried Certificate
+                        </option>
+
+                        <option value="Residence Certificate">
+                            Residence Certificate
+                        </option>
+
+                        <option value="Character Certificate">
+                            Character Certificate
+                        </option>
+
+                        <option value="Other Certificate">
+                            Other Certificate
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===============================
+             APPLICANT INFORMATION
+        ================================ -->
+
+        <section class="application-card">
+
+            <div class="application-section-title">
+
+                <div class="application-section-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h2>
+                        Applicant Information
+                    </h2>
+
+                    <p>
+                        Information from your profile.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="applicantName"
+                        class="readonly-field"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Father's Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="fatherName"
+                        class="readonly-field"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mother's Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="motherName"
+                        class="readonly-field"
+                        readonly
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mobile Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="mobile"
+                        class="readonly-field"
+                        readonly
+                    >
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===============================
+             LOCATION
+        ================================ -->
+
+        <section class="application-card">
+
+            <div class="application-section-title">
+
+                <div class="application-section-icon">
+                    📍
+                </div>
+
+                <div>
+
+                    <h2>
+                        Certificate Location
+                    </h2>
+
+                    <p>
+                        Select the location for this application.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="location-note">
+
+                ℹ️ You can select a different location
+                for each certificate application.
+
+            </div>
+
+
+            <div class="form-grid">
+
+
+                <div class="form-group">
+
+                    <label>
+                        District
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="districtSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select District
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Revenue Circle
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="circleSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select Revenue Circle
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Mouza
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="mouzaSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select Mouza
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Lot
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="lotSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select Lot
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group full">
+
+                    <label>
+                        Village
+                        <span class="required">*</span>
+                    </label>
+
+                    <select
+                        id="villageSelect"
+                        required
+                    >
+
+                        <option value="">
+                            Select Village
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===============================
+             PURPOSE
+        ================================ -->
+
+        <section class="application-card">
+
+            <div class="application-section-title">
+
+                <div class="application-section-icon">
+                    📝
+                </div>
+
+                <div>
+
+                    <h2>
+                        Application Purpose
+                    </h2>
+
+                    <p>
+                        Tell us why you need this certificate.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="form-grid">
+
+                <div class="form-group full">
+
+                    <label>
+                        Purpose
+                        <span class="required">*</span>
+                    </label>
+
+                    <textarea
+                        id="purpose"
+                        placeholder="Enter the purpose of applying for this certificate..."
+                        required
+                    ></textarea>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ===============================
+             SECURITY
+        ================================ -->
+
+        <section class="application-card">
+
+            <div class="security-note">
+
+                🔐
+
+                <span>
+                    Your application will be securely
+                    submitted to the Gaon Pradhan Portal.
+                    Please verify all information before
+                    submitting.
+                </span>
+
+            </div>
+
+
+            <div class="application-footer">
+
+                <div
+                    id="applicationMessage"
+                    class="form-message"
+                >
+                    Please complete all required fields.
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="submitApplication"
+                    class="submit-button"
+                >
+                    Submit Application →
+                </button>
+
+            </div>
+
+        </section>
+
+
+    </form>
+
+
+</main>
+
+
+
+<script
+    type="module"
+    src="js/applicant-application.js"
+></script>
+
+
+</body>
+
+  </html>
