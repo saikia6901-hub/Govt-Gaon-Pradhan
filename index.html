@@ -1,46 +1,734 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="as">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gaon Pradhan Certificate Portal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link rel="stylesheet" href="css/style.css">
+    <title>Gaon Pradhan Certificate Portal | Government of Assam</title>
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/home.css">
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Assamese:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header class="header">
-    <img src="assets/logo.png" class="logo">
+<!-- ================= TOP BAR ================= -->
 
-    <div>
-        <h1>Gaon Pradhan Certificate Portal</h1>
-        <p>Digital Certificate Management System</p>
+<div class="top-bar">
+    <div class="container top-content">
+
+        <div>
+            Government of Assam
+        </div>
+
+        <div class="top-links">
+            <span>অসমীয়া</span>
+            <span>|</span>
+            <span>English</span>
+            <span>|</span>
+            <span>Accessibility</span>
+        </div>
+
     </div>
+</div>
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="main-header">
+
+    <div class="container header-content">
+
+        <a href="index.html" class="brand">
+
+            <img src="assets/logo.png" alt="Gaon Pradhan Logo">
+
+            <div class="brand-text">
+                <h1>গাঁও প্ৰধান</h1>
+                <p>Certificate Service Portal</p>
+            </div>
+
+        </a>
+
+
+        <nav class="desktop-nav">
+
+            <a href="index.html">Home</a>
+
+            <a href="#services">Services</a>
+
+            <a href="#track">Track Application</a>
+
+            <a href="#notices">Notices</a>
+
+            <a href="#contact">Contact</a>
+
+        </nav>
+
+
+        <div class="header-actions">
+
+            <a href="official-login.html" class="official-btn">
+                Official Login
+            </a>
+
+            <button class="menu-btn" id="menuBtn">
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
 </header>
+
+
+<!-- ================= MOBILE MENU ================= -->
+
+<div class="mobile-menu" id="mobileMenu">
+
+    <a href="index.html">Home</a>
+
+    <a href="#services">Services</a>
+
+    <a href="#track">Track Application</a>
+
+    <a href="#notices">Notices</a>
+
+    <a href="#contact">Contact</a>
+
+    <hr>
+
+    <a href="login.html">Applicant Login</a>
+
+    <a href="registration.html">Applicant Registration</a>
+
+    <a href="official-login.html">Official Login</a>
+
+</div>
+
+
+<!-- ================= NOTICE TICKER ================= -->
+
+<div class="notice-bar">
+
+    <div class="notice-label">
+        🔔 Latest Notice
+    </div>
+
+    <div class="notice-scroll">
+
+        <div class="notice-track">
+
+            <span>
+                নতুন অনলাইন প্ৰমাণ-পত্ৰ সেৱা উপলব্ধ।
+            </span>
+
+            <span>
+                আবেদন কৰাৰ পিছত Application Reference Number সংৰক্ষণ কৰি ৰাখক।
+            </span>
+
+            <span>
+                QR Code ব্যৱহাৰ কৰি Certificate Verification কৰিব পাৰিব।
+            </span>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= HERO ================= -->
 
 <section class="hero">
 
-<h2>Welcome</h2>
+    <div class="hero-overlay"></div>
 
-<p>
-Issue Official Certificates Digitally with
-Secure Record Management.
-</p>
+    <div class="container hero-content">
 
-<a href="login.html" class="btn">
-Login
-</a>
+        <div class="hero-text">
+
+            <span class="hero-badge">
+                Digital Government Service
+            </span>
+
+            <h2>
+                গাঁওবাসীৰ কাষত
+                <strong>ডিজিটেল সেৱা</strong>
+            </h2>
+
+            <p>
+                গাঁও প্ৰধানৰ কাৰ্যালয়ৰ বিভিন্ন প্ৰমাণ-পত্ৰৰ বাবে
+                অনলাইন আবেদন কৰক, আবেদনৰ স্থিতি পৰীক্ষা কৰক আৰু
+                অনুমোদিত প্ৰমাণ-পত্ৰ সহজে লাভ কৰক।
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="registration.html" class="primary-btn">
+                    📝 Apply Online
+                </a>
+
+                <a href="#track" class="secondary-btn">
+                    🔍 Track Application
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="slider-dots">
+
+        <span class="active"></span>
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </div>
 
 </section>
 
-<footer>
 
-© 2026 Office of the Gaon Pradhan
+<!-- ================= SERVICES ================= -->
+
+<section class="section" id="services">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>OUR SERVICES</span>
+
+            <h2>
+                Online Certificate Services
+            </h2>
+
+            <p>
+                প্ৰয়োজনীয় প্ৰমাণ-পত্ৰৰ বাবে সহজে অনলাইন আবেদন কৰক।
+            </p>
+
+        </div>
+
+
+        <div class="services-grid">
+
+            <div class="service-card">
+
+                <div class="service-icon">👶</div>
+
+                <h3>Birth Certificate</h3>
+
+                <p>
+                    জন্ম সম্পৰ্কীয় প্ৰমাণ-পত্ৰৰ বাবে আবেদন কৰক।
+                </p>
+
+                <a href="apply.html">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">💍</div>
+
+                <h3>Unmarried Certificate</h3>
+
+                <p>
+                    অবিবাহিত প্ৰমাণ-পত্ৰৰ বাবে অনলাইন আবেদন।
+                </p>
+
+                <a href="apply.html">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">🏠</div>
+
+                <h3>Residence Certificate</h3>
+
+                <p>
+                    বাসস্থান সম্পৰ্কীয় প্ৰমাণ-পত্ৰ।
+                </p>
+
+                <a href="apply.html">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">🛡️</div>
+
+                <h3>Character Certificate</h3>
+
+                <p>
+                    চৰিত্ৰ প্ৰমাণ-পত্ৰৰ বাবে আবেদন কৰক।
+                </p>
+
+                <a href="apply.html">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">👨‍👩‍👧</div>
+
+                <h3>Family Certificate</h3>
+
+                <p>
+                    পৰিয়ালিক প্ৰমাণ-পত্ৰৰ বাবে আবেদন।
+                </p>
+
+                <a href="apply.html">
+                    Apply Now →
+                </a>
+
+            </div>
+
+
+            <div class="service-card">
+
+                <div class="service-icon">📄</div>
+
+                <h3>Other Certificates</h3>
+
+                <p>
+                    অন্যান্য উপলব্ধ প্ৰমাণ-পত্ৰসমূহ।
+                </p>
+
+                <a href="apply.html">
+                    View Services →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TRACK APPLICATION ================= -->
+
+<section class="track-section" id="track">
+
+    <div class="container">
+
+        <div class="track-box">
+
+            <div class="track-content">
+
+                <span>APPLICATION STATUS</span>
+
+                <h2>
+                    Track Your Application
+                </h2>
+
+                <p>
+                    আপোনাৰ Application Reference Number ব্যৱহাৰ কৰি
+                    আবেদনৰ বৰ্তমান স্থিতি পৰীক্ষা কৰক।
+                </p>
+
+            </div>
+
+
+            <form class="track-form" id="trackForm">
+
+                <label>
+                    Application Reference Number
+                </label>
+
+                <div class="track-input">
+
+                    <input
+                        type="text"
+                        id="applicationNumber"
+                        placeholder="Example: GP-2026-XXXXXXXX"
+                        required
+                    >
+
+                    <button type="submit">
+                        Track
+                    </button>
+
+                </div>
+
+                <div id="trackResult"></div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= STATISTICS ================= -->
+
+<section class="stats-section">
+
+    <div class="container">
+
+        <div class="stats-grid">
+
+            <div class="stat-item">
+                <strong class="counter" data-target="0">0</strong>
+                <span>Applications Received</span>
+            </div>
+
+            <div class="stat-item">
+                <strong class="counter" data-target="0">0</strong>
+                <span>Certificates Issued</span>
+            </div>
+
+            <div class="stat-item">
+                <strong class="counter" data-target="0">0</strong>
+                <span>Applications Under Process</span>
+            </div>
+
+            <div class="stat-item">
+                <strong>24×7</strong>
+                <span>Online Access</span>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= HOW IT WORKS ================= -->
+
+<section class="section">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>SIMPLE PROCESS</span>
+
+            <h2>
+                How It Works
+            </h2>
+
+        </div>
+
+
+        <div class="steps">
+
+            <div class="step">
+
+                <div class="step-number">01</div>
+
+                <h3>Register / Login</h3>
+
+                <p>
+                    Applicant account সৃষ্টি কৰক অথবা Login কৰক।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">02</div>
+
+                <h3>Select Certificate</h3>
+
+                <p>
+                    প্ৰয়োজনীয় Certificate Service বাছনি কৰক।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">03</div>
+
+                <h3>Submit Application</h3>
+
+                <p>
+                    প্ৰয়োজনীয় তথ্য আৰু documents জমা দিয়ক।
+                </p>
+
+            </div>
+
+
+            <div class="step">
+
+                <div class="step-number">04</div>
+
+                <h3>Track & Download</h3>
+
+                <p>
+                    Status পৰীক্ষা কৰি অনুমোদিত Certificate download কৰক।
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= NOTICES ================= -->
+
+<section class="section notice-section" id="notices">
+
+    <div class="container">
+
+        <div class="section-heading">
+
+            <span>UPDATES</span>
+
+            <h2>
+                Latest Notices
+            </h2>
+
+        </div>
+
+
+        <div class="notice-list">
+
+            <div class="notice-card">
+
+                <div class="notice-date">
+                    <strong>12</strong>
+                    <span>AUG 2026</span>
+                </div>
+
+                <div>
+
+                    <h3>
+                        Online Certificate Service Available
+                    </h3>
+
+                    <p>
+                        বিভিন্ন প্ৰমাণ-পত্ৰৰ বাবে অনলাইন আবেদন সেৱা উপলব্ধ।
+                    </p>
+
+                </div>
+
+                <a href="#">
+                    Read More →
+                </a>
+
+            </div>
+
+
+            <div class="notice-card">
+
+                <div class="notice-date">
+                    <strong>10</strong>
+                    <span>AUG 2026</span>
+                </div>
+
+                <div>
+
+                    <h3>
+                        Important Instructions for Applicants
+                    </h3>
+
+                    <p>
+                        আবেদন কৰাৰ পূৰ্বে প্ৰয়োজনীয় তথ্য আৰু documents প্ৰস্তুত কৰি লওক।
+                    </p>
+
+                </div>
+
+                <a href="#">
+                    Read More →
+                </a>
+
+            </div>
+
+
+            <div class="notice-card">
+
+                <div class="notice-date">
+                    <strong>05</strong>
+                    <span>AUG 2026</span>
+                </div>
+
+                <div>
+
+                    <h3>
+                        Certificate Verification Guidelines
+                    </h3>
+
+                    <p>
+                        QR Code ব্যৱহাৰ কৰি issued certificate verify কৰিব পাৰিব।
+                    </p>
+
+                </div>
+
+                <a href="#">
+                    Read More →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= LOGIN CTA ================= -->
+
+<section class="login-section">
+
+    <div class="container">
+
+        <div class="login-grid">
+
+            <div class="login-card applicant-card">
+
+                <div class="login-icon">👤</div>
+
+                <div>
+
+                    <h2>Applicant Portal</h2>
+
+                    <p>
+                        আপোনাৰ application, profile আৰু certificate পৰিচালনা কৰক।
+                    </p>
+
+                    <a href="login.html">
+                        Applicant Login →
+                    </a>
+
+                    <a href="registration.html" class="register-link">
+                        Create New Account
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="login-card official-card">
+
+                <div class="login-icon">🔐</div>
+
+                <div>
+
+                    <h2>Official Portal</h2>
+
+                    <p>
+                        আবেদন পৰীক্ষা, verification আৰু certificate approval পৰিচালনা কৰক।
+                    </p>
+
+                    <a href="official-login.html">
+                        Official Login →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer id="contact">
+
+    <div class="container footer-grid">
+
+        <div>
+
+            <h2>গাঁও প্ৰধান</h2>
+
+            <p>
+                Certificate Service Portal
+            </p>
+
+            <p>
+                Government of Assam
+            </p>
+
+        </div>
+
+
+        <div>
+
+            <h3>Quick Links</h3>
+
+            <a href="index.html">Home</a>
+            <a href="#services">Services</a>
+            <a href="#track">Track Application</a>
+            <a href="#notices">Notices</a>
+
+        </div>
+
+
+        <div>
+
+            <h3>Applicant</h3>
+
+            <a href="login.html">Login</a>
+            <a href="registration.html">Registration</a>
+            <a href="profile.html">My Profile</a>
+            <a href="dashboard.html">Dashboard</a>
+
+        </div>
+
+
+        <div>
+
+            <h3>Officials</h3>
+
+            <a href="official-login.html">Official Login</a>
+
+            <p>
+                Secure access for authorized officials.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        © 2026 Gaon Pradhan Certificate Portal
+        | Government of Assam
+
+    </div>
 
 </footer>
 
+
+<script src="js/home.js"></script>
+
 </body>
-</html>
+          </html>
