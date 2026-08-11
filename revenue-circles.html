@@ -276,7 +276,32 @@
     type="module"
     src="js/revenue-circles.js"
 ></script>
+<script>
+  window.addEventListener("error", function (event) {
+    alert(
+      "PAGE ERROR:\n\n" +
+      event.message +
+      "\n\n" +
+      event.filename +
+      "\nLine: " +
+      event.lineno
+    );
+  });
 
+  window.addEventListener(
+    "unhandledrejection",
+    function (event) {
+      alert(
+        "PROMISE ERROR:\n\n" +
+        (
+          event.reason?.message ||
+          event.reason ||
+          "Unknown error"
+        )
+      );
+    }
+  );
+</script>
 </body>
 
 </html>
