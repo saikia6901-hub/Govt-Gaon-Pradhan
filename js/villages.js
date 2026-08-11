@@ -1,4 +1,3 @@
-alert("VILLAGES.JS LOADED");
 import { auth, db } from "./firebase.js";
 
 import {
@@ -127,7 +126,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
     await loadDistricts();
-await loadVillages();
+    await loadVillages();
 
   } catch (error) {
 
