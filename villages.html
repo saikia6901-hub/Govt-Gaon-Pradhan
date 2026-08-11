@@ -576,17 +576,16 @@
       alert("VILLAGES.JS LOADED SUCCESSFULLY");
     })
     .catch((error) => {
-      alert(
-        "VILLAGES.JS ERROR:\n\n" +
-        error.message
-      );
+  alert(
+    "VILLAGES.JS ERROR:\n\n" +
+    error.stack
+  );
 
-      console.error(
-        "VILLAGES.JS ERROR:",
-        error
-      );
-    });
-
+  console.error(
+    "VILLAGES.JS ERROR:",
+    error
+  );
+});
 </script>
 
 
