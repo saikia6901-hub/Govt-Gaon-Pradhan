@@ -410,83 +410,157 @@ async function loadMouzas(
   includeAllOption = false
 ) {
 
-  targetSelect.innerHTML =
-    includeAllOption
-      ? `<option value="">
-          All Mouzas
-         </option>`
-      : `<option value="">
-          Select Mouza
-         </option>`;
-
-
-  if (
-    !districtId ||
-    !circleId
-  ) {
-
+  if (!targetSelect) {
+    console.error("Mouza select element not found.");
     return;
   }
 
+  // Reset dropdown
+  targetSelect.innerHTML =
+    includeAllOption
+      ? `<option value="">All Mouzas</option>`
+      : `<option value="">Select Mouza</option>`;
 
-  const mouzaQuery =
-    query(
-      collection(
-        db,
-        "mouzas"
-      ),
-      where(
-        "districtId",
-        "==",
-        districtId
-      ),
-      where(
-        "revenueCircleId",
-        "==",
-        circleId
-      ),
-      orderBy("name")
-    );
+  // Nothing selected
+  if (!districtId || !circleId) {
+    return;
+  }
 
+  try {
 
-  const snapshot =
-    await getDocs(
-      mouzaQuery
-    );
+    // Get all Mouzas first
+    // Then filter by District + Revenue Circle
+    // This avoids Firestore composite-index problems.
 
+    const mouzaSnapshot =
+      await getDocs(
+        collection(db, "mouzas")
+      );
 
-  snapshot.forEach(
-    (mouzaDoc) => {
+    let found = 0;
+
+    const mouzas = [];
+
+    mouzaSnapshot.forEach((mouzaDoc) => {
 
       const data =
         mouzaDoc.data();
 
-
+      // District must match
       if (
-        data.status !== "active"
+        data.districtId !== districtId
       ) {
-
         return;
       }
 
+      // Revenue Circle must match
+      if (
+        data.revenueCircleId !== circleId
+      ) {
+        return;
+      }
 
-      const option =
-        document.createElement(
-          "option"
+      // Only active Mouzas
+      if (
+        data.status !== "active"
+      ) {
+        return;
+      }
+
+      mouzas.push({
+        id: mouzaDoc.id,
+        name: data.name || ""
+      });
+
+    });
+
+
+    // Sort by Mouza name
+    mouzas.sort(
+      (a, b) =>
+        a.name.localeCompare(
+          b.name
+        )
+    );
+
+
+    // Add options
+    mouzas.forEach(
+      (mouza) => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          mouza.id;
+
+        option.textContent =
+          mouza.name;
+
+        targetSelect.appendChild(
+          option
         );
 
-      option.value =
-        mouzaDoc.id;
+        found++;
 
-      option.textContent =
-        data.name;
+      }
+    );
 
-      targetSelect.appendChild(
-        option
+
+    if (found === 0) {
+
+      targetSelect.innerHTML =
+        includeAllOption
+          ? `<option value="">
+              No Mouzas found
+             </option>`
+          : `<option value="">
+              No Mouzas found
+             </option>`;
+
+      console.log(
+        "No active Mouzas found for:",
+        districtId,
+        circleId
       );
 
+      return;
     }
-  );
+
+
+    console.log(
+      `${found} Mouza(s) loaded successfully.`
+    );
+
+
+  } catch (error) {
+
+    console.error(
+      "Load Mouzas error:",
+      error
+    );
+
+
+    targetSelect.innerHTML =
+      includeAllOption
+        ? `<option value="">
+            Unable to load Mouzas
+           </option>`
+        : `<option value="">
+            Unable to load Mouzas
+           </option>`;
+
+
+    alert(
+      "Unable to load Mouzas.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
+  }
 
 }
 
