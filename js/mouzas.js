@@ -8,9 +8,6 @@ import {
 import {
   collection,
   getDocs,
-  query,
-  orderBy,
-  where,
   doc,
   getDoc,
   setDoc,
@@ -18,6 +15,10 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
+
+// ========================================
+// ELEMENTS
+// ========================================
 
 const mouzaForm =
   document.getElementById("mouzaForm");
@@ -54,19 +55,17 @@ const cancelMouzaEditBtn =
 
 
 // ========================================
-// SUPER ADMIN CHECK
+// START
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
 
   if (!user) {
 
-    window.location.href =
-      "login.html";
+    window.location.href = "login.html";
 
     return;
   }
-
 
   try {
 
@@ -76,12 +75,9 @@ onAuthStateChanged(auth, async (user) => {
     const userSnap =
       await getDoc(userRef);
 
-
     if (!userSnap.exists()) {
 
-      alert(
-        "User profile not found."
-      );
+      alert("User profile not found.");
 
       window.location.href =
         "login.html";
@@ -89,14 +85,10 @@ onAuthStateChanged(auth, async (user) => {
       return;
     }
 
-
     const userData =
       userSnap.data();
 
-
-    if (
-      userData.role !== "super_admin"
-    ) {
+    if (userData.role !== "super_admin") {
 
       alert(
         "Access denied. Super Admin only."
@@ -109,25 +101,43 @@ onAuthStateChanged(auth, async (user) => {
     }
 
 
-    document.getElementById(
-      "adminEmail"
-    ).textContent =
-      "Logged in as: " + user.email;
+    // ====================================
+    // SHOW ADMIN EMAIL
+    // ====================================
 
+    const adminEmail =
+      document.getElementById("adminEmail");
+
+    if (adminEmail) {
+
+      adminEmail.textContent =
+        "Logged in as: " +
+        (user.email || "Administrator");
+
+    }
+
+
+    // ====================================
+    // INITIAL LOAD
+    // ====================================
 
     await loadDistricts();
 
     await loadMouzas();
 
+
   } catch (error) {
 
     console.error(
-      "Authentication error:",
+      "Mouza page authentication error:",
       error
     );
 
     alert(
-      "Unable to verify administrator."
+      "Unable to load Mouza Management.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
     );
 
   }
@@ -141,73 +151,163 @@ onAuthStateChanged(auth, async (user) => {
 
 async function loadDistricts() {
 
+  if (!districtSelect) {
+    return;
+  }
+
+
   districtSelect.innerHTML =
     `<option value="">
       Select District
     </option>`;
 
 
-  filterDistrict.innerHTML =
-    `<option value="">
-      All Districts
-    </option>`;
+  if (filterDistrict) {
+
+    filterDistrict.innerHTML =
+      `<option value="">
+        All Districts
+      </option>`;
+
+  }
 
 
-  const districtQuery =
-    query(
-      collection(db, "districts"),
-      orderBy("name")
+  try {
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "districts"
+        )
+      );
+
+
+    const districts = [];
+
+
+    snapshot.forEach(
+      (districtDoc) => {
+
+        const data =
+          districtDoc.data();
+
+
+        if (
+          data.status &&
+          data.status !== "active"
+        ) {
+
+          return;
+        }
+
+
+        districts.push({
+
+          id:
+            districtDoc.id,
+
+          name:
+            data.name || ""
+
+        });
+
+      }
     );
 
 
-  const snapshot =
-    await getDocs(districtQuery);
-
-
-  snapshot.forEach((districtDoc) => {
-
-    const data =
-      districtDoc.data();
-
-
-    // Add form dropdown
-
-    const option =
-      document.createElement("option");
-
-    option.value =
-      districtDoc.id;
-
-    option.textContent =
-      data.name;
-
-    districtSelect.appendChild(
-      option
+    // Sort in browser.
+    districts.sort(
+      (a, b) =>
+        a.name.localeCompare(
+          b.name
+        )
     );
 
 
-    // Add filter dropdown
+    districts.forEach(
+      (district) => {
 
-    const filterOption =
-      document.createElement("option");
 
-    filterOption.value =
-      districtDoc.id;
+        // ==============================
+        // FORM DISTRICT
+        // ==============================
 
-    filterOption.textContent =
-      data.name;
+        const option =
+          document.createElement(
+            "option"
+          );
 
-    filterDistrict.appendChild(
-      filterOption
+        option.value =
+          district.id;
+
+        option.textContent =
+          district.name;
+
+        districtSelect.appendChild(
+          option
+        );
+
+
+        // ==============================
+        // FILTER DISTRICT
+        // ==============================
+
+        if (filterDistrict) {
+
+          const filterOption =
+            document.createElement(
+              "option"
+            );
+
+          filterOption.value =
+            district.id;
+
+          filterOption.textContent =
+            district.name;
+
+          filterDistrict.appendChild(
+            filterOption
+          );
+
+        }
+
+      }
     );
 
-  });
+
+  } catch (error) {
+
+    console.error(
+      "Load districts error:",
+      error
+    );
+
+
+    districtSelect.innerHTML =
+      `<option value="">
+        Unable to load districts
+      </option>`;
+
+
+    alert(
+      "Unable to load Districts.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
+  }
 
 }
 
 
 // ========================================
-// LOAD REVENUE CIRCLES FOR DISTRICT
+// LOAD REVENUE CIRCLES
+// ========================================
+// IMPORTANT:
+// No where + orderBy query.
+// This avoids Firestore composite-index problem.
 // ========================================
 
 async function loadRevenueCircles(
@@ -216,73 +316,169 @@ async function loadRevenueCircles(
   includeAllOption = false
 ) {
 
+  if (!targetSelect) {
+    return;
+  }
+
+
   targetSelect.innerHTML =
     includeAllOption
       ? `<option value="">
           All Revenue Circles
-         </option>`
+        </option>`
       : `<option value="">
           Select Revenue Circle
-         </option>`;
+        </option>`;
 
 
   if (!districtId) {
 
     return;
-
   }
 
 
-  const circleQuery =
-    query(
-      collection(
-        db,
-        "revenueCircles"
-      ),
-      where(
-        "districtId",
-        "==",
-        districtId
-      ),
-      orderBy("name")
+  try {
+
+    // ====================================
+    // GET ALL CIRCLES
+    // ====================================
+
+    const snapshot =
+      await getDocs(
+        collection(
+          db,
+          "revenueCircles"
+        )
+      );
+
+
+    const circles = [];
+
+
+    snapshot.forEach(
+      (circleDoc) => {
+
+        const data =
+          circleDoc.data();
+
+
+        // District relationship
+        if (
+          data.districtId !==
+          districtId
+        ) {
+
+          return;
+        }
+
+
+        // Only active circles
+        if (
+          data.status &&
+          data.status !== "active"
+        ) {
+
+          return;
+        }
+
+
+        circles.push({
+
+          id:
+            circleDoc.id,
+
+          name:
+            data.name || "",
+
+          districtId:
+            data.districtId
+
+        });
+
+      }
     );
 
 
-  const snapshot =
-    await getDocs(circleQuery);
+    // ====================================
+    // SORT BY NAME
+    // ====================================
+
+    circles.sort(
+      (a, b) =>
+        a.name.localeCompare(
+          b.name
+        )
+    );
 
 
-  snapshot.forEach((circleDoc) => {
+    // ====================================
+    // ADD OPTIONS
+    // ====================================
 
-    const data =
-      circleDoc.data();
+    circles.forEach(
+      (circle) => {
+
+        const option =
+          document.createElement(
+            "option"
+          );
+
+        option.value =
+          circle.id;
+
+        option.textContent =
+          circle.name;
+
+        targetSelect.appendChild(
+          option
+        );
+
+      }
+    );
 
 
-    // Only active circles
+    // ====================================
+    // NO CIRCLE FOUND
+    // ====================================
 
     if (
-      data.status !== "active"
+      circles.length === 0
     ) {
 
-      return;
+      targetSelect.innerHTML =
+        includeAllOption
+          ? `<option value="">
+              No Revenue Circles
+            </option>`
+          : `<option value="">
+              No Revenue Circles found
+            </option>`;
 
     }
 
 
-    const option =
-      document.createElement("option");
+  } catch (error) {
 
-    option.value =
-      circleDoc.id;
-
-    option.textContent =
-      data.name;
-
-    targetSelect.appendChild(
-      option
+    console.error(
+      "Load Revenue Circles error:",
+      error
     );
 
-  });
+
+    targetSelect.innerHTML =
+      `<option value="">
+        Unable to load Revenue Circles
+      </option>`;
+
+
+    alert(
+      "Unable to load Revenue Circles.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
+  }
 
 }
 
@@ -291,268 +487,308 @@ async function loadRevenueCircles(
 // DISTRICT → REVENUE CIRCLE
 // ========================================
 
-districtSelect.addEventListener(
-  "change",
-  async () => {
+if (districtSelect) {
 
-    await loadRevenueCircles(
-      districtSelect.value,
-      circleSelect,
-      false
-    );
+  districtSelect.addEventListener(
+    "change",
+    async () => {
 
-  }
-);
+      const districtId =
+        districtSelect.value;
+
+
+      await loadRevenueCircles(
+        districtId,
+        circleSelect,
+        false
+      );
+
+    }
+  );
+
+}
 
 
 // ========================================
 // ADD MOUZA
 // ========================================
 
-mouzaForm.addEventListener(
-  "submit",
-  async (event) => {
+if (mouzaForm) {
 
-    event.preventDefault();
+  mouzaForm.addEventListener(
+    "submit",
+    async (event) => {
 
-
-    const districtId =
-      districtSelect.value;
+      event.preventDefault();
 
 
-    const circleId =
-      circleSelect.value;
+      const districtId =
+        districtSelect.value;
 
 
-    const mouzaName =
-      document
-        .getElementById("mouzaName")
-        .value
-        .trim();
+      const circleId =
+        circleSelect.value;
 
 
-    const status =
-      document
-        .getElementById("mouzaStatus")
-        .value;
+      const mouzaName =
+        document
+          .getElementById(
+            "mouzaName"
+          )
+          .value
+          .trim();
 
 
-    if (!districtId) {
-
-      alert(
-        "Please select District."
-      );
-
-      return;
-
-    }
+      const status =
+        document
+          .getElementById(
+            "mouzaStatus"
+          )
+          .value;
 
 
-    if (!circleId) {
+      // ==================================
+      // VALIDATION
+      // ==================================
 
-      alert(
-        "Please select Revenue Circle."
-      );
-
-      return;
-
-    }
-
-
-    if (!mouzaName) {
-
-      alert(
-        "Please enter Mouza Name."
-      );
-
-      return;
-
-    }
-
-
-    try {
-
-      const districtRef =
-        doc(
-          db,
-          "districts",
-          districtId
-        );
-
-
-      const circleRef =
-        doc(
-          db,
-          "revenueCircles",
-          circleId
-        );
-
-
-      const [
-        districtSnap,
-        circleSnap
-      ] =
-        await Promise.all([
-          getDoc(districtRef),
-          getDoc(circleRef)
-        ]);
-
-
-      if (
-        !districtSnap.exists()
-      ) {
+      if (!districtId) {
 
         alert(
-          "District not found."
+          "Please select District."
         );
 
         return;
-
       }
 
 
-      if (
-        !circleSnap.exists()
-      ) {
+      if (!circleId) {
 
         alert(
-          "Revenue Circle not found."
+          "Please select Revenue Circle."
         );
 
         return;
-
       }
 
 
-      const districtData =
-        districtSnap.data();
-
-
-      const circleData =
-        circleSnap.data();
-
-
-      // Security relationship check
-
-      if (
-        circleData.districtId !==
-        districtId
-      ) {
+      if (!mouzaName) {
 
         alert(
-          "Selected Revenue Circle does not belong to this District."
+          "Please enter Mouza Name."
         );
 
         return;
-
       }
 
 
-      const mouzaId =
-        `${districtId}__${circleId}__${createId(mouzaName)}`;
+      try {
+
+        // ==================================
+        // GET DISTRICT
+        // ==================================
+
+        const districtSnap =
+          await getDoc(
+            doc(
+              db,
+              "districts",
+              districtId
+            )
+          );
 
 
-      const mouzaRef =
-        doc(
-          db,
-          "mouzas",
-          mouzaId
-        );
+        // ==================================
+        // GET CIRCLE
+        // ==================================
+
+        const circleSnap =
+          await getDoc(
+            doc(
+              db,
+              "revenueCircles",
+              circleId
+            )
+          );
 
 
-      const existing =
-        await getDoc(mouzaRef);
+        if (
+          !districtSnap.exists()
+        ) {
 
+          alert(
+            "Selected District does not exist."
+          );
 
-      if (
-        existing.exists()
-      ) {
-
-        alert(
-          "This Mouza already exists under the selected Revenue Circle."
-        );
-
-        return;
-
-      }
-
-
-      await setDoc(
-        mouzaRef,
-        {
-
-          mouzaId:
-            mouzaId,
-
-          name:
-            mouzaName,
-
-          districtId:
-            districtId,
-
-          districtName:
-            districtData.name,
-
-          revenueCircleId:
-            circleId,
-
-          revenueCircleName:
-            circleData.name,
-
-          state:
-            "Assam",
-
-          status:
-            status,
-
-          createdAt:
-            serverTimestamp(),
-
-          updatedAt:
-            serverTimestamp(),
-
-          createdBy:
-            auth.currentUser.uid,
-
-          updatedBy:
-            auth.currentUser.uid
-
+          return;
         }
-      );
 
 
-      alert(
-        "Mouza added successfully."
-      );
+        if (
+          !circleSnap.exists()
+        ) {
+
+          alert(
+            "Selected Revenue Circle does not exist."
+          );
+
+          return;
+        }
 
 
-      mouzaForm.reset();
-
-      circleSelect.innerHTML =
-        `<option value="">
-          Select Revenue Circle
-         </option>`;
+        const districtData =
+          districtSnap.data();
 
 
-      await loadMouzas();
+        const circleData =
+          circleSnap.data();
 
+
+        // ==================================
+        // SECURITY RELATIONSHIP CHECK
+        // ==================================
+
+        if (
+          circleData.districtId !==
+          districtId
+        ) {
+
+          alert(
+            "Selected Revenue Circle does not belong to this District."
+          );
+
+          return;
+        }
+
+
+        // ==================================
+        // CREATE STABLE MOUZA ID
+        // ==================================
+
+        const mouzaId =
+          `${districtId}__${circleId}__${createId(
+            mouzaName
+          )}`;
+
+
+        const mouzaRef =
+          doc(
+            db,
+            "mouzas",
+            mouzaId
+          );
+
+
+        // ==================================
+        // DUPLICATE CHECK
+        // ==================================
+
+        const existing =
+          await getDoc(
+            mouzaRef
+          );
+
+
+        if (
+          existing.exists()
+        ) {
+
+          alert(
+            "This Mouza already exists under the selected Revenue Circle."
+          );
+
+          return;
+        }
+
+
+        // ==================================
+        // SAVE
+        // ==================================
+
+        await setDoc(
+          mouzaRef,
+          {
+
+            mouzaId:
+              mouzaId,
+
+            name:
+              mouzaName,
+
+            districtId:
+              districtId,
+
+            districtName:
+              districtData.name || "",
+
+            revenueCircleId:
+              circleId,
+
+            revenueCircleName:
+              circleData.name || "",
+
+            state:
+              "Assam",
+
+            status:
+              status,
+
+            createdAt:
+              serverTimestamp(),
+
+            updatedAt:
+              serverTimestamp(),
+
+            createdBy:
+              auth.currentUser.uid,
+
+            updatedBy:
+              auth.currentUser.uid
+
+          }
+        );
+
+
+        alert(
+          "Mouza added successfully."
+        );
+
+
+        // ==================================
+        // RESET FORM
+        // ==================================
+
+        mouzaForm.reset();
+
+
+        circleSelect.innerHTML =
+          `<option value="">
+            Select Revenue Circle
+          </option>`;
+
+
+        await loadMouzas();
 
     } catch (error) {
 
-      console.error(
-        "Add Mouza error:",
-        error
-      );
+        console.error(
+          "Add Mouza error:",
+          error
+        );
 
 
-      alert(
-        "Unable to add Mouza."
-      );
+        alert(
+          "Unable to add Mouza.\n\n" +
+          (error.code || "Unknown error") +
+          "\n\n" +
+          (error.message || error)
+        );
+
+      }
 
     }
+  );
 
-  }
-);
+}
 
 
 // ========================================
@@ -561,57 +797,67 @@ mouzaForm.addEventListener(
 
 async function loadMouzas() {
 
+  if (!mouzaList) {
+    return;
+  }
+
+
   mouzaList.innerHTML =
     "<p>Loading Mouzas...</p>";
 
 
   try {
 
-    const mouzaQuery =
-      query(
+    // No orderBy here.
+    // Sort locally to avoid index issues.
+
+    const snapshot =
+      await getDocs(
         collection(
           db,
           "mouzas"
-        ),
-        orderBy("name")
+        )
       );
 
 
-    const snapshot =
-      await getDocs(mouzaQuery);
-
-
-    if (snapshot.empty) {
+    if (
+      snapshot.empty
+    ) {
 
       mouzaList.innerHTML =
         "<p>No Mouzas added yet.</p>";
 
       return;
-
     }
 
 
     const selectedDistrict =
-      filterDistrict.value;
+      filterDistrict
+        ? filterDistrict.value
+        : "";
 
 
     const selectedCircle =
-      filterCircle.value;
+      filterCircle
+        ? filterCircle.value
+        : "";
 
 
     const selectedStatus =
-      filterStatus.value;
+      filterStatus
+        ? filterStatus.value
+        : "";
 
 
     const searchText =
-      searchMouza.value
-        .trim()
-        .toLowerCase();
+      searchMouza
+        ? searchMouza.value
+            .trim()
+            .toLowerCase()
+        : "";
 
 
-    let html = "";
-
-    let visibleCount = 0;
+    const mouzas = [];
 
 
     snapshot.forEach(
@@ -635,7 +881,6 @@ async function loadMouzas() {
         ) {
 
           return;
-
         }
 
 
@@ -648,7 +893,6 @@ async function loadMouzas() {
         ) {
 
           return;
-
         }
 
 
@@ -661,11 +905,10 @@ async function loadMouzas() {
         ) {
 
           return;
-
         }
 
 
-        // Search
+        // Search filter
 
         const name =
           String(
@@ -681,11 +924,64 @@ async function loadMouzas() {
         ) {
 
           return;
-
         }
 
 
-        visibleCount++;
+        mouzas.push({
+
+          id:
+            mouzaDoc.id,
+
+          data:
+            data,
+
+          status:
+            status
+
+        });
+
+      }
+    );
+
+
+    // ====================================
+    // SORT
+    // ====================================
+
+    mouzas.sort(
+      (a, b) =>
+        String(
+          a.data.name || ""
+        ).localeCompare(
+          String(
+            b.data.name || ""
+          )
+        )
+    );
+
+
+    if (
+      mouzas.length === 0
+    ) {
+
+      mouzaList.innerHTML =
+        "<p>No matching Mouza found.</p>";
+
+      return;
+    }
+
+
+    let html = "";
+
+
+    mouzas.forEach(
+      (item) => {
+
+        const data =
+          item.data;
+
+        const status =
+          item.status;
 
 
         const action =
@@ -694,18 +990,22 @@ async function loadMouzas() {
             : "Activate";
 
 
+        const statusText =
+          status === "active"
+            ? "Active"
+            : "Inactive";
+
+
         html += `
 
           <div
             class="card"
-            style="
-              margin-bottom:15px;
-            "
+            style="margin-bottom:15px;"
           >
 
             <h3>
               ${escapeHtml(
-                data.name
+                data.name || ""
               )}
             </h3>
 
@@ -733,22 +1033,14 @@ async function loadMouzas() {
             <p>
               Status:
               <strong>
-                ${
-                  status === "active"
-                    ? "Active"
-                    : "Inactive"
-                }
+                ${statusText}
               </strong>
             </p>
 
 
             <button
               class="btn"
-              onclick="
-                editMouza(
-                  '${mouzaDoc.id}'
-                )
-              "
+              onclick="editMouza('${item.id}')"
             >
               Edit
             </button>
@@ -756,12 +1048,10 @@ async function loadMouzas() {
 
             <button
               class="btn"
-              onclick="
-                toggleMouzaStatus(
-                  '${mouzaDoc.id}',
-                  '${status}'
-                )
-              "
+              onclick="toggleMouzaStatus(
+                '${item.id}',
+                '${status}'
+              )"
             >
               ${action}
             </button>
@@ -772,18 +1062,6 @@ async function loadMouzas() {
 
       }
     );
-
-
-    if (
-      visibleCount === 0
-    ) {
-
-      mouzaList.innerHTML =
-        "<p>No matching Mouza found.</p>";
-
-      return;
-
-    }
 
 
     mouzaList.innerHTML =
@@ -801,6 +1079,14 @@ async function loadMouzas() {
     mouzaList.innerHTML =
       "<p>Unable to load Mouzas.</p>";
 
+
+    alert(
+      "Unable to load Mouzas.\n\n" +
+      (error.code || "Unknown error") +
+      "\n\n" +
+      (error.message || error)
+    );
+
   }
 
 }
@@ -810,147 +1096,79 @@ async function loadMouzas() {
 // FILTER DISTRICT → CIRCLE
 // ========================================
 
-filterDistrict.addEventListener(
-  "change",
-  async () => {
+if (filterDistrict) {
 
-    await loadRevenueCircles(
-      filterDistrict.value,
-      filterCircle,
-      true
-    );
+  filterDistrict.addEventListener(
+    "change",
+    async () => {
 
-    await loadMouzas();
+      await loadRevenueCircles(
+        filterDistrict.value,
+        filterCircle,
+        true
+      );
 
-  }
-);
+
+      await loadMouzas();
+
+    }
+  );
+
+}
 
 
 // ========================================
 // FILTER CIRCLE
 // ========================================
 
-filterCircle.addEventListener(
-  "change",
-  () => {
+if (filterCircle) {
 
-    loadMouzas();
+  filterCircle.addEventListener(
+    "change",
+    async () => {
 
-  }
-);
+      await loadMouzas();
+
+    }
+  );
+
+}
 
 
 // ========================================
 // SEARCH
 // ========================================
 
-searchMouza.addEventListener(
-  "input",
-  () => {
+if (searchMouza) {
 
-    loadMouzas();
+  searchMouza.addEventListener(
+    "input",
+    async () => {
 
-  }
-);
+      await loadMouzas();
+
+    }
+  );
+
+}
 
 
 // ========================================
 // STATUS FILTER
 // ========================================
 
-filterStatus.addEventListener(
-  "change",
-  () => {
+if (filterStatus) {
 
-    loadMouzas();
-
-  }
-);
-
-
-// ========================================
-// ACTIVATE / DEACTIVATE
-// ========================================
-
-window.toggleMouzaStatus =
-  async function (
-    mouzaId,
-    currentStatus
-  ) {
-
-    const newStatus =
-      currentStatus === "active"
-        ? "inactive"
-        : "active";
-
-
-    const action =
-      newStatus === "active"
-        ? "activate"
-        : "deactivate";
-
-
-    if (
-      !confirm(
-        `Are you sure you want to ${action} this Mouza?`
-      )
-    ) {
-
-      return;
-
-    }
-
-
-    try {
-
-      const mouzaRef =
-        doc(
-          db,
-          "mouzas",
-          mouzaId
-        );
-
-
-      await updateDoc(
-        mouzaRef,
-        {
-
-          status:
-            newStatus,
-
-          updatedAt:
-            serverTimestamp(),
-
-          updatedBy:
-            auth.currentUser.uid
-
-        }
-      );
-
-
-      alert(
-        `Mouza ${action}d successfully.`
-      );
-
+  filterStatus.addEventListener(
+    "change",
+    async () => {
 
       await loadMouzas();
 
-
-    } catch (error) {
-
-      console.error(
-        "Status update error:",
-        error
-      );
-
-
-      alert(
-        "Unable to update Mouza."
-      );
-
     }
+  );
 
-  };
+}
 
 
 // ========================================
@@ -962,16 +1180,14 @@ window.editMouza =
 
     try {
 
-      const mouzaRef =
-        doc(
-          db,
-          "mouzas",
-          mouzaId
-        );
-
-
       const mouzaSnap =
-        await getDoc(mouzaRef);
+        await getDoc(
+          doc(
+            db,
+            "mouzas",
+            mouzaId
+          )
+        );
 
 
       if (
@@ -983,7 +1199,6 @@ window.editMouza =
         );
 
         return;
-
       }
 
 
@@ -1023,7 +1238,10 @@ window.editMouza =
 
 
       alert(
-        "Unable to open Mouza."
+        "Unable to open Mouza.\n\n" +
+        (error.code || "Unknown error") +
+        "\n\n" +
+        (error.message || error)
       );
 
     }
@@ -1035,9 +1253,7 @@ window.editMouza =
 // SAVE EDIT
 // ========================================
 
-if (
-  saveMouzaEditBtn
-) {
+if (saveMouzaEditBtn) {
 
   saveMouzaEditBtn.addEventListener(
     "click",
@@ -1065,25 +1281,18 @@ if (
 
         alert(
           "Mouza Name is required."
-        );
-
         return;
-
       }
 
 
       try {
 
-        const mouzaRef =
+        await updateDoc(
           doc(
             db,
             "mouzas",
             mouzaId
-          );
-
-
-        await updateDoc(
-          mouzaRef,
+          ),
           {
 
             name:
@@ -1123,7 +1332,10 @@ if (
 
 
         alert(
-          "Unable to update Mouza."
+          "Unable to update Mouza.\n\n" +
+          (error.code || "Unknown error") +
+          "\n\n" +
+          (error.message || error)
         );
 
       }
@@ -1138,9 +1350,7 @@ if (
 // CANCEL EDIT
 // ========================================
 
-if (
-  cancelMouzaEditBtn
-) {
+if (cancelMouzaEditBtn) {
 
   cancelMouzaEditBtn.addEventListener(
     "click",
@@ -1161,16 +1371,20 @@ if (
 
 function createId(name) {
 
-  return name
+  return String(name)
+
     .toLowerCase()
+
+    .trim()
+
     .replace(
       /[^a-z0-9]+/g,
       "-"
     )
+
     .replace(
       /^-+|-+$/g,
-      ""
-    );
+      "");
 
 }
 
