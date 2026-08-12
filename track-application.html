@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="as">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Track Application | Gaon Pradhan Certificate Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/applicant-dashboard.css"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Assamese:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================
+     HEADER
+========================================= -->
+
+<header class="dashboard-header">
+
+    <div class="mobile-brand">
+
+        <img
+            src="assets/logo.png"
+            alt="Gaon Pradhan Logo"
+        >
+
+        <div>
+
+            <strong>
+                গাঁও প্ৰধান
+            </strong>
+
+            <small>
+                Applicant Portal
+            </small>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div class="user-mini">
+
+            <div class="user-avatar">
+                👤
+            </div>
+
+            <div>
+
+                <strong id="headerApplicantName">
+                    Applicant
+                </strong>
+
+                <small>
+                    Applicant
+                </small>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================================
+     MAIN CONTENT
+========================================= -->
+
+<main class="main-content">
+
+
+    <div class="page-content">
+
+
+        <!-- =================================
+             PAGE HEADER
+        ================================== -->
+
+        <section class="welcome-section">
+
+            <div class="welcome-content">
+
+                <span class="welcome-label">
+                    APPLICATION TRACKING
+                </span>
+
+
+                <h1>
+                    Track Your Application
+                </h1>
+
+
+                <p>
+                    আপোনাৰ certificate application-ৰ
+                    বৰ্তমান status আৰু সম্পূৰ্ণ progress
+                    ইয়াত চাব পাৰিব।
+                </p>
+
+
+                <div class="welcome-actions">
+
+                    <button
+                        class="outline-action"
+                        onclick="goBackApplications()"
+                    >
+                        ← My Applications
+                    </button>
+
+
+                    <button
+                        class="primary-action"
+                        onclick="goDashboard()"
+                    >
+                        Dashboard
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div class="welcome-decoration">
+
+                <div class="decoration-circle circle-one"></div>
+
+                <div class="decoration-circle circle-two"></div>
+
+                <div class="document-illustration">
+                    🔍
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             LOADING
+        ================================== -->
+
+        <div
+            id="loadingState"
+            class="applications-card"
+        >
+
+            <div class="empty-applications">
+
+                <div class="empty-icon">
+                    ⏳
+                </div>
+
+                <h3>
+                    Loading Application...
+                </h3>
+
+                <p>
+                    Please wait while we securely
+                    load your application details.
+                </p>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =================================
+             APPLICATION DETAILS
+        ================================== -->
+
+        <section
+            id="applicationContent"
+            style="display:none;"
+        >
+
+
+            <!-- APPLICATION HEADER -->
+
+            <div class="applications-card">
+
+                <div
+                    style="
+                    display:flex;
+                    justify-content:space-between;
+                    align-items:center;
+                    gap:20px;
+                    flex-wrap:wrap;
+                    "
+                >
+
+                    <div>
+
+                        <span class="welcome-label">
+                            APPLICATION NUMBER
+                        </span>
+
+
+                        <h2
+                            id="applicationNumber"
+                            style="margin:8px 0 0;"
+                        >
+                            —
+                        </h2>
+
+                    </div>
+
+
+                    <div
+                        id="applicationStatusBadge"
+                        style="
+                        padding:10px 18px;
+                        border-radius:30px;
+                        font-weight:700;
+                        "
+                    >
+                        Pending
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- APPLICATION INFORMATION -->
+
+            <div class="applications-card">
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span>
+                            APPLICATION DETAILS
+                        </span>
+
+                        <h2>
+                            Application Information
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    style="
+                    display:grid;
+                    grid-template-columns:
+                    repeat(auto-fit,minmax(220px,1fr));
+                    gap:20px;
+                    "
+                >
+
+                    <div>
+
+                        <small>
+                            Applicant Name
+                        </small>
+
+                        <h3 id="applicantName">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Certificate Type
+                        </small>
+
+                        <h3 id="certificateType">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            District
+                        </small>
+
+                        <h3 id="district">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Revenue Circle
+                        </small>
+
+                        <h3 id="revenueCircle">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Mouza
+                        </small>
+
+                        <h3 id="mouza">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Lot
+                        </small>
+
+                        <h3 id="lot">
+                            Not Provided
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Village
+                        </small>
+
+                        <h3 id="village">
+                            —
+                        </h3>
+
+                    </div>
+
+
+                    <div>
+
+                        <small>
+                            Submitted Date
+                        </small>
+
+                        <h3 id="submittedDate">
+                            —
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- =================================
+                 STATUS TIMELINE
+            ================================== -->
+
+            <div class="applications-card">
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span>
+                            APPLICATION PROGRESS
+                        </span>
+
+                        <h2>
+                            Status Timeline
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div
+                    id="statusTimeline"
+                    style="
+                    display:flex;
+                    flex-direction:column;
+                    gap:22px;
+                    "
+                >
+
+
+                    <!-- SUBMITTED -->
+
+                    <div
+                        id="stepSubmitted"
+                        style="
+                        display:flex;
+                        align-items:flex-start;
+                        gap:15px;
+                        "
+                    >
+
+                        <div
+                            class="timeline-icon"
+                            style="
+                            width:42px;
+                            height:42px;
+                            border-radius:50%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#046A38;
+                            color:white;
+                            font-weight:bold;
+                            flex-shrink:0;
+                            "
+                        >
+                            ✓
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Application Submitted
+                            </strong>
+
+                            <p
+                                id="submittedStatusText"
+                                style="margin:5px 0;"
+                            >
+                                Your application has been
+                                successfully submitted.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- VERIFICATION -->
+
+                    <div
+                        id="stepVerification"
+                        style="
+                        display:flex;
+                        align-items:flex-start;
+                        gap:15px;
+                        "
+                    >
+
+                        <div
+                            class="timeline-icon"
+                            style="
+                            width:42px;
+                            height:42px;
+                            border-radius:50%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#e5e7eb;
+                            color:#6b7280;
+                            font-weight:bold;
+                            flex-shrink:0;
+                            "
+                        >
+                            2
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Under Verification
+                            </strong>
+
+                            <p style="margin:5px 0;">
+
+                                Application verification
+                                will be carried out by the
+                                concerned authority.
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- FINAL STATUS -->
+
+                    <div
+                        id="stepFinal"
+                        style="
+                        display:flex;
+                        align-items:flex-start;
+                        gap:15px;
+                        "
+                    >
+
+                        <div
+                            id="finalStatusIcon"
+                            class="timeline-icon"
+                            style="
+                            width:42px;
+                            height:42px;
+                            border-radius:50%;
+                            display:flex;
+                            align-items:center;
+                            justify-content:center;
+                            background:#e5e7eb;
+                            color:#6b7280;
+                            font-weight:bold;
+                            flex-shrink:0;
+                            "
+                        >
+                            3
+                        </div>
+
+
+                        <div>
+
+                            <strong id="finalStatusTitle">
+                                Final Decision
+                            </strong>
+
+                            <p
+                                id="finalStatusText"
+                                style="margin:5px 0;"
+                            >
+                                Final application decision
+                                is pending.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- PURPOSE -->
+
+            <div class="applications-card">
+
+                <div class="section-title">
+
+                    <div>
+
+                        <span>
+                            APPLICATION PURPOSE
+                        </span>
+
+                        <h2>
+                            Purpose
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <p
+                    id="purpose"
+                    style="
+                    line-height:1.7;
+                    "
+                >
+                    —
+                </p>
+
+            </div>
+
+
+
+            <br>
+
+
+
+            <!-- ACTIONS -->
+
+            <div
+                style="
+                display:flex;
+                gap:15px;
+                flex-wrap:wrap;
+                "
+            >
+
+                <button
+                    class="primary-action"
+                    onclick="goBackApplications()"
+                >
+
+                    ← My Applications
+
+                </button>
+
+
+                <button
+                    class="outline-action"
+                    onclick="goDashboard()"
+                >
+
+                    Dashboard
+
+                </button>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================
+             ERROR STATE
+        ================================== -->
+
+        <div
+            id="errorState"
+            class="applications-card"
+            style="display:none;"
+        >
+
+            <div class="empty-applications">
+
+                <div class="empty-icon">
+                    ⚠️
+                </div>
+
+
+                <h3>
+                    Application Not Found
+                </h3>
+
+
+                <p id="errorMessage">
+                    Unable to load the application.
+                </p>
+
+
+                <button
+                    class="empty-button"
+                    onclick="goBackApplications()"
+                >
+
+                    ← Back to My Applications
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- =====================================
+         FOOTER
+    ====================================== -->
+
+    <footer class="dashboard-footer">
+
+        <div>
+            © 2026 Gaon Pradhan Certificate Portal
+        </div>
+
+        <div>
+            Government of Assam
+        </div>
+
+    </footer>
+
+
+</main>
+
+
+
+<!-- =========================================
+     TRACK APPLICATION JS
+========================================= -->
+
+<script
+    type="module"
+    src="js/track-application.js"
+></script>
+
+
+</body>
+
+</html>
