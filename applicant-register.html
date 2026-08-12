@@ -10,6 +10,11 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="theme-color"
+        content="#046A38"
+    >
+
     <title>
         Applicant Registration | Gaon Pradhan Portal
     </title>
@@ -22,168 +27,416 @@
 </head>
 
 
-<body>
+<body class="registration-page">
 
 
-<header class="header">
+<!-- ========================================
+     HEADER
+======================================== -->
 
-    <img
-        src="assets/logo.png"
-        class="logo"
-    >
+<header class="header registration-header">
 
-    <div>
+    <div class="header-brand">
 
-        <h1>
-            Gaon Pradhan Certificate Portal
-        </h1>
+        <img
+            src="assets/logo.png"
+            class="logo"
+            alt="Gaon Pradhan Portal Logo"
+        >
 
-        <p>
-            Applicant Registration
-        </p>
+        <div>
+
+            <h1>
+                Gaon Pradhan Certificate Portal
+            </h1>
+
+            <p>
+                Government of Assam • Digital Certificate Services
+            </p>
+
+        </div>
 
     </div>
+
+
+    <a
+        href="login.html"
+        class="header-login-link"
+    >
+        Applicant Login
+    </a>
 
 </header>
 
 
 
-<main class="dashboard">
+<!-- ========================================
+     MAIN
+======================================== -->
+
+<main class="registration-main">
 
 
-    <div class="card">
-
-        <h2>
-            Create Applicant Account
-        </h2>
-
-        <p>
-            Register yourself to apply for certificates
-            online.
-        </p>
+    <div class="registration-wrapper">
 
 
-        <form id="applicantRegisterForm">
+        <!-- ==================================
+             LEFT INFORMATION PANEL
+        =================================== -->
+
+        <section class="registration-info">
+
+            <span class="portal-badge">
+                APPLICANT PORTAL
+            </span>
 
 
-            <!-- NAME -->
+            <h2>
+                Create your
+                <span>Applicant Account</span>
+            </h2>
 
-            <label for="applicantName">
-                Full Name
-            </label>
 
-            <input
-                type="text"
-                id="applicantName"
-                placeholder="Enter your full name"
-                required
+            <p class="registration-intro">
+
+                Register once and access Gaon Pradhan
+                certificate services online from anywhere.
+
+            </p>
+
+
+
+            <!-- BENEFITS -->
+
+            <div class="registration-benefits">
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Account
+                        </strong>
+
+                        <span>
+                            Your account is protected through
+                            secure authentication.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        📄
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Online Applications
+                        </strong>
+
+                        <span>
+                            Apply for certificates digitally
+                            without visiting the office.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        📍
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Choose Location Later
+                        </strong>
+
+                        <span>
+                            Select District, Circle, Mouza/Lot
+                            and Village while applying.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="benefit-item">
+
+                    <div class="benefit-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Application Tracking
+                        </strong>
+
+                        <span>
+                            Track the status of your submitted
+                            applications online.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             REGISTRATION CARD
+        =================================== -->
+
+        <section class="registration-card">
+
+
+            <div class="registration-card-header">
+
+                <div class="registration-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>
+                        Applicant Registration
+                    </h3>
+
+                    <p>
+                        Create your account to get started
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- FORM -->
+
+            <form
+                id="applicantRegisterForm"
+                class="registration-form"
             >
 
 
-            <br><br>
+                <!-- FULL NAME -->
+
+                <div class="form-group">
+
+                    <label for="applicantName">
+                        Full Name
+                        <span>*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="applicantName"
+                        placeholder="Enter your full name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
 
 
-            <!-- MOBILE -->
 
-            <label for="applicantMobile">
-                Mobile Number
-            </label>
+                <!-- MOBILE -->
 
-            <input
-                type="tel"
-                id="applicantMobile"
-                placeholder="Enter 10 digit mobile number"
-                maxlength="10"
-                required
-            >
+                <div class="form-group">
 
+                    <label for="applicantMobile">
+                        Mobile Number
+                        <span>*</span>
+                    </label>
 
-            <br><br>
+                    <div class="input-with-prefix">
 
+                        <span class="country-code">
+                            +91
+                        </span>
 
-            <!-- EMAIL -->
+                        <input
+                            type="tel"
+                            id="applicantMobile"
+                            placeholder="10 digit mobile number"
+                            maxlength="10"
+                            inputmode="numeric"
+                            autocomplete="tel"
+                            required
+                        >
 
-            <label for="applicantEmail">
-                Email Address
-            </label>
+                    </div>
 
-            <input
-                type="email"
-                id="applicantEmail"
-                placeholder="Enter your email address"
-                required
-            >
-
-
-            <br><br>
+                </div>
 
 
-            <!-- PASSWORD -->
 
-            <label for="applicantPassword">
-                Password
-            </label>
+                <!-- EMAIL -->
 
-            <input
-                type="password"
-                id="applicantPassword"
-                placeholder="Create password"
-                minlength="6"
-                required
-            >
+                <div class="form-group">
 
+                    <label for="applicantEmail">
+                        Email Address
+                        <span>*</span>
+                    </label>
 
-            <br><br>
+                    <input
+                        type="email"
+                        id="applicantEmail"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
 
-
-            <!-- CONFIRM PASSWORD -->
-
-            <label for="confirmPassword">
-                Confirm Password
-            </label>
-
-            <input
-                type="password"
-                id="confirmPassword"
-                placeholder="Re-enter password"
-                minlength="6"
-                required
-            >
+                </div>
 
 
-            <br><br>
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="applicantPassword">
+                        Password
+                        <span>*</span>
+                    </label>
+
+                    <input
+                        type="password"
+                        id="applicantPassword"
+                        placeholder="Create a password"
+                        minlength="6"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                    <small>
+                        Password must contain at least 6 characters.
+                    </small>
+
+                </div>
 
 
-            <!-- REGISTER BUTTON -->
 
-            <button
-                type="submit"
-                class="btn"
-            >
-                Create Account
-            </button>
+                <!-- CONFIRM PASSWORD -->
 
+                <div class="form-group">
 
-        </form>
+                    <label for="confirmPassword">
+                        Confirm Password
+                        <span>*</span>
+                    </label>
 
+                    <input
+                        type="password"
+                        id="confirmPassword"
+                        placeholder="Re-enter your password"
+                        minlength="6"
+                        autocomplete="new-password"
+                        required
+                    >
 
-        <br>
-
-
-        <p id="registerMessage"></p>
-
-
-        <p>
-            Already have an account?
-        </p>
+                </div>
 
 
-        <a
-            href="login.html"
-            class="btn"
-        >
-            Applicant Login
-        </a>
+
+                <!-- CONSENT -->
+
+                <div class="registration-consent">
+
+                    <input
+                        type="checkbox"
+                        id="registrationConsent"
+                        required
+                    >
+
+                    <label for="registrationConsent">
+
+                        I confirm that the information provided
+                        by me is correct and I agree to use this
+                        portal for certificate services.
+
+                    </label>
+
+                </div>
+
+
+
+                <!-- REGISTER BUTTON -->
+
+                <button
+                    type="submit"
+                    class="registration-submit-btn"
+                >
+
+                    <span>
+                        Create Applicant Account
+                    </span>
+
+                    <span class="button-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="registerMessage"
+                class="register-message"
+                role="alert"
+            ></div>
+
+
+
+            <!-- LOGIN -->
+
+            <div class="registration-login">
+
+                <span>
+                    Already have an account?
+                </span>
+
+                <a href="login.html">
+                    Applicant Login
+                </a>
+
+            </div>
+
+
+        </section>
 
 
     </div>
@@ -191,11 +444,43 @@
 
 </main>
 
+
+
+<!-- ========================================
+     FOOTER
+======================================== -->
+
+<footer class="registration-footer">
+
+    <div>
+
+        <strong>
+            Gaon Pradhan Certificate Portal
+        </strong>
+
+        <span>
+            | Digital Public Service
+        </span>
+
+    </div>
+
+    <span>
+        Secure • Transparent • Citizen Friendly
+    </span>
+
+</footer>
+
+
+
+<!-- ========================================
+     EXISTING JAVASCRIPT
+======================================== -->
+
 <script
     type="module"
     src="js/applicant-location.js"
 ></script>
-    
+
 <script
     type="module"
     src="js/applicant-register.js"
