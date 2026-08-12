@@ -10,8 +10,13 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <meta
+        name="theme-color"
+        content="#046A38"
+    >
+
     <title>
-        My Profile | Gaon Pradhan Portal
+        My Profile | Gaon Pradhan Certificate Portal
     </title>
 
     <link
@@ -22,317 +27,678 @@
 </head>
 
 
-<body>
+<body class="profile-page">
 
 
-<header class="header">
+<!-- ========================================
+     HEADER
+======================================== -->
 
-    <img
-        src="assets/logo.png"
-        class="logo"
-    >
+<header class="profile-header">
 
-    <div>
+    <div class="profile-brand">
 
-        <h1>
-            Gaon Pradhan Certificate Portal
-        </h1>
+        <img
+            src="assets/logo.png"
+            class="profile-logo"
+            alt="Gaon Pradhan Portal Logo"
+        >
 
-        <p>
-            Applicant Profile
-        </p>
+        <div>
 
-        <p id="userEmail"></p>
+            <h1>
+                Gaon Pradhan Certificate Portal
+            </h1>
+
+            <p>
+                Government of Assam • Applicant Services
+            </p>
+
+        </div>
 
     </div>
+
+
+    <a
+        href="applicant-dashboard.html"
+        class="profile-header-link"
+    >
+        ← Dashboard
+    </a>
 
 </header>
 
 
 
-<div class="dashboard">
+<!-- ========================================
+     MAIN
+======================================== -->
+
+<main class="profile-main">
 
 
-    <div class="card">
-
-        <h2>
-            My Profile
-        </h2>
-
-        <p id="profileStatus">
-            Profile Status: Loading...
-        </p>
+    <div class="profile-wrapper">
 
 
-        <form id="profileForm">
+        <!-- ==================================
+             PROFILE INTRO
+        =================================== -->
+
+        <section class="profile-intro-section">
+
+            <span class="profile-badge">
+                APPLICANT ACCOUNT
+            </span>
 
 
-            <!-- ========================= -->
-            <!-- PERSONAL INFORMATION -->
-            <!-- ========================= -->
-
-            <h3>
-                Personal Information
-            </h3>
+            <h2>
+                My
+                <span>Profile</span>
+            </h2>
 
 
-            <label>
-                Full Name
-            </label>
+            <p>
+                Keep your personal information and
+                contact details updated for certificate
+                applications and digital services.
+            </p>
 
-            <input
-                type="text"
-                id="fullName"
-                required
+
+            <!-- PROFILE STATUS -->
+
+            <div class="profile-status-card">
+
+                <div class="profile-status-icon">
+                    ✓
+                </div>
+
+                <div>
+
+                    <strong>
+                        Account Profile
+                    </strong>
+
+                    <span id="profileStatus">
+                        Profile Status: Loading...
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECURITY NOTE -->
+
+            <div class="profile-security">
+
+                <span>
+                    🔒
+                </span>
+
+                <div>
+
+                    <strong>
+                        Your information is protected
+                    </strong>
+
+                    <p>
+                        Please make sure the information
+                        provided is accurate before saving.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             PROFILE FORM CARD
+        =================================== -->
+
+        <section class="profile-card">
+
+
+            <div class="profile-card-header">
+
+                <div class="profile-avatar">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>
+                        Applicant Profile
+                    </h3>
+
+                    <p id="userEmail">
+                        Loading email...
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <form
+                id="profileForm"
+                class="profile-form"
             >
 
 
-            <label>
-                Father's Name
-            </label>
+                <!-- =========================
+                     PERSONAL INFORMATION
+                ========================== -->
 
-            <input
-                type="text"
-                id="fatherName"
-                required
-            >
+                <div class="profile-section-title">
 
+                    <div>
+                        01
+                    </div>
 
-            <label>
-                Mother's Name
-            </label>
+                    <span>
+                        Personal Information
+                    </span>
 
-            <input
-                type="text"
-                id="motherName"
-                required
-            >
+                </div>
 
 
-            <label>
-                Date of Birth
-            </label>
+                <div class="profile-grid">
 
-            <input
-                type="date"
-                id="dateOfBirth"
-                required
-            >
 
+                    <!-- FULL NAME -->
 
-            <label>
-                Gender
-            </label>
+                    <div class="profile-form-group">
 
-            <select
-                id="gender"
-                required
-            >
+                        <label for="fullName">
+                            Full Name
+                            <span>*</span>
+                        </label>
 
-                <option value="">
-                    Select Gender
-                </option>
+                        <input
+                            type="text"
+                            id="fullName"
+                            placeholder="Enter full name"
+                            required
+                        >
 
-                <option value="Male">
-                    Male
-                </option>
+                    </div>
 
-                <option value="Female">
-                    Female
-                </option>
 
-                <option value="Other">
-                    Other
-                </option>
 
-            </select>
+                    <!-- FATHER NAME -->
 
+                    <div class="profile-form-group">
 
-            <label>
-                Mobile Number
-            </label>
+                        <label for="fatherName">
+                            Father's Name
+                            <span>*</span>
+                        </label>
 
-            <input
-                type="tel"
-                id="mobile"
-                maxlength="10"
-                required
-            >
+                        <input
+                            type="text"
+                            id="fatherName"
+                            placeholder="Enter father's name"
+                            required
+                        >
 
+                    </div>
 
-            <label>
-                Email
-            </label>
 
-            <input
-                type="email"
-                id="email"
-                readonly
-            >
 
+                    <!-- MOTHER NAME -->
 
-            <!-- ========================= -->
-            <!-- ADDRESS -->
-            <!-- ========================= -->
+                    <div class="profile-form-group">
 
-            <h3>
-                Address
-            </h3>
+                        <label for="motherName">
+                            Mother's Name
+                            <span>*</span>
+                        </label>
 
+                        <input
+                            type="text"
+                            id="motherName"
+                            placeholder="Enter mother's name"
+                            required
+                        >
 
-            <label>
-                Full Address
-            </label>
+                    </div>
 
-            <textarea
-                id="address"
-                rows="4"
-                required
-            ></textarea>
 
 
-            <label>
-                Village / Town
-            </label>
+                    <!-- DOB -->
 
-            <input
-                type="text"
-                id="villageTown"
-                required
-            >
+                    <div class="profile-form-group">
 
+                        <label for="dateOfBirth">
+                            Date of Birth
+                            <span>*</span>
+                        </label>
 
-            <label>
-                Post Office
-            </label>
+                        <input
+                            type="date"
+                            id="dateOfBirth"
+                            required
+                        >
 
-            <input
-                type="text"
-                id="postOffice"
-                required
-            >
+                    </div>
 
 
-            <label>
-                Police Station
-            </label>
 
-            <input
-                type="text"
-                id="policeStation"
-                required
-            >
+                    <!-- GENDER -->
 
+                    <div class="profile-form-group">
 
-            <label>
-                District
-            </label>
+                        <label for="gender">
+                            Gender
+                            <span>*</span>
+                        </label>
 
-            <input
-                type="text"
-                id="district"
-                required
-            >
+                        <select
+                            id="gender"
+                            required
+                        >
 
+                            <option value="">
+                                Select Gender
+                            </option>
 
-            <label>
-                PIN Code
-            </label>
+                            <option value="Male">
+                                Male
+                            </option>
 
-            <input
-                type="text"
-                id="pinCode"
-                maxlength="6"
-                required
-            >
+                            <option value="Female">
+                                Female
+                            </option>
 
+                            <option value="Other">
+                                Other
+                            </option>
 
-            <!-- ========================= -->
-            <!-- DOCUMENTS -->
-            <!-- ========================= -->
+                        </select>
 
-            <h3>
-                Documents
-            </h3>
+                    </div>
 
 
-            <label>
-                Passport Photo
-            </label>
 
-            <input
-                type="file"
-                id="passportPhoto"
-                accept="image/jpeg,image/png"
-            >
+                    <!-- MOBILE -->
 
+                    <div class="profile-form-group">
 
-            <small>
-                JPG or PNG only.
-            </small>
+                        <label for="mobile">
+                            Mobile Number
+                            <span>*</span>
+                        </label>
 
+                        <input
+                            type="tel"
+                            id="mobile"
+                            maxlength="10"
+                            inputmode="numeric"
+                            placeholder="10 digit mobile number"
+                            required
+                        >
 
-            <br><br>
+                    </div>
 
 
-            <label>
-                Aadhaar Card
-            </label>
 
-            <input
-                type="file"
-                id="aadhaarCard"
-                accept="image/jpeg,image/png,application/pdf"
-            >
+                    <!-- EMAIL -->
 
+                    <div class="profile-form-group profile-full-width">
 
-            <small>
-                JPG, PNG or PDF.
-            </small>
+                        <label for="email">
+                            Email Address
+                        </label>
 
+                        <input
+                            type="email"
+                            id="email"
+                            readonly
+                        >
 
-            <br><br>
+                        <small>
+                            Email is linked to your account and
+                            cannot be changed here.
+                        </small>
 
+                    </div>
 
-            <button
-                type="submit"
-                class="btn"
-            >
-                Save Profile
-            </button>
 
+                </div>
 
-        </form>
 
 
-        <p id="profileMessage"></p>
+                <!-- =========================
+                     ADDRESS
+                ========================== -->
+
+                <div class="profile-section-title">
+
+                    <div>
+                        02
+                    </div>
+
+                    <span>
+                        Address Information
+                    </span>
+
+                </div>
+
+
+                <div class="profile-grid">
+
+
+                    <!-- FULL ADDRESS -->
+
+                    <div class="profile-form-group profile-full-width">
+
+                        <label for="address">
+                            Full Address
+                            <span>*</span>
+                        </label>
+
+                        <textarea
+                            id="address"
+                            rows="4"
+                            placeholder="Enter your complete address"
+                            required
+                        ></textarea>
+
+                    </div>
+
+
+
+                    <!-- VILLAGE -->
+
+                    <div class="profile-form-group">
+
+                        <label for="villageTown">
+                            Village / Town
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="villageTown"
+                            placeholder="Village / Town"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- POST OFFICE -->
+
+                    <div class="profile-form-group">
+
+                        <label for="postOffice">
+                            Post Office
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="postOffice"
+                            placeholder="Post Office"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- POLICE STATION -->
+
+                    <div class="profile-form-group">
+
+                        <label for="policeStation">
+                            Police Station
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="policeStation"
+                            placeholder="Police Station"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- DISTRICT -->
+
+                    <div class="profile-form-group">
+
+                        <label for="district">
+                            District
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="district"
+                            placeholder="District"
+                            required
+                        >
+
+                    </div>
+
+
+
+                    <!-- PIN -->
+
+                    <div class="profile-form-group">
+
+                        <label for="pinCode">
+                            PIN Code
+                            <span>*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="pinCode"
+                            maxlength="6"
+                            inputmode="numeric"
+                            placeholder="6 digit PIN code"
+                            required
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================
+                     DOCUMENTS
+                ========================== -->
+
+                <div class="profile-section-title">
+
+                    <div>
+                        03
+                    </div>
+
+                    <span>
+                        Identity Documents
+                    </span>
+
+                </div>
+
+
+                <div class="document-upload-grid">
+
+
+                    <!-- PASSPORT PHOTO -->
+
+                    <div class="document-upload-card">
+
+                        <div class="document-icon">
+                            📷
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Passport Photo
+                            </strong>
+
+                            <p>
+                                Upload JPG or PNG image.
+                            </p>
+
+                        </div>
+
+
+                        <input
+                            type="file"
+                            id="passportPhoto"
+                            accept="image/jpeg,image/png"
+                        >
+
+                    </div>
+
+
+
+                    <!-- AADHAAR -->
+
+                    <div class="document-upload-card">
+
+                        <div class="document-icon">
+                            🪪
+                        </div>
+
+                        <div>
+
+                            <strong>
+                                Aadhaar Card
+                            </strong>
+
+                            <p>
+                                JPG, PNG or PDF accepted.
+                            </p>
+
+                        </div>
+
+
+                        <input
+                            type="file"
+                            id="aadhaarCard"
+                            accept="image/jpeg,image/png,application/pdf"
+                        >
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- SAVE -->
+
+                <div class="profile-actions">
+
+                    <button
+                        type="submit"
+                        class="profile-save-btn"
+                    >
+
+                        <span>
+                            Save Profile
+                        </span>
+
+                        <span>
+                            →
+                        </span>
+
+                    </button>
+
+                </div>
+
+
+            </form>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="profileMessage"
+                class="profile-message"
+                role="alert"
+            ></div>
+
+
+        </section>
 
 
     </div>
 
 
-    <br>
+    <!-- ====================================
+         BOTTOM ACTIONS
+    ===================================== -->
+
+    <div class="profile-bottom-actions">
+
+        <a
+            href="applicant-dashboard.html"
+            class="profile-secondary-btn"
+        >
+            ← Back to Dashboard
+        </a>
 
 
-    <a
-        href="applicant-dashboard.html"
-        class="btn"
-    >
-        Back to Dashboard
-    </a>
+        <button
+            class="profile-logout-btn"
+            onclick="logout()"
+        >
+            Logout
+        </button>
+
+    </div>
 
 
-    <button
-        class="btn"
-        onclick="logout()"
-    >
-        Logout
-    </button>
+</main>
 
 
-</div>
+
+<!-- ========================================
+     FOOTER
+======================================== -->
+
+<footer class="profile-footer">
+
+    <div>
+
+        <strong>
+            Gaon Pradhan Certificate Portal
+        </strong>
+
+        <span>
+            | Digital Public Service
+        </span>
+
+    </div>
+
+    <span>
+        Secure • Transparent • Citizen Friendly
+    </span>
+
+</footer>
 
 
+
+<!-- EXISTING JAVASCRIPT -->
 
 <script
     type="module"
@@ -342,4 +708,8 @@
 
 </body>
 
-              </html>
+</html>
+
+"style.css"-ৰ শেষত এই CSS add কৰক
+
+Existing CSS delete নকৰিব। আগৰ Registration/Login CSS-ৰ পিছত এইখিনি paste কৰিব।
