@@ -1,28 +1,112 @@
-import { db, doc, runTransaction } from "./firebase.js";
+import { db } from "./firebase.js";
+
+import {
+    doc,
+    runTransaction
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
+
+
+// ========================================
+// CERTIFICATE NUMBER
+// ========================================
 
 export async function getNextCertificateNumber() {
 
-  const serialRef = doc(db, "settings", "serial");
+    const counterRef =
+        doc(
+            db,
+            "counters",
+            "certificate"
+        );
 
-  const nextNumber = await runTransaction(db, async (transaction) => {
+    return await runTransaction(
+        db,
+        async (transaction) => {
 
-    const serialDoc = await transaction.get(serialRef);
+            const counterSnap =
+                await transaction.get(
+                    counterRef
+                );
 
-    if (!serialDoc.exists()) {
-      throw new Error("Serial document not found.");
-    }
+            let nextNumber = 1;
 
-    const currentCounter = serialDoc.data().counter;
-    const newCounter = currentCounter + 1;
+            if (counterSnap.exists()) {
 
-    transaction.update(serialRef, {
-      counter: newCounter
-    });
+                nextNumber =
+                    (counterSnap.data().number || 0) + 1;
 
-    return newCounter;
-  });
+            }
 
-  const year = new Date().getFullYear();
+            transaction.set(
+                counterRef,
+                {
+                    number: nextNumber
+                },
+                {
+                    merge: true
+                }
+            );
 
-  return `GP/LKP/${year}/${String(nextNumber).padStart(6, "0")}`;
+            return (
+                "GP/" +
+                new Date().getFullYear() +
+                "/" +
+                String(nextNumber).padStart(6, "0")
+            );
+
+        }
+    );
+}
+
+
+// ========================================
+// APPLICATION NUMBER
+// ========================================
+
+export async function getNextApplicationNumber() {
+
+    const counterRef =
+        doc(
+            db,
+            "counters",
+            "application"
+        );
+
+    return await runTransaction(
+        db,
+        async (transaction) => {
+
+            const counterSnap =
+                await transaction.get(
+                    counterRef
+                );
+
+            let nextNumber = 1;
+
+            if (counterSnap.exists()) {
+
+                nextNumber =
+                    (counterSnap.data().number || 0) + 1;
+
+            }
+
+            transaction.set(
+                counterRef,
+                {
+                    number: nextNumber
+                },
+                {
+                    merge: true
+                }
+            );
+
+            return (
+                "GPCP/" +
+                new Date().getFullYear() +
+                "/" +
+                String(nextNumber).padStart(6, "0")
+            );
+
+        }
+    );
 }
