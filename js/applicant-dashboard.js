@@ -7,7 +7,11 @@ import {
 
 import {
     doc,
-    getDoc
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -16,10 +20,6 @@ import {
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
-
-    // ====================================
-    // NOT LOGGED IN
-    // ====================================
 
     if (!user) {
 
@@ -32,9 +32,9 @@ onAuthStateChanged(auth, async (user) => {
 
     try {
 
-        // ====================================
-        // GET USER PROFILE
-        // ====================================
+        // =================================
+        // LOAD APPLICANT PROFILE
+        // =================================
 
         const userRef =
             doc(
@@ -47,10 +47,6 @@ onAuthStateChanged(auth, async (user) => {
         const userSnap =
             await getDoc(userRef);
 
-
-        // ====================================
-        // PROFILE NOT FOUND
-        // ====================================
 
         if (!userSnap.exists()) {
 
@@ -69,9 +65,9 @@ onAuthStateChanged(auth, async (user) => {
             userSnap.data();
 
 
-        // ====================================
+        // =================================
         // ROLE SECURITY
-        // ====================================
+        // =================================
 
         if (
             data.role !== "applicant"
@@ -88,9 +84,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
+        // =================================
         // APPLICANT NAME
-        // ====================================
+        // =================================
 
         const applicantName =
             document.getElementById(
@@ -107,9 +103,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // HEADER APPLICANT NAME
-        // ====================================
+        // =================================
+        // HEADER NAME
+        // =================================
 
         const headerApplicantName =
             document.getElementById(
@@ -126,9 +122,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
+        // =================================
         // EMAIL
-        // ====================================
+        // =================================
 
         const applicantEmail =
             document.getElementById(
@@ -146,10 +142,6 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // USER EMAIL
-        // ====================================
-
         const userEmail =
             document.getElementById(
                 "userEmail"
@@ -166,9 +158,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
+        // =================================
         // PROFILE STATUS
-        // ====================================
+        // =================================
 
         const profileStatus =
             document.getElementById(
@@ -195,9 +187,14 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // SUCCESS
-        // ====================================
+        // =================================
+        // LOAD APPLICATIONS
+        // =================================
+
+        await loadApplicantApplications(
+            user.uid
+        );
+
 
         console.log(
             "Applicant dashboard loaded successfully."
@@ -220,6 +217,410 @@ onAuthStateChanged(auth, async (user) => {
     }
 
 });
+
+
+// ========================================
+// LOAD APPLICANT APPLICATIONS
+// ========================================
+
+async function loadApplicantApplications(
+    uid
+) {
+
+    try {
+
+        console.log(
+            "Loading applications for:",
+            uid
+        );
+
+
+        // =================================
+        // QUERY APPLICATIONS
+        // =================================
+
+        const applicationsQuery =
+            query(
+                collection(
+                    db,
+                    "applications"
+                ),
+                where(
+                    "applicantUid",
+                    "==",
+                    uid
+                )
+            );
+
+
+        const snapshot =
+            await getDocs(
+                applicationsQuery
+            );
+
+
+        console.log(
+            "Applications found:",
+            snapshot.size
+        );
+
+
+        // =================================
+        // COUNTERS
+        // =================================
+
+        let total =
+            0;
+
+        let pending =
+            0;
+
+        let approved =
+            0;
+
+        let rejected =
+            0;
+
+
+        const applications = [];
+
+
+        snapshot.forEach(
+            (item) => {
+
+                const data =
+                    item.data();
+
+
+                applications.push({
+
+                    id:
+                        item.id,
+
+                    ...data
+
+                });
+
+
+                total++;
+
+
+                const status =
+                    String(
+                        data.applicationStatus ||
+                        data.status ||
+                        "Pending"
+                    )
+                    .trim()
+                    .toLowerCase();
+
+
+                if (
+                    status === "pending" ||
+                    status === "submitted"
+                ) {
+
+                    pending++;
+
+                }
+                else if (
+                    status === "approved"
+                ) {
+
+                    approved++;
+
+                }
+                else if (
+                    status === "rejected"
+                ) {
+
+                    rejected++;
+
+                }
+
+            }
+        );
+
+
+        // =================================
+        // UPDATE DASHBOARD COUNTERS
+        // =================================
+
+        setText(
+            "totalApplications",
+            total
+        );
+
+
+        setText(
+            "pendingApplications",
+            pending
+        );
+
+
+        setText(
+            "approvedApplications",
+            approved
+        );
+
+
+        setText(
+            "rejectedApplications",
+            rejected
+        );
+
+
+        // =================================
+        // SORT NEWEST FIRST
+        // =================================
+
+        applications.sort(
+            (a, b) => {
+
+                const aTime =
+                    a.submittedAt?.seconds ||
+                    0;
+
+                const bTime =
+                    b.submittedAt?.seconds ||
+                    0;
+
+                return bTime - aTime;
+
+            }
+        );
+
+
+        // =================================
+        // RECENT APPLICATIONS
+        // =================================
+
+        displayRecentApplications(
+            applications
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Application loading error:",
+            error
+        );
+
+        // Do not show dashboard failure popup
+        // because profile itself may be working.
+
+    }
+
+}
+
+
+// ========================================
+// SET TEXT HELPER
+// ========================================
+
+function setText(
+    id,
+    value
+) {
+
+    const element =
+        document.getElementById(id);
+
+
+    if (element) {
+
+        element.textContent =
+            value;
+
+    }
+
+}
+
+
+// ========================================
+// DISPLAY RECENT APPLICATIONS
+// ========================================
+
+function displayRecentApplications(
+    applications
+) {
+
+    const container =
+        document.getElementById(
+            "recentApplications"
+        ) ||
+        document.getElementById(
+            "recentApplicationsList"
+        );
+
+
+    if (!container) {
+
+        console.log(
+            "Recent applications container not found."
+        );
+
+        return;
+    }
+
+
+    // =================================
+    // NO APPLICATIONS
+    // =================================
+
+    if (
+        applications.length === 0
+    ) {
+
+        container.innerHTML = `
+
+            <div class="empty-applications">
+
+                <div class="empty-icon">
+                    📄
+                </div>
+
+                <h3>
+                    No Applications Yet
+                </h3>
+
+                <p>
+                    You haven't submitted any certificate applications yet.
+                </p>
+
+                <button
+                    onclick="applyCertificate()"
+                    class="apply-first-btn"
+                >
+                    Apply for Your First Certificate
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    // =================================
+    // SHOW MAX 3 RECENT
+    // =================================
+
+    const recent =
+        applications.slice(
+            0,
+            3
+        );
+
+
+    container.innerHTML = "";
+
+
+    recent.forEach(
+        (application) => {
+
+            const status =
+                application.applicationStatus ||
+                application.status ||
+                "Pending";
+
+
+            const applicationNo =
+                application.applicationNo ||
+                "Application No. Pending";
+
+
+            const certificateType =
+                application.certificateType ||
+                "Certificate";
+
+
+            const submittedDate =
+                formatDate(
+                    application.submittedAt
+                );
+
+
+            container.innerHTML += `
+
+                <div class="recent-application-card">
+
+                    <div class="recent-application-icon">
+                        📄
+                    </div>
+
+
+                    <div class="recent-application-info">
+
+                        <h3>
+                            ${certificateType}
+                        </h3>
+
+                        <p>
+                            ${applicationNo}
+                        </p>
+
+                        <small>
+                            Submitted: ${submittedDate}
+                        </small>
+
+                    </div>
+
+
+                    <div class="recent-application-status">
+
+                        <span>
+                            ${status}
+                        </span>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }
+    );
+
+}
+
+
+// ========================================
+// FORMAT DATE
+// ========================================
+
+function formatDate(
+    timestamp
+) {
+
+    if (
+        !timestamp ||
+        !timestamp.seconds
+    ) {
+
+        return "Recently";
+
+    }
+
+
+    const date =
+        new Date(
+            timestamp.seconds * 1000
+        );
+
+
+    return date.toLocaleDateString(
+        "en-IN",
+        {
+            day: "2-digit",
+            month: "short",
+            year: "numeric"
+        }
+    );
+
+}
 
 
 // ========================================
@@ -257,6 +658,19 @@ window.openProfile =
 
         window.location.href =
             "applicant-profile.html";
+
+    };
+
+
+// ========================================
+// TRACK APPLICATION
+// ========================================
+
+window.trackApplication =
+    function () {
+
+        window.location.href =
+            "my-applications.html";
 
     };
 
