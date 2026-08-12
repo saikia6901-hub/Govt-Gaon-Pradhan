@@ -6,7 +6,10 @@ import {
 
 import {
     doc,
-    getDoc
+    getDoc,
+    collection,
+    addDoc,
+    serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -25,6 +28,15 @@ const submitButton =
 
 
 // ========================================
+// CURRENT APPLICANT
+// ========================================
+
+let currentUser = null;
+
+let applicantData = null;
+
+
+// ========================================
 // AUTHENTICATION
 // ========================================
 
@@ -40,10 +52,13 @@ onAuthStateChanged(auth, async (user) => {
     }
 
 
+    currentUser = user;
+
+
     try {
 
         // =================================
-        // GET APPLICANT PROFILE
+        // LOAD USER PROFILE
         // =================================
 
         const userRef =
@@ -61,7 +76,7 @@ onAuthStateChanged(auth, async (user) => {
         if (!userSnap.exists()) {
 
             alert(
-                "Applicant profile not found. Please complete your profile first."
+                "Applicant profile not found."
             );
 
             window.location.href =
@@ -72,7 +87,7 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        const data =
+        applicantData =
             userSnap.data();
 
 
@@ -81,8 +96,8 @@ onAuthStateChanged(auth, async (user) => {
         // =================================
 
         if (
-            data.role &&
-            data.role !== "applicant"
+            applicantData.role &&
+            applicantData.role !== "applicant"
         ) {
 
             alert(
@@ -98,24 +113,19 @@ onAuthStateChanged(auth, async (user) => {
 
 
         // =================================
-        // PROFILE COMPLETION CHECK
+        // PROFILE COMPLETION
         // =================================
 
         if (
-            data.profileCompleted !== true
+            applicantData.profileCompleted !== true
         ) {
 
-            const proceed =
-                confirm(
-                    "Your applicant profile is incomplete. Complete your profile before applying for a certificate."
-                );
+            alert(
+                "Please complete your applicant profile before applying."
+            );
 
-            if (proceed) {
-
-                window.location.href =
-                    "applicant-profile.html";
-
-            }
+            window.location.href =
+                "applicant-profile.html";
 
             return;
 
@@ -123,60 +133,51 @@ onAuthStateChanged(auth, async (user) => {
 
 
         // =================================
-        // LOAD PROFILE DATA
+        // DISPLAY PROFILE DATA
         // =================================
 
-        const applicantName =
-            document.getElementById(
-                "applicantName"
-            );
-
-        const fatherName =
-            document.getElementById(
-                "fatherName"
-            );
-
-        const motherName =
-            document.getElementById(
-                "motherName"
-            );
-
-        const mobile =
-            document.getElementById(
-                "mobile"
-            );
-
-        const headerName =
-            document.getElementById(
-                "headerApplicantName"
-            );
+        document.getElementById(
+            "applicantName"
+        ).value =
+            applicantData.name || "";
 
 
-        applicantName.value =
-            data.name || "";
+        document.getElementById(
+            "fatherName"
+        ).value =
+            applicantData.fatherName || "";
 
-        fatherName.value =
-            data.fatherName || "";
 
-        motherName.value =
-            data.motherName || "";
+        document.getElementById(
+            "motherName"
+        ).value =
+            applicantData.motherName || "";
 
-        mobile.value =
-            data.mobile || "";
 
-        headerName.textContent =
-            data.name || "Applicant";
+        document.getElementById(
+            "mobile"
+        ).value =
+            applicantData.mobile || "";
+
+
+        document.getElementById(
+            "headerApplicantName"
+        ).textContent =
+            applicantData.name ||
+            "Applicant";
 
 
         message.textContent =
-            "Profile information loaded successfully.";
+            "Your profile information has been loaded.";
+
 
     } catch (error) {
 
         console.error(
-            "Application page error:",
+            "Applicant loading error:",
             error
         );
+
 
         message.textContent =
             "Unable to load applicant information.";
@@ -187,7 +188,7 @@ onAuthStateChanged(auth, async (user) => {
 
 
 // ========================================
-// FORM SUBMIT - TEMPORARY
+// SUBMIT APPLICATION
 // ========================================
 
 form.addEventListener(
@@ -197,40 +198,97 @@ form.addEventListener(
         event.preventDefault();
 
 
+        // =================================
+        // AUTH CHECK
+        // =================================
+
+        if (!currentUser) {
+
+            alert(
+                "Please login again."
+            );
+
+            window.location.href =
+                "login.html";
+
+            return;
+
+        }
+
+
+        // =================================
+        // GET FORM DATA
+        // =================================
+
         const certificateType =
             document.getElementById(
                 "certificateType"
             ).value;
 
 
-        const district =
+        const districtId =
             document.getElementById(
                 "districtSelect"
             ).value;
 
 
-        const circle =
+        const districtName =
+            document.getElementById(
+                "districtSelect"
+            ).selectedOptions[0]?.text ||
+            "";
+
+
+        const circleId =
             document.getElementById(
                 "circleSelect"
             ).value;
 
 
-        const mouza =
+        const circleName =
+            document.getElementById(
+                "circleSelect"
+            ).selectedOptions[0]?.text ||
+            "";
+
+
+        const mouzaId =
             document.getElementById(
                 "mouzaSelect"
             ).value;
 
 
-        const lot =
+        const mouzaName =
+            document.getElementById(
+                "mouzaSelect"
+            ).selectedOptions[0]?.text ||
+            "";
+
+
+        const lotId =
             document.getElementById(
                 "lotSelect"
             ).value;
 
 
-        const village =
+        const lotName =
+            document.getElementById(
+                "lotSelect"
+            ).selectedOptions[0]?.text ||
+            "";
+
+
+        const villageId =
             document.getElementById(
                 "villageSelect"
             ).value;
+
+
+        const villageName =
+            document.getElementById(
+                "villageSelect"
+            ).selectedOptions[0]?.text ||
+            "";
 
 
         const purpose =
@@ -246,57 +304,50 @@ form.addEventListener(
         if (!certificateType) {
 
             message.textContent =
-                "Please select a certificate type.";
+                "Please select Certificate Type.";
 
             return;
 
         }
 
 
-        if (!district) {
+        if (!districtId) {
 
             message.textContent =
-                "Please select a district.";
+                "Please select District.";
 
             return;
 
         }
 
 
-        if (!circle) {
+        if (!circleId) {
 
             message.textContent =
-                "Please select a Revenue Circle.";
+                "Please select Revenue Circle.";
 
             return;
 
         }
 
 
-        if (!mouza) {
+        if (!mouzaId) {
 
             message.textContent =
-                "Please select a Mouza.";
+                "Please select Mouza.";
 
             return;
 
         }
 
 
-        if (!lot) {
+        // LOT IS OPTIONAL
+
+
+        if (!villageId) {
 
             message.textContent =
-                "Please select a Lot.";
-
-            return;
-
-        }
-
-
-        if (!village) {
-
-            message.textContent =
-                "Please select a Village.";
+                "Please select Village.";
 
             return;
 
@@ -314,15 +365,206 @@ form.addEventListener(
 
 
         // =================================
-        // TEMPORARY TEST
+        // CONFIRMATION
         // =================================
 
-        message.textContent =
-            "Form completed successfully. Application saving will be connected in the next step.";
+        const confirmed =
+            confirm(
+                "Are you sure all the information provided is correct?"
+            );
 
-        alert(
-            "Application form is working successfully."
-        );
+
+        if (!confirmed) {
+
+            return;
+
+        }
+
+
+        // =================================
+        // DISABLE BUTTON
+        // =================================
+
+        submitButton.disabled =
+            true;
+
+
+        submitButton.textContent =
+            "Submitting...";
+
+
+        message.textContent =
+            "Submitting your application securely...";
+
+
+        try {
+
+            // =================================
+            // CREATE APPLICATION
+            // =================================
+
+            const applicationData = {
+
+                applicantUid:
+                    currentUser.uid,
+
+                applicantEmail:
+                    currentUser.email || "",
+
+
+                applicantName:
+                    applicantData.name || "",
+
+                fatherName:
+                    applicantData.fatherName || "",
+
+                motherName:
+                    applicantData.motherName || "",
+
+                mobile:
+                    applicantData.mobile || "",
+
+
+                certificateType:
+                    certificateType,
+
+
+                // LOCATION
+
+                districtId:
+                    districtId,
+
+                district:
+                    districtName,
+
+
+                revenueCircleId:
+                    circleId,
+
+                revenueCircle:
+                    circleName,
+
+
+                mouzaId:
+                    mouzaId,
+
+                mouza:
+                    mouzaName,
+
+
+                // OPTIONAL LOT
+
+                lotId:
+                    lotId || "",
+
+                lot:
+                    lotId
+                        ? lotName
+                        : "",
+
+
+                villageId:
+                    villageId,
+
+                village:
+                    villageName,
+
+
+                // PURPOSE
+
+                purpose:
+                    purpose,
+
+
+                // STATUS
+
+                status:
+                    "Submitted",
+
+                applicationStatus:
+                    "Pending",
+
+
+                // TIMESTAMP
+
+                submittedAt:
+                    serverTimestamp()
+
+            };
+
+
+            // =================================
+            // SAVE TO FIRESTORE
+            // =================================
+
+            const applicationRef =
+                await addDoc(
+                    collection(
+                        db,
+                        "applications"
+                    ),
+                    applicationData
+                );
+
+
+            // =================================
+            // APPLICATION ID
+            // =================================
+
+            const applicationId =
+                applicationRef.id;
+
+
+            // =================================
+            // SUCCESS
+            // =================================
+
+            message.textContent =
+                "Application submitted successfully.";
+
+
+            alert(
+                "Application submitted successfully!\n\nApplication ID:\n" +
+                applicationId
+            );
+
+
+            // =================================
+            // REDIRECT
+            // =================================
+
+            window.location.href =
+                "applicant-dashboard.html";
+
+
+        } catch (error) {
+
+            console.error(
+                "Application submission error:",
+                error
+            );
+
+
+            message.textContent =
+                "Unable to submit application. Please try again.";
+
+
+            alert(
+                "Application submission failed:\n" +
+                error.message
+            );
+
+
+            // ENABLE BUTTON AGAIN
+
+            submitButton.disabled =
+                false;
+
+
+            submitButton.textContent =
+                "Submit Application →";
+
+        }
 
     }
 );
