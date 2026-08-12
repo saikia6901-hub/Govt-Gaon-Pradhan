@@ -23,8 +23,7 @@ onAuthStateChanged(auth, async (user) => {
 
     if (!user) {
 
-        window.location.href =
-            "login.html";
+        window.location.href = "login.html";
 
         return;
     }
@@ -32,9 +31,9 @@ onAuthStateChanged(auth, async (user) => {
 
     try {
 
-        // =================================
+        // ====================================
         // LOAD APPLICANT PROFILE
-        // =================================
+        // ====================================
 
         const userRef =
             doc(
@@ -51,7 +50,7 @@ onAuthStateChanged(auth, async (user) => {
         if (!userSnap.exists()) {
 
             alert(
-                "Applicant profile not found. Please complete your profile."
+                "Applicant profile not found."
             );
 
             window.location.href =
@@ -65,9 +64,9 @@ onAuthStateChanged(auth, async (user) => {
             userSnap.data();
 
 
-        // =================================
+        // ====================================
         // ROLE SECURITY
-        // =================================
+        // ====================================
 
         if (
             data.role !== "applicant"
@@ -84,83 +83,37 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // =================================
-        // APPLICANT NAME
-        // =================================
+        // ====================================
+        // DISPLAY APPLICANT NAME
+        // ====================================
 
-        const applicantName =
-            document.getElementById(
-                "applicantName"
-            );
-
-
-        if (applicantName) {
-
-            applicantName.textContent =
-                data.name ||
-                "Applicant";
-
-        }
+        setText(
+            "applicantName",
+            data.name || "Applicant"
+        );
 
 
-        // =================================
-        // HEADER NAME
-        // =================================
-
-        const headerApplicantName =
-            document.getElementById(
-                "headerApplicantName"
-            );
+        setText(
+            "headerApplicantName",
+            data.name || "Applicant"
+        );
 
 
-        if (headerApplicantName) {
-
-            headerApplicantName.textContent =
-                data.name ||
-                "Applicant";
-
-        }
+        setText(
+            "applicantEmail",
+            user.email || data.email || ""
+        );
 
 
-        // =================================
-        // EMAIL
-        // =================================
-
-        const applicantEmail =
-            document.getElementById(
-                "applicantEmail"
-            );
+        setText(
+            "userEmail",
+            user.email || data.email || ""
+        );
 
 
-        if (applicantEmail) {
-
-            applicantEmail.textContent =
-                user.email ||
-                data.email ||
-                "";
-
-        }
-
-
-        const userEmail =
-            document.getElementById(
-                "userEmail"
-            );
-
-
-        if (userEmail) {
-
-            userEmail.textContent =
-                user.email ||
-                data.email ||
-                "";
-
-        }
-
-
-        // =================================
+        // ====================================
         // PROFILE STATUS
-        // =================================
+        // ====================================
 
         const profileStatus =
             document.getElementById(
@@ -170,26 +123,17 @@ onAuthStateChanged(auth, async (user) => {
 
         if (profileStatus) {
 
-            if (
+            profileStatus.textContent =
                 data.profileCompleted === true
-            ) {
-
-                profileStatus.textContent =
-                    "Profile Complete";
-
-            } else {
-
-                profileStatus.textContent =
-                    "Profile Incomplete";
-
-            }
+                    ? "Profile Complete"
+                    : "Profile Incomplete";
 
         }
 
 
-        // =================================
+        // ====================================
         // LOAD APPLICATIONS
-        // =================================
+        // ====================================
 
         await loadApplicantApplications(
             user.uid
@@ -223,28 +167,24 @@ onAuthStateChanged(auth, async (user) => {
 // LOAD APPLICANT APPLICATIONS
 // ========================================
 
-async function loadApplicantApplications(
-    uid
-) {
+async function loadApplicantApplications(uid) {
 
     try {
 
-        console.log(
-            "Loading applications for:",
-            uid
-        );
+        const applicationsRef =
+            collection(
+                db,
+                "applications"
+            );
 
 
-        // =================================
-        // QUERY APPLICATIONS
-        // =================================
+        // IMPORTANT:
+        // Only load applications belonging
+        // to the logged-in applicant.
 
         const applicationsQuery =
             query(
-                collection(
-                    db,
-                    "applications"
-                ),
+                applicationsRef,
                 where(
                     "applicantUid",
                     "==",
@@ -259,92 +199,71 @@ async function loadApplicantApplications(
             );
 
 
-        console.log(
-            "Applications found:",
-            snapshot.size
-        );
-
-
-        // =================================
-        // COUNTERS
-        // =================================
-
-        let total =
-            0;
-
-        let pending =
-            0;
-
-        let approved =
-            0;
-
-        let rejected =
-            0;
+        let total = 0;
+        let pending = 0;
+        let approved = 0;
+        let rejected = 0;
 
 
         const applications = [];
 
 
-        snapshot.forEach(
-            (item) => {
+        snapshot.forEach((item) => {
 
-                const data =
-                    item.data();
-
-
-                applications.push({
-
-                    id:
-                        item.id,
-
-                    ...data
-
-                });
+            const data =
+                item.data();
 
 
-                total++;
+            total++;
 
 
-                const status =
-                    String(
-                        data.applicationStatus ||
-                        data.status ||
-                        "Pending"
-                    )
-                    .trim()
-                    .toLowerCase();
+            const status =
+                String(
+                    data.applicationStatus ||
+                    data.status ||
+                    "Pending"
+                ).toLowerCase();
 
 
-                if (
-                    status === "pending" ||
-                    status === "submitted"
-                ) {
+            if (
+                status === "pending" ||
+                status === "submitted"
+            ) {
 
-                    pending++;
-
-                }
-                else if (
-                    status === "approved"
-                ) {
-
-                    approved++;
-
-                }
-                else if (
-                    status === "rejected"
-                ) {
-
-                    rejected++;
-
-                }
+                pending++;
 
             }
-        );
+            else if (
+                status === "approved"
+            ) {
+
+                approved++;
+
+            }
+            else if (
+                status === "rejected"
+            ) {
+
+                rejected++;
+
+            }
 
 
-        // =================================
+            applications.push({
+
+                id:
+                    item.id,
+
+                ...data
+
+            });
+
+        });
+
+
+        // ====================================
         // UPDATE DASHBOARD COUNTERS
-        // =================================
+        // ====================================
 
         setText(
             "totalApplications",
@@ -370,9 +289,9 @@ async function loadApplicantApplications(
         );
 
 
-        // =================================
-        // SORT NEWEST FIRST
-        // =================================
+        // ====================================
+        // RECENT APPLICATIONS
+        // ====================================
 
         applications.sort(
             (a, b) => {
@@ -391,11 +310,7 @@ async function loadApplicantApplications(
         );
 
 
-        // =================================
-        // RECENT APPLICATIONS
-        // =================================
-
-        displayRecentApplications(
+        renderRecentApplications(
             applications
         );
 
@@ -407,8 +322,28 @@ async function loadApplicantApplications(
             error
         );
 
-        // Do not show dashboard failure popup
-        // because profile itself may be working.
+        // Keep dashboard usable
+        // even if application loading fails.
+
+        setText(
+            "totalApplications",
+            "0"
+        );
+
+        setText(
+            "pendingApplications",
+            "0"
+        );
+
+        setText(
+            "approvedApplications",
+            "0"
+        );
+
+        setText(
+            "rejectedApplications",
+            "0"
+        );
 
     }
 
@@ -416,58 +351,29 @@ async function loadApplicantApplications(
 
 
 // ========================================
-// SET TEXT HELPER
+// RECENT APPLICATIONS
 // ========================================
 
-function setText(
-    id,
-    value
-) {
-
-    const element =
-        document.getElementById(id);
-
-
-    if (element) {
-
-        element.textContent =
-            value;
-
-    }
-
-}
-
-
-// ========================================
-// DISPLAY RECENT APPLICATIONS
-// ========================================
-
-function displayRecentApplications(
+function renderRecentApplications(
     applications
 ) {
 
     const container =
         document.getElementById(
             "recentApplications"
-        ) ||
-        document.getElementById(
-            "recentApplicationsList"
         );
 
 
     if (!container) {
 
-        console.log(
-            "Recent applications container not found."
-        );
-
         return;
+
     }
 
 
-    // =================================
-    // NO APPLICATIONS
-    // =================================
+    // ====================================
+    // NO APPLICATION
+    // ====================================
 
     if (
         applications.length === 0
@@ -486,12 +392,13 @@ function displayRecentApplications(
                 </h3>
 
                 <p>
-                    You haven't submitted any certificate applications yet.
+                    You haven't submitted
+                    any certificate applications yet.
                 </p>
 
                 <button
+                    class="btn-primary"
                     onclick="applyCertificate()"
-                    class="apply-first-btn"
                 >
                     Apply for Your First Certificate
                 </button>
@@ -501,124 +408,89 @@ function displayRecentApplications(
         `;
 
         return;
+
     }
 
 
-    // =================================
-    // SHOW MAX 3 RECENT
-    // =================================
+    // ====================================
+    // SHOW MAX 5 RECENT APPLICATIONS
+    // ====================================
 
     const recent =
         applications.slice(
             0,
-            3
+            5
         );
 
 
-    container.innerHTML = "";
+    container.innerHTML =
+        recent.map(
+            (application) => {
+
+                const status =
+                    application.applicationStatus ||
+                    application.status ||
+                    "Pending";
 
 
-    recent.forEach(
-        (application) => {
+                return `
 
-            const status =
-                application.applicationStatus ||
-                application.status ||
-                "Pending";
+                    <div class="recent-application">
 
+                        <div>
 
-            const applicationNo =
-                application.applicationNo ||
-                "Application No. Pending";
+                            <strong>
+                                ${
+                                    application.applicationNo ||
+                                    "Application"
+                                }
+                            </strong>
 
+                            <p>
+                                ${
+                                    application.certificateType ||
+                                    "Certificate"
+                                }
+                            </p>
 
-            const certificateType =
-                application.certificateType ||
-                "Certificate";
-
-
-            const submittedDate =
-                formatDate(
-                    application.submittedAt
-                );
+                        </div>
 
 
-            container.innerHTML += `
+                        <div class="application-status">
 
-                <div class="recent-application-card">
-
-                    <div class="recent-application-icon">
-                        📄
-                    </div>
-
-
-                    <div class="recent-application-info">
-
-                        <h3>
-                            ${certificateType}
-                        </h3>
-
-                        <p>
-                            ${applicationNo}
-                        </p>
-
-                        <small>
-                            Submitted: ${submittedDate}
-                        </small>
-
-                    </div>
-
-
-                    <div class="recent-application-status">
-
-                        <span>
                             ${status}
-                        </span>
+
+                        </div>
 
                     </div>
 
-                </div>
+                `;
 
-            `;
-
-        }
-    );
+            }
+        ).join("");
 
 }
 
 
 // ========================================
-// FORMAT DATE
+// SAFE TEXT HELPER
 // ========================================
 
-function formatDate(
-    timestamp
+function setText(
+    id,
+    value
 ) {
 
-    if (
-        !timestamp ||
-        !timestamp.seconds
-    ) {
+    const element =
+        document.getElementById(id);
 
-        return "Recently";
+
+    if (element) {
+
+        element.textContent =
+            value;
 
     }
-
-
-    const date =
-        new Date(
-            timestamp.seconds * 1000
-        );
-
-
-    return date.toLocaleDateString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        }
-    );
 
 }
 
@@ -658,19 +530,6 @@ window.openProfile =
 
         window.location.href =
             "applicant-profile.html";
-
-    };
-
-
-// ========================================
-// TRACK APPLICATION
-// ========================================
-
-window.trackApplication =
-    function () {
-
-        window.location.href =
-            "my-applications.html";
 
     };
 
