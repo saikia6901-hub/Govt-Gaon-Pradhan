@@ -1,6 +1,10 @@
 import { auth, db } from "./firebase.js";
 
 import {
+    getNextApplicationNumber
+} from "./serial.js";
+
+import {
     onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
@@ -403,8 +407,14 @@ form.addEventListener(
             // CREATE APPLICATION
             // =================================
 
+            const applicationNumber =
+    await getNextApplicationNumber();
+
             const applicationData = {
 
+                applicationNo:
+                   applicationNumber,
+                
                 applicantUid:
                     currentUser.uid,
 
@@ -524,9 +534,11 @@ form.addEventListener(
 
 
             alert(
-                "Application submitted successfully!\n\nApplication ID:\n" +
-                applicationId
-            );
+    "Application Submitted Successfully!\n\n" +
+    "Application No.: " +
+    applicationNumber +
+    "\n\nPlease keep this Application No. safe for future tracking."
+);
 
 
             // =================================
