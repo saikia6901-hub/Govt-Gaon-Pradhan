@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        My Applications | Gaon Pradhan Certificate Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/my-applications.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ===================================== -->
+<!-- HEADER -->
+<!-- ===================================== -->
+
+<header class="applications-header">
+
+    <div class="header-left">
+
+        <img
+            src="assets/logo.png"
+            class="portal-logo"
+        >
+
+        <div>
+
+            <h1>
+                Gaon Pradhan Certificate Portal
+            </h1>
+
+            <p>
+                Applicant Services
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="header-user">
+
+        <span class="user-icon">
+            👤
+        </span>
+
+        <div>
+
+            <strong id="applicantName">
+                Applicant
+            </strong>
+
+            <small id="userEmail">
+                Loading...
+            </small>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- ===================================== -->
+<!-- MAIN -->
+<!-- ===================================== -->
+
+<main class="applications-container">
+
+
+    <!-- BACK -->
+    
+    <a
+        href="applicant-dashboard.html"
+        class="back-link"
+    >
+        ← Back to Dashboard
+    </a>
+
+
+
+    <!-- PAGE HERO -->
+
+    <section class="applications-hero">
+
+        <div>
+
+            <span class="hero-badge">
+                🔐 Secure Applicant Service
+            </span>
+
+            <h2>
+                My Applications
+            </h2>
+
+            <p>
+                View and track all your certificate applications
+                submitted through the Gaon Pradhan Certificate Portal.
+            </p>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SUMMARY -->
+
+    <section class="application-summary">
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                📋
+            </span>
+
+            <div>
+
+                <small>
+                    Total Applications
+                </small>
+
+                <strong id="totalApplications">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                ⏳
+            </span>
+
+            <div>
+
+                <small>
+                    Pending
+                </small>
+
+                <strong id="pendingApplications">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                ✅
+            </span>
+
+            <div>
+
+                <small>
+                    Approved
+                </small>
+
+                <strong id="approvedApplications">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                ❌
+            </span>
+
+            <div>
+
+                <small>
+                    Rejected
+                </small>
+
+                <strong id="rejectedApplications">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+    </section>
+
+
+
+    <!-- APPLICATION LIST -->
+
+    <section class="applications-section">
+
+
+        <div class="section-heading">
+
+            <div>
+
+                <h3>
+                    Application History
+                </h3>
+
+                <p>
+                    Your submitted certificate applications
+                </p>
+
+            </div>
+
+
+            <a
+                href="applicant-application.html"
+                class="new-application-btn"
+            >
+                + New Application
+            </a>
+
+        </div>
+
+
+
+        <!-- LOADING -->
+
+        <div
+            id="loadingMessage"
+            class="loading-box"
+        >
+            Loading your applications...
+        </div>
+
+
+
+        <!-- EMPTY -->
+
+        <div
+            id="emptyMessage"
+            class="empty-box"
+            style="display:none;"
+        >
+
+            <div class="empty-icon">
+                📄
+            </div>
+
+            <h3>
+                No Applications Found
+            </h3>
+
+            <p>
+                You have not submitted any certificate application yet.
+            </p>
+
+            <a
+                href="applicant-application.html"
+                class="new-application-btn"
+            >
+                Apply for Certificate
+            </a>
+
+        </div>
+
+
+
+        <!-- APPLICATIONS -->
+
+        <div
+            id="applicationsList"
+            class="applications-list"
+        ></div>
+
+
+    </section>
+
+
+</main>
+
+
+
+<script
+    type="module"
+    src="js/my-applications.js"
+></script>
+
+
+</body>
+
+</html>
