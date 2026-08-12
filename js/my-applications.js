@@ -14,10 +14,6 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
-// ========================================
-// ELEMENTS
-// ========================================
-
 const applicationsList =
     document.getElementById("applicationsList");
 
@@ -29,10 +25,12 @@ const emptyMessage =
 
 
 // ========================================
-// AUTHENTICATION
+// AUTH
 // ========================================
 
 onAuthStateChanged(auth, async (user) => {
+
+    console.log("AUTH USER:", user);
 
     if (!user) {
 
@@ -44,9 +42,9 @@ onAuthStateChanged(auth, async (user) => {
 
     try {
 
-        // ====================================
-        // LOAD APPLICANT PROFILE
-        // ====================================
+        // =================================
+        // LOAD USER PROFILE
+        // =================================
 
         const userRef =
             doc(
@@ -60,11 +58,13 @@ onAuthStateChanged(auth, async (user) => {
             await getDoc(userRef);
 
 
-        if (!userSnap.exists()) {
+        console.log(
+            "USER PROFILE EXISTS:",
+            userSnap.exists()
+        );
 
-            console.error(
-                "User profile document not found."
-            );
+
+        if (!userSnap.exists()) {
 
             if (loadingMessage) {
 
@@ -72,6 +72,11 @@ onAuthStateChanged(auth, async (user) => {
                     "Applicant profile not found.";
 
             }
+
+            console.error(
+                "No users document found for UID:",
+                user.uid
+            );
 
             return;
         }
@@ -81,29 +86,15 @@ onAuthStateChanged(auth, async (user) => {
             userSnap.data();
 
 
-        // ====================================
-        // ROLE CHECK
-        // ====================================
-
-        if (
-            userData.role &&
-            userData.role !== "applicant"
-        ) {
-
-            alert(
-                "Access denied. Applicant account required."
-            );
-
-            window.location.href =
-                "dashboard.html";
-
-            return;
-        }
+        console.log(
+            "USER DATA:",
+            userData
+        );
 
 
-        // ====================================
-        // DISPLAY APPLICANT NAME
-        // ====================================
+        // =================================
+        // NAME
+        // =================================
 
         const applicantName =
             document.getElementById(
@@ -120,9 +111,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // DISPLAY EMAIL
-        // ====================================
+        // =================================
+        // EMAIL
+        // =================================
 
         const userEmail =
             document.getElementById(
@@ -140,11 +131,31 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // LOAD APPLICATIONS
-        // ====================================
+        // =================================
+        // ROLE
+        // =================================
 
-        const applicationQuery =
+        if (
+            userData.role &&
+            userData.role !== "applicant"
+        ) {
+
+            alert(
+                "Access denied. Applicant account required."
+            );
+
+            window.location.href =
+                "dashboard.html";
+
+            return;
+        }
+
+
+        // =================================
+        // LOAD APPLICATIONS
+        // =================================
+
+        const applicationsQuery =
             query(
                 collection(
                     db,
@@ -160,13 +171,15 @@ onAuthStateChanged(auth, async (user) => {
 
         const snapshot =
             await getDocs(
-                applicationQuery
+                applicationsQuery
             );
 
 
-        // ====================================
-        // STOP LOADING
-        // ====================================
+        console.log(
+            "APPLICATION COUNT:",
+            snapshot.size
+        );
+
 
         if (loadingMessage) {
 
@@ -176,9 +189,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // NO APPLICATION
-        // ====================================
+        // =================================
+        // NO APPLICATIONS
+        // =================================
 
         if (snapshot.empty) {
 
@@ -195,9 +208,9 @@ onAuthStateChanged(auth, async (user) => {
         }
 
 
-        // ====================================
-        // APPLICATION DATA
-        // ====================================
+        // =================================
+        // APPLICATION ARRAY
+        // =================================
 
         const applications = [];
 
@@ -216,9 +229,9 @@ onAuthStateChanged(auth, async (user) => {
         });
 
 
-        // ====================================
-        // NEWEST APPLICATION FIRST
-        // ====================================
+        // =================================
+        // SORT
+        // =================================
 
         applications.sort(
             (a, b) => {
@@ -235,22 +248,19 @@ onAuthStateChanged(auth, async (user) => {
         );
 
 
-        // ====================================
-        // UPDATE SUMMARY
-        // ====================================
-
         updateSummary(
             applications
         );
 
 
-        // ====================================
-        // DISPLAY APPLICATIONS
-        // ====================================
+        // =================================
+        // DISPLAY
+        // =================================
 
         if (applicationsList) {
 
             applicationsList.innerHTML = "";
+
 
             applications.forEach(
                 (application) => {
@@ -269,7 +279,7 @@ onAuthStateChanged(auth, async (user) => {
     } catch (error) {
 
         console.error(
-            "My Applications Error:",
+            "MY APPLICATIONS ERROR:",
             error
         );
 
@@ -308,7 +318,7 @@ function updateSummary(
                 String(
                     application.applicationStatus ||
                     application.status ||
-                    ""
+                    "Pending"
                 ).toLowerCase();
 
 
@@ -357,36 +367,24 @@ function updateSummary(
         );
 
 
-    if (total) {
-
+    if (total)
         total.textContent =
             applications.length;
 
-    }
 
-
-    if (pendingElement) {
-
+    if (pendingElement)
         pendingElement.textContent =
             pending;
 
-    }
 
-
-    if (approvedElement) {
-
+    if (approvedElement)
         approvedElement.textContent =
             approved;
 
-    }
 
-
-    if (rejectedElement) {
-
+    if (rejectedElement)
         rejectedElement.textContent =
             rejected;
-
-    }
 
 }
 
@@ -403,10 +401,6 @@ function createApplicationCard(
         application.applicationStatus ||
         application.status ||
         "Pending";
-
-
-    const statusClass =
-        getStatusClass(status);
 
 
     const applicationNo =
@@ -455,7 +449,7 @@ function createApplicationCard(
                 </div>
 
 
-                <span class="status ${statusClass}">
+                <span class="status status-pending">
                     ${status}
                 </span>
 
@@ -524,57 +518,10 @@ function createApplicationCard(
 
 
 // ========================================
-// STATUS CLASS
-// ========================================
-
-function getStatusClass(
-    status
-) {
-
-    const value =
-        String(status)
-        .toLowerCase();
-
-
-    if (
-        value === "approved"
-    ) {
-
-        return "status-approved";
-
-    }
-
-
-    if (
-        value === "rejected"
-    ) {
-
-        return "status-rejected";
-
-    }
-
-
-    if (
-        value.includes("review")
-    ) {
-
-        return "status-review";
-
-    }
-
-
-    return "status-pending";
-
-}
-
-
-// ========================================
 // DATE
 // ========================================
 
-function formatDate(
-    timestamp
-) {
+function formatDate(timestamp) {
 
     if (
         !timestamp ||
@@ -605,7 +552,7 @@ function formatDate(
 
 
 // ========================================
-// TRACK APPLICATION
+// TRACK
 // ========================================
 
 window.trackApplication =
