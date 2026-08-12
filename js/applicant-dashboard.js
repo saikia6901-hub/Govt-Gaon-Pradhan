@@ -1,13 +1,13 @@
 import { auth, db } from "./firebase.js";
 
 import {
-  onAuthStateChanged,
-  signOut
+    onAuthStateChanged,
+    signOut
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 import {
-  doc,
-  getDoc
+    doc,
+    getDoc
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-firestore.js";
 
 
@@ -17,132 +17,207 @@ import {
 
 onAuthStateChanged(auth, async (user) => {
 
-  if (!user) {
-
-    window.location.href =
-      "login.html";
-
-    return;
-
-  }
-
-
-  try {
-
     // ====================================
-    // GET USER PROFILE
+    // NOT LOGGED IN
     // ====================================
 
-    const userRef =
-      doc(
-        db,
-        "users",
-        user.uid
-      );
+    if (!user) {
 
+        window.location.href =
+            "login.html";
 
-    const userSnap =
-      await getDoc(userRef);
-
-
-    if (!userSnap.exists()) {
-
-      alert(
-        "Applicant profile not found."
-      );
-
-      await signOut(auth);
-
-      window.location.href =
-        "login.html";
-
-      return;
-
+        return;
     }
 
 
-    const data =
-      userSnap.data();
+    try {
+
+        // ====================================
+        // GET USER PROFILE
+        // ====================================
+
+        const userRef =
+            doc(
+                db,
+                "users",
+                user.uid
+            );
 
 
-    // ====================================
-    // ROLE SECURITY
-    // ====================================
+        const userSnap =
+            await getDoc(userRef);
 
-    if (
-      data.role !== "applicant"
-    ) {
 
-      alert(
-        "Access denied. Applicant account required."
-      );
+        // ====================================
+        // PROFILE NOT FOUND
+        // ====================================
 
-      window.location.href =
-        "dashboard.html";
+        if (!userSnap.exists()) {
 
-      return;
+            alert(
+                "Applicant profile not found. Please complete your profile."
+            );
+
+            window.location.href =
+                "applicant-profile.html";
+
+            return;
+        }
+
+
+        const data =
+            userSnap.data();
+
+
+        // ====================================
+        // ROLE SECURITY
+        // ====================================
+
+        if (
+            data.role !== "applicant"
+        ) {
+
+            alert(
+                "Access denied. Applicant account required."
+            );
+
+            window.location.href =
+                "dashboard.html";
+
+            return;
+        }
+
+
+        // ====================================
+        // APPLICANT NAME
+        // ====================================
+
+        const applicantName =
+            document.getElementById(
+                "applicantName"
+            );
+
+
+        if (applicantName) {
+
+            applicantName.textContent =
+                data.name ||
+                "Applicant";
+
+        }
+
+
+        // ====================================
+        // HEADER APPLICANT NAME
+        // ====================================
+
+        const headerApplicantName =
+            document.getElementById(
+                "headerApplicantName"
+            );
+
+
+        if (headerApplicantName) {
+
+            headerApplicantName.textContent =
+                data.name ||
+                "Applicant";
+
+        }
+
+
+        // ====================================
+        // EMAIL
+        // ====================================
+
+        const applicantEmail =
+            document.getElementById(
+                "applicantEmail"
+            );
+
+
+        if (applicantEmail) {
+
+            applicantEmail.textContent =
+                user.email ||
+                data.email ||
+                "";
+
+        }
+
+
+        // ====================================
+        // USER EMAIL
+        // ====================================
+
+        const userEmail =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+        if (userEmail) {
+
+            userEmail.textContent =
+                user.email ||
+                data.email ||
+                "";
+
+        }
+
+
+        // ====================================
+        // PROFILE STATUS
+        // ====================================
+
+        const profileStatus =
+            document.getElementById(
+                "profileStatus"
+            );
+
+
+        if (profileStatus) {
+
+            if (
+                data.profileCompleted === true
+            ) {
+
+                profileStatus.textContent =
+                    "Profile Complete";
+
+            } else {
+
+                profileStatus.textContent =
+                    "Profile Incomplete";
+
+            }
+
+        }
+
+
+        // ====================================
+        // SUCCESS
+        // ====================================
+
+        console.log(
+            "Applicant dashboard loaded successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Applicant dashboard error:",
+            error
+        );
+
+
+        alert(
+            "Unable to load applicant dashboard.\n\n" +
+            error.message
+        );
 
     }
-
-
-    // ====================================
-    // DISPLAY EMAIL
-    // ====================================
-
-    document.getElementById(
-      "applicantEmail"
-    ).textContent =
-      "Logged in as: " + user.email;
-
-
-    // ====================================
-    // DISPLAY NAME
-    // ====================================
-
-    document.getElementById(
-      "applicantName"
-    ).textContent =
-      "Name: " +
-      (data.name || "Applicant");
-
-
-    // ====================================
-    // PROFILE STATUS
-    // ====================================
-
-    const profileStatus =
-      document.getElementById(
-        "profileStatus"
-      );
-
-
-    if (
-      data.profileCompleted === true
-    ) {
-
-      profileStatus.textContent =
-        "Profile Status: Complete ✅";
-
-    } else {
-
-      profileStatus.textContent =
-        "Profile Status: Incomplete ⚠️";
-
-    }
-
-
-  } catch (error) {
-
-    console.error(
-      "Applicant dashboard error:",
-      error
-    );
-
-    alert(
-      "Unable to load applicant dashboard."
-    );
-
-  }
 
 });
 
@@ -152,13 +227,12 @@ onAuthStateChanged(auth, async (user) => {
 // ========================================
 
 window.applyCertificate =
-  function () {
+    function () {
 
-    alert(
-      "Certificate application module will be available soon."
-    );
+        window.location.href =
+            "applicant-application.html";
 
-  };
+    };
 
 
 // ========================================
@@ -166,13 +240,25 @@ window.applyCertificate =
 // ========================================
 
 window.myApplications =
-  function () {
+    function () {
 
-    alert(
-      "My Applications module will be available soon."
-    );
+        window.location.href =
+            "my-applications.html";
 
-  };
+    };
+
+
+// ========================================
+// PROFILE
+// ========================================
+
+window.openProfile =
+    function () {
+
+        window.location.href =
+            "applicant-profile.html";
+
+    };
 
 
 // ========================================
@@ -180,26 +266,26 @@ window.myApplications =
 // ========================================
 
 window.logout =
-  async function () {
+    async function () {
 
-    try {
+        try {
 
-      await signOut(auth);
+            await signOut(auth);
 
-      window.location.href =
-        "login.html";
+            window.location.href =
+                "login.html";
 
-    } catch (error) {
+        } catch (error) {
 
-      console.error(
-        "Logout error:",
-        error
-      );
+            console.error(
+                "Logout error:",
+                error
+            );
 
-      alert(
-        "Unable to logout."
-      );
+            alert(
+                "Unable to logout."
+            );
 
-    }
+        }
 
-  };
+    };
