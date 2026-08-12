@@ -427,3 +427,484 @@ font-size:16px;
 .name{
     font-size: 15px;
 }
+
+/* ========================================
+   APPLICANT REGISTRATION - PREMIUM UI
+======================================== */
+
+.registration-page {
+    min-height: 100vh;
+    background: #f4f7f6;
+    color: #17352a;
+}
+
+
+/* HEADER */
+
+.registration-header {
+    min-height: 78px;
+    padding: 12px 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: #ffffff;
+    border-bottom: 1px solid #e1ebe6;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+
+.header-brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+
+.registration-header .logo {
+    width: 58px;
+    height: 58px;
+    object-fit: contain;
+}
+
+
+.registration-header h1 {
+    margin: 0;
+    font-size: 20px;
+    color: #046A38;
+}
+
+
+.registration-header p {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color: #6b7d75;
+}
+
+
+.header-login-link {
+    color: #046A38;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+
+/* MAIN */
+
+.registration-main {
+    padding: 45px 20px 55px;
+}
+
+
+.registration-wrapper {
+    width: min(1100px, 100%);
+    margin: auto;
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 35px;
+    align-items: center;
+}
+
+
+/* LEFT PANEL */
+
+.registration-info {
+    padding: 20px;
+}
+
+
+.portal-badge {
+    display: inline-block;
+    padding: 7px 12px;
+    border-radius: 30px;
+    background: #e5f3ec;
+    color: #046A38;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+.registration-info h2 {
+    margin: 20px 0 14px;
+    font-size: 38px;
+    line-height: 1.15;
+    color: #17352a;
+}
+
+
+.registration-info h2 span {
+    color: #046A38;
+}
+
+
+.registration-intro {
+    max-width: 500px;
+    line-height: 1.7;
+    color: #687a72;
+    font-size: 15px;
+}
+
+
+/* BENEFITS */
+
+.registration-benefits {
+    margin-top: 30px;
+    display: grid;
+    gap: 16px;
+}
+
+
+.benefit-item {
+    display: flex;
+    gap: 13px;
+    align-items: flex-start;
+}
+
+
+.benefit-icon {
+    width: 42px;
+    height: 42px;
+    min-width: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background: #e8f5ee;
+    font-size: 18px;
+}
+
+
+.benefit-item strong {
+    display: block;
+    font-size: 14px;
+    color: #17352a;
+}
+
+
+.benefit-item span {
+    display: block;
+    margin-top: 3px;
+    color: #718078;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+
+/* REGISTRATION CARD */
+
+.registration-card {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 20px;
+    border: 1px solid #e2ebe6;
+    box-shadow: 0 15px 45px rgba(0, 70, 40, 0.09);
+}
+
+
+.registration-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 25px;
+}
+
+
+.registration-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e5f3ec;
+    font-size: 21px;
+}
+
+
+.registration-card-header h3 {
+    margin: 0;
+    color: #17352a;
+    font-size: 22px;
+}
+
+
+.registration-card-header p {
+    margin: 4px 0 0;
+    color: #78857f;
+    font-size: 13px;
+}
+
+
+/* FORM */
+
+.registration-form {
+    display: grid;
+    gap: 17px;
+}
+
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+}
+
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #29483b;
+}
+
+
+.form-group label span {
+    color: #c62828;
+}
+
+
+.form-group input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 13px 14px;
+    border: 1px solid #d8e3de;
+    border-radius: 10px;
+    background: #fbfdfc;
+    color: #17352a;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+
+.form-group input:focus {
+    border-color: #046A38;
+    box-shadow: 0 0 0 3px rgba(4, 106, 56, 0.10);
+    background: #ffffff;
+}
+
+
+.form-group small {
+    color: #7a8982;
+    font-size: 11px;
+}
+
+
+/* MOBILE INPUT */
+
+.input-with-prefix {
+    display: flex;
+    border: 1px solid #d8e3de;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #fbfdfc;
+}
+
+
+.country-code {
+    display: flex;
+    align-items: center;
+    padding: 0 13px;
+    background: #eef5f1;
+    color: #046A38;
+    font-weight: 700;
+    font-size: 13px;
+}
+
+
+.input-with-prefix input {
+    border: none;
+    border-radius: 0;
+    background: transparent;
+}
+
+
+.input-with-prefix:focus-within {
+    border-color: #046A38;
+    box-shadow: 0 0 0 3px rgba(4, 106, 56, 0.10);
+}
+
+
+/* CONSENT */
+
+.registration-consent {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 2px;
+}
+
+
+.registration-consent input {
+    margin-top: 3px;
+    accent-color: #046A38;
+}
+
+
+.registration-consent label {
+    color: #687a72;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+
+/* BUTTON */
+
+.registration-submit-btn {
+    width: 100%;
+    border: none;
+    border-radius: 11px;
+    padding: 14px 18px;
+    background: #046A38;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.2s ease;
+    box-shadow: 0 7px 18px rgba(4, 106, 56, 0.20);
+}
+
+
+.registration-submit-btn:hover {
+    background: #03552d;
+    transform: translateY(-1px);
+}
+
+
+.button-arrow {
+    font-size: 18px;
+}
+
+
+/* MESSAGE */
+
+.register-message {
+    min-height: 20px;
+    margin-top: 14px;
+    text-align: center;
+    font-size: 13px;
+}
+
+
+/* LOGIN */
+
+.registration-login {
+    margin-top: 22px;
+    padding-top: 20px;
+    border-top: 1px solid #edf1ef;
+    text-align: center;
+    font-size: 13px;
+    color: #718078;
+}
+
+
+.registration-login a {
+    margin-left: 5px;
+    color: #046A38;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+
+/* FOOTER */
+
+.registration-footer {
+    padding: 18px 5%;
+    background: #ffffff;
+    border-top: 1px solid #e2ebe6;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    color: #718078;
+    font-size: 11px;
+}
+
+
+.registration-footer strong {
+    color: #046A38;
+}
+
+
+/* ========================================
+   RESPONSIVE
+======================================== */
+
+@media (max-width: 850px) {
+
+    .registration-wrapper {
+        grid-template-columns: 1fr;
+        max-width: 650px;
+    }
+
+    .registration-info {
+        text-align: center;
+        padding: 5px 10px;
+    }
+
+    .registration-info h2 {
+        font-size: 31px;
+    }
+
+    .registration-intro {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .benefit-item {
+        text-align: left;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .registration-header {
+        padding: 12px 16px;
+    }
+
+    .registration-header h1 {
+        font-size: 15px;
+    }
+
+    .registration-header p {
+        font-size: 10px;
+    }
+
+    .registration-header .logo {
+        width: 45px;
+        height: 45px;
+    }
+
+    .header-login-link {
+        display: none;
+    }
+
+    .registration-main {
+        padding: 25px 14px 40px;
+    }
+
+    .registration-info h2 {
+        font-size: 27px;
+    }
+
+    .registration-card {
+        padding: 22px 17px;
+        border-radius: 16px;
+    }
+
+    .registration-card-header h3 {
+        font-size: 19px;
+    }
+
+    .registration-footer {
+        flex-direction: column;
+        text-align: center;
+    }
+
+}
