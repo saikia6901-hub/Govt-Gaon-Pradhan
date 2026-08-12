@@ -558,12 +558,8 @@ function formatDate(timestamp) {
 window.trackApplication =
     function (id) {
 
-        localStorage.setItem(
-            "trackingApplicationId",
-            id
-        );
-
         window.location.href =
-            "track-application.html";
+            "track-application.html?applicationId=" +
+            encodeURIComponent(id);
 
     };
