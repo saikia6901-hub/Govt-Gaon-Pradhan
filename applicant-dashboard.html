@@ -392,7 +392,7 @@
                         TOTAL APPLICATIONS
                     </span>
 
-                    <strong>
+                    <strong id="totalApplications">
                         0
                     </strong>
 
@@ -413,7 +413,7 @@
                         PENDING
                     </span>
 
-                    <strong>
+                    <strong id="pendingApplications">
                         0
                     </strong>
 
@@ -434,7 +434,7 @@
                         APPROVED
                     </span>
 
-                    <strong>
+                    <strong id="approvedApplications">
                         0
                     </strong>
 
@@ -455,7 +455,7 @@
                         REJECTED
                     </span>
 
-                    <strong>
+                    <strong id="rejectedApplications">
                         0
                     </strong>
 
@@ -647,38 +647,26 @@
             </div>
 
 
-            <div class="applications-card">
+            <div
+               class="applications-card"
+               id="recentApplications"
+            >
 
+               <div class="empty-applications">
 
-                <div class="empty-applications">
+               <div class="empty-icon">
+                 📄
+               </div>
 
-                    <div class="empty-icon">
-                        📄
-                    </div>
+        <h3>
+            Loading Applications...
+        </h3>
 
+        <p>
+            Please wait while we load your applications.
+        </p>
 
-                    <h3>
-                        No Applications Yet
-                    </h3>
-
-
-                    <p>
-                        You haven't submitted any certificate
-                        applications yet.
-                    </p>
-
-
-                    <button
-                        onclick="applyCertificate()"
-                        class="empty-button"
-                    >
-
-                        Apply for Your First Certificate
-
-                    </button>
-
-                </div>
-
+    </div>
 
             </div>
 
@@ -864,11 +852,7 @@ observer.observe(
 
 </script>
 
-<script
-    type="module"
-    src="js/applicant-dashboard.js"
-></script>
-    
+
 </body>
 
 </html>
