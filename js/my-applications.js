@@ -5,6 +5,8 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 import {
+    doc,
+    getDoc,
     collection,
     query,
     where,
@@ -17,19 +19,13 @@ import {
 // ========================================
 
 const applicationsList =
-    document.getElementById(
-        "applicationsList"
-    );
+    document.getElementById("applicationsList");
 
 const loadingMessage =
-    document.getElementById(
-        "loadingMessage"
-    );
+    document.getElementById("loadingMessage");
 
 const emptyMessage =
-    document.getElementById(
-        "emptyMessage"
-    );
+    document.getElementById("emptyMessage");
 
 
 // ========================================
@@ -40,55 +36,93 @@ onAuthStateChanged(auth, async (user) => {
 
     if (!user) {
 
-        window.location.href =
-            "login.html";
+        window.location.href = "login.html";
 
         return;
-
     }
 
 
     try {
 
-        // =================================
-        // USER PROFILE
-        // =================================
+        // ====================================
+        // LOAD APPLICANT PROFILE
+        // ====================================
 
         const userRef =
-            await getDocs(
-                query(
-                    collection(db, "users"),
-                    where(
-                        "uid",
-                        "==",
-                        user.uid
-                    )
-                )
+            doc(
+                db,
+                "users",
+                user.uid
             );
 
 
-        if (!userRef.empty) {
-
-            const userData =
-                userRef.docs[0].data();
+        const userSnap =
+            await getDoc(userRef);
 
 
-            const applicantName =
-                document.getElementById(
-                    "applicantName"
-                );
+        if (!userSnap.exists()) {
 
+            console.error(
+                "User profile document not found."
+            );
 
-            if (applicantName) {
+            if (loadingMessage) {
 
-                applicantName.textContent =
-                    userData.name ||
-                    "Applicant";
+                loadingMessage.textContent =
+                    "Applicant profile not found.";
 
             }
 
+            return;
         }
 
+
+        const userData =
+            userSnap.data();
+
+
+        // ====================================
+        // ROLE CHECK
+        // ====================================
+
+        if (
+            userData.role &&
+            userData.role !== "applicant"
+        ) {
+
+            alert(
+                "Access denied. Applicant account required."
+            );
+
+            window.location.href =
+                "dashboard.html";
+
+            return;
+        }
+
+
+        // ====================================
+        // DISPLAY APPLICANT NAME
+        // ====================================
+
+        const applicantName =
+            document.getElementById(
+                "applicantName"
+            );
+
+
+        if (applicantName) {
+
+            applicantName.textContent =
+                userData.name ||
+                "Applicant";
+
+        }
+
+
+        // ====================================
+        // DISPLAY EMAIL
+        // ====================================
 
         const userEmail =
             document.getElementById(
@@ -99,14 +133,16 @@ onAuthStateChanged(auth, async (user) => {
         if (userEmail) {
 
             userEmail.textContent =
-                user.email || "";
+                user.email ||
+                userData.email ||
+                "";
 
         }
 
 
-        // =================================
+        // ====================================
         // LOAD APPLICATIONS
-        // =================================
+        // ====================================
 
         const applicationQuery =
             query(
@@ -128,25 +164,40 @@ onAuthStateChanged(auth, async (user) => {
             );
 
 
-        loadingMessage.style.display =
-            "none";
+        // ====================================
+        // STOP LOADING
+        // ====================================
 
+        if (loadingMessage) {
 
-        if (snapshot.empty) {
-
-            emptyMessage.style.display =
-                "block";
-
-            updateSummary([]);
-
-            return;
+            loadingMessage.style.display =
+                "none";
 
         }
 
 
-        // =================================
-        // GET DATA
-        // =================================
+        // ====================================
+        // NO APPLICATION
+        // ====================================
+
+        if (snapshot.empty) {
+
+            if (emptyMessage) {
+
+                emptyMessage.style.display =
+                    "block";
+
+            }
+
+            updateSummary([]);
+
+            return;
+        }
+
+
+        // ====================================
+        // APPLICATION DATA
+        // ====================================
 
         const applications = [];
 
@@ -165,9 +216,9 @@ onAuthStateChanged(auth, async (user) => {
         });
 
 
-        // =================================
-        // NEWEST FIRST
-        // =================================
+        // ====================================
+        // NEWEST APPLICATION FIRST
+        // ====================================
 
         applications.sort(
             (a, b) => {
@@ -184,45 +235,51 @@ onAuthStateChanged(auth, async (user) => {
         );
 
 
-        // =================================
-        // SUMMARY
-        // =================================
+        // ====================================
+        // UPDATE SUMMARY
+        // ====================================
 
         updateSummary(
             applications
         );
 
 
-        // =================================
-        // DISPLAY
-        // =================================
+        // ====================================
+        // DISPLAY APPLICATIONS
+        // ====================================
 
-        applicationsList.innerHTML =
-            "";
+        if (applicationsList) {
 
+            applicationsList.innerHTML = "";
 
-        applications.forEach(
-            (application) => {
+            applications.forEach(
+                (application) => {
 
-                applicationsList.innerHTML +=
-                    createApplicationCard(
-                        application
-                    );
+                    applicationsList.innerHTML +=
+                        createApplicationCard(
+                            application
+                        );
 
-            }
-        );
+                }
+            );
+
+        }
 
 
     } catch (error) {
 
         console.error(
-            "My applications error:",
+            "My Applications Error:",
             error
         );
 
 
-        loadingMessage.textContent =
-            "Unable to load applications.";
+        if (loadingMessage) {
+
+            loadingMessage.textContent =
+                "Unable to load applications.";
+
+        }
 
     }
 
@@ -279,28 +336,57 @@ function updateSummary(
     );
 
 
-    document.getElementById(
-        "totalApplications"
-    ).textContent =
-        applications.length;
+    const total =
+        document.getElementById(
+            "totalApplications"
+        );
+
+    const pendingElement =
+        document.getElementById(
+            "pendingApplications"
+        );
+
+    const approvedElement =
+        document.getElementById(
+            "approvedApplications"
+        );
+
+    const rejectedElement =
+        document.getElementById(
+            "rejectedApplications"
+        );
 
 
-    document.getElementById(
-        "pendingApplications"
-    ).textContent =
-        pending;
+    if (total) {
+
+        total.textContent =
+            applications.length;
+
+    }
 
 
-    document.getElementById(
-        "approvedApplications"
-    ).textContent =
-        approved;
+    if (pendingElement) {
+
+        pendingElement.textContent =
+            pending;
+
+    }
 
 
-    document.getElementById(
-        "rejectedApplications"
-    ).textContent =
-        rejected;
+    if (approvedElement) {
+
+        approvedElement.textContent =
+            approved;
+
+    }
+
+
+    if (rejectedElement) {
+
+        rejectedElement.textContent =
+            rejected;
+
+    }
 
 }
 
@@ -378,7 +464,6 @@ function createApplicationCard(
 
             <div class="application-details">
 
-
                 <div class="detail-item">
 
                     <span>
@@ -416,7 +501,6 @@ function createApplicationCard(
                     </strong>
 
                 </div>
-
 
             </div>
 
