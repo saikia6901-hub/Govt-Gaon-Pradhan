@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="theme-color"
+        content="#046A38"
+    >
+
+    <title>
+        Applicant Login | Gaon Pradhan Certificate Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+</head>
+
+
+<body
+    class="premium-login-page"
+    data-login-type="applicant"
+>
+
+
+<!-- ========================================
+     HEADER
+======================================== -->
+
+<header class="login-header">
+
+    <div class="login-brand">
+
+        <img
+            src="assets/logo.png"
+            alt="Gaon Pradhan Portal Logo"
+            class="login-logo"
+        >
+
+        <div>
+
+            <h1>
+                Gaon Pradhan Certificate Portal
+            </h1>
+
+            <p>
+                Government of Assam • Digital Certificate Services
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <a
+        href="index.html"
+        class="login-register-link"
+    >
+        ← Home
+    </a>
+
+</header>
+
+
+
+<!-- ========================================
+     MAIN LOGIN AREA
+======================================== -->
+
+<main class="login-main">
+
+
+    <div class="login-wrapper">
+
+
+        <!-- ==================================
+             LEFT INFORMATION
+        =================================== -->
+
+        <section class="login-info">
+
+            <span class="login-badge">
+                APPLICANT PORTAL
+            </span>
+
+
+            <h2>
+                Welcome Back
+                <span>Applicant</span>
+            </h2>
+
+
+            <p class="login-intro">
+
+                Login to access your certificate applications,
+                track application status and manage your
+                digital services.
+
+            </p>
+
+
+            <!-- TRUST FEATURES -->
+
+            <div class="login-features">
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+                        🔐
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Secure Login
+                        </strong>
+
+                        <span>
+                            Protected account authentication
+                            for applicants.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+                        📄
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Certificate Services
+                        </strong>
+
+                        <span>
+                            Apply and manage your certificate
+                            applications online.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="login-feature">
+
+                    <div class="login-feature-icon">
+                        📊
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Track Applications
+                        </strong>
+
+                        <span>
+                            Check your application progress
+                            anytime.
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- ==================================
+             LOGIN CARD
+        =================================== -->
+
+        <section class="premium-login-card">
+
+
+            <div class="login-card-heading">
+
+                <div class="login-user-icon">
+                    👤
+                </div>
+
+                <div>
+
+                    <h3>
+                        Applicant Login
+                    </h3>
+
+                    <p>
+                        Sign in to your applicant account
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LOGIN FORM -->
+
+            <form
+                onsubmit="event.preventDefault(); login();"
+                class="premium-login-form"
+            >
+
+
+                <!-- EMAIL -->
+
+                <div class="login-form-group">
+
+                    <label for="username">
+                        Email Address
+                    </label>
+
+                    <input
+                        type="email"
+                        id="username"
+                        placeholder="Enter your email address"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- PASSWORD -->
+
+                <div class="login-form-group">
+
+                    <div class="login-password-label">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                    </div>
+
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+
+                <!-- SECURITY NOTE -->
+
+                <div class="login-security-note">
+
+                    <span>
+                        🔒
+                    </span>
+
+                    <span>
+                        Your login information is securely
+                        processed.
+                    </span>
+
+                </div>
+
+
+
+                <!-- LOGIN BUTTON -->
+
+                <button
+                    type="submit"
+                    class="premium-login-btn"
+                >
+
+                    <span>
+                        Login to Applicant Portal
+                    </span>
+
+                    <span class="login-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+
+            <!-- MESSAGE -->
+
+            <div
+                id="message"
+                class="login-message"
+                role="alert"
+            ></div>
+
+
+
+            <!-- REGISTER -->
+
+            <div class="login-create-account">
+
+                <span>
+                    Don't have an account?
+                </span>
+
+                <a href="applicant-register.html">
+                    Create Applicant Account
+                </a>
+
+            </div>
+
+
+        </section>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- ========================================
+     FOOTER
+======================================== -->
+
+<footer class="login-footer">
+
+    <div>
+
+        <strong>
+            Gaon Pradhan Certificate Portal
+        </strong>
+
+        <span>
+            | Digital Public Service
+        </span>
+
+    </div>
+
+    <span>
+        Secure • Transparent • Citizen Friendly
+    </span>
+
+</footer>
+
+
+
+<!-- EXISTING LOGIN JAVASCRIPT -->
+
+<script
+    type="module"
+    src="js/auth.js"
+></script>
+
+
+</body>
+
+              </html>
