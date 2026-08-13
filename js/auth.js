@@ -1,7 +1,8 @@
 import { auth, db } from "./firebase.js";
 
 import {
-  signInWithEmailAndPassword
+  signInWithEmailAndPassword,
+  signOut
 } from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
 
 import {
@@ -18,9 +19,16 @@ window.login = async function () {
   const password =
     document.getElementById("password").value;
 
-
   const message =
     document.getElementById("message");
+
+
+  // ========================================
+  // LOGIN TYPE
+  // ========================================
+
+  const loginType =
+    document.body.dataset.loginType || "official";
 
 
   // ========================================
@@ -80,7 +88,7 @@ window.login = async function () {
       message.textContent =
         "User profile not found.";
 
-      await auth.signOut();
+      await signOut(auth);
 
       return;
 
@@ -104,21 +112,63 @@ window.login = async function () {
       message.textContent =
         "User role is not assigned.";
 
-      await auth.signOut();
+      await signOut(auth);
 
       return;
 
     }
 
 
-    alert(
-      "Login Successful"
-    );
+    // ========================================
+    // APPLICANT LOGIN PAGE
+    // ========================================
+
+    if (loginType === "applicant") {
+
+      if (role !== "applicant") {
+
+        message.textContent =
+          "This login is for applicants only. Please use Official Login.";
+
+        await signOut(auth);
+
+        return;
+
+      }
+
+
+      alert("Applicant Login Successful");
+
+      window.location.href =
+        "applicant-dashboard.html";
+
+      return;
+
+    }
 
 
     // ========================================
-    // ROLE BASED REDIRECTION
+    // OFFICIAL LOGIN PAGE
     // ========================================
+
+    if (role === "applicant") {
+
+      message.textContent =
+        "Applicant accounts cannot use Official Login. Please use Applicant Login.";
+
+      await signOut(auth);
+
+      return;
+
+    }
+
+
+    // ========================================
+    // OFFICIAL ROLE BASED REDIRECTION
+    // ========================================
+
+    alert("Official Login Successful");
+
 
     switch (role) {
 
@@ -131,18 +181,6 @@ window.login = async function () {
 
         window.location.href =
           "dashboard.html";
-
-        break;
-
-
-      // --------------------------------------
-      // APPLICANT
-      // --------------------------------------
-
-      case "applicant":
-
-        window.location.href =
-          "applicant-dashboard.html";
 
         break;
 
@@ -202,9 +240,9 @@ window.login = async function () {
       default:
 
         message.textContent =
-          "Invalid or unsupported user role.";
+          "Invalid or unsupported official user role.";
 
-        await auth.signOut();
+        await signOut(auth);
 
         break;
 
@@ -219,8 +257,56 @@ window.login = async function () {
     );
 
 
-    message.textContent =
-      error.message;
+    // ========================================
+    // USER FRIENDLY ERROR MESSAGE
+    // ========================================
+
+    if (
+      error.code ===
+      "auth/invalid-credential"
+    ) {
+
+      message.textContent =
+        "Invalid email or password.";
+
+    }
+
+    else if (
+      error.code ===
+      "auth/user-not-found"
+    ) {
+
+      message.textContent =
+        "No account found with this email.";
+
+    }
+
+    else if (
+      error.code ===
+      "auth/wrong-password"
+    ) {
+
+      message.textContent =
+        "Incorrect password.";
+
+    }
+
+    else if (
+      error.code ===
+      "auth/too-many-requests"
+    ) {
+
+      message.textContent =
+        "Too many login attempts. Please try again later.";
+
+    }
+
+    else {
+
+      message.textContent =
+        error.message;
+
+    }
 
   }
 
