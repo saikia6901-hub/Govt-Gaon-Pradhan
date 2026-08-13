@@ -1,106 +1,1092 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard | Gaon Pradhan Portal</title>
+    <meta charset="UTF-8">
 
-<link rel="stylesheet" href="css/style.css">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Official Dashboard | Gaon Pradhan Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
 </head>
+
 
 <body>
 
-<header class="header">
-    <img src="assets/logo.png" class="logo">
 
-    <div>
-        <h1>Gaon Pradhan Certificate Portal</h1>
-        <p>Dashboard</p>
-        <p id="userEmail"></p>
-    </div>
-</header>
+<!-- =====================================================
+     OFFICIAL PORTAL
+     ===================================================== -->
 
-<div class="dashboard">
-    <div class="stats">
+<div class="official-dashboard">
 
-<div class="card">
-<h3>Total Certificates</h3>
-<h1 id="totalCertificates">0</h1>
+
+    <!-- =================================================
+         SIDEBAR
+         ================================================= -->
+
+    <aside class="official-sidebar">
+
+
+        <!-- BRAND -->
+
+        <div class="official-brand">
+
+            <img
+                src="assets/logo.png"
+                class="official-logo"
+                alt="Gaon Pradhan Portal"
+            >
+
+            <div>
+
+                <h2>
+                    Gaon Pradhan
+                </h2>
+
+                <span>
+                    Certificate Portal
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="official-nav">
+
+
+            <div class="official-nav-label">
+                MAIN MENU
+            </div>
+
+
+            <a
+                href="dashboard.html"
+                class="official-nav-item active"
+            >
+
+                <span class="nav-icon">
+                    ⌂
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="#applications"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ▤
+                </span>
+
+                <span>
+                    Applications
+                </span>
+
+            </a>
+
+
+            <a
+                href="#verification"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ✓
+                </span>
+
+                <span>
+                    Verification
+                </span>
+
+            </a>
+
+
+            <a
+                href="history.html"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ▣
+                </span>
+
+                <span>
+                    Certificates
+                </span>
+
+            </a>
+
+
+            <div class="official-nav-label">
+                MANAGEMENT
+            </div>
+
+
+            <a
+                href="#reports"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ◫
+                </span>
+
+                <span>
+                    Reports
+                </span>
+
+            </a>
+
+
+            <a
+                href="#locations"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ◉
+                </span>
+
+                <span>
+                    Location Management
+                </span>
+
+            </a>
+
+
+            <a
+                href="users.html"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ◌
+                </span>
+
+                <span>
+                    Users & Officials
+                </span>
+
+            </a>
+
+
+            <div class="official-nav-label">
+                SYSTEM
+            </div>
+
+
+            <a
+                href="#settings"
+                class="official-nav-item"
+            >
+
+                <span class="nav-icon">
+                    ⚙
+                </span>
+
+                <span>
+                    Settings
+                </span>
+
+            </a>
+
+
+        </nav>
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="official-sidebar-footer">
+
+            <button
+                type="button"
+                class="official-logout"
+                onclick="logout()"
+            >
+
+                <span>
+                    ⇥
+                </span>
+
+                Logout
+
+            </button>
+
+        </div>
+
+
+    </aside>
+
+
+
+    <!-- =================================================
+         MAIN AREA
+         ================================================= -->
+
+    <main class="official-main">
+
+
+        <!-- =================================================
+             TOP BAR
+             ================================================= -->
+
+        <header class="official-topbar">
+
+
+            <div class="official-page-title">
+
+                <div class="mobile-menu-icon">
+                    ☰
+                </div>
+
+                <div>
+
+                    <h1>
+                        Official Dashboard
+                    </h1>
+
+                    <p>
+                        Gaon Pradhan Certificate Portal
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="official-user-area">
+
+
+                <div class="official-notification">
+                    🔔
+                </div>
+
+
+                <div class="official-user-info">
+
+                    <strong id="dashboardUserName">
+                        Official User
+                    </strong>
+
+                    <span id="dashboardUserRole">
+                        Loading role...
+                    </span>
+
+                </div>
+
+
+                <div class="official-avatar">
+                    👤
+                </div>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =================================================
+             CONTENT
+             ================================================= -->
+
+        <section class="official-content">
+
+
+            <!-- WELCOME -->
+
+            <div class="official-welcome-card">
+
+
+                <div>
+
+                    <span class="official-welcome-label">
+                        WELCOME BACK
+                    </span>
+
+                    <h2>
+                        Welcome to your official dashboard
+                    </h2>
+
+                    <p>
+                        Manage applications, verification,
+                        certificates and official services
+                        from one place.
+                    </p>
+
+                </div>
+
+
+                <div class="official-welcome-badge">
+
+                    <span>
+                        ●
+                    </span>
+
+                    Official Portal
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LOCATION / ROLE INFORMATION
+                 ================================================= -->
+
+            <div class="official-scope-card">
+
+
+                <div class="scope-icon">
+                    ◉
+                </div>
+
+
+                <div>
+
+                    <span>
+                        YOUR OFFICIAL SCOPE
+                    </span>
+
+                    <strong id="officialLocation">
+                        Location information loading...
+                    </strong>
+
+                    <small id="userEmail">
+                        Loading account...
+                    </small>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 STATISTICS
+                 ================================================= -->
+
+            <div class="official-section-heading">
+
+                <div>
+
+                    <span>
+                        OVERVIEW
+                    </span>
+
+                    <h2>
+                        Certificate Statistics
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="official-stats">
+
+
+                <div class="official-stat-card">
+
+                    <div class="stat-icon">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Total Certificates
+                        </span>
+
+                        <strong id="totalCertificates">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="official-stat-card">
+
+                    <div class="stat-icon">
+                        ◷
+                    </div>
+
+                    <div>
+
+                        <span>
+                            Today's Certificates
+                        </span>
+
+                        <strong id="todayCertificates">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="official-stat-card">
+
+                    <div class="stat-icon">
+                        ◫
+                    </div>
+
+                    <div>
+
+                        <span>
+                            This Month
+                        </span>
+
+                        <strong id="monthCertificates">
+                            0
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+                <div class="official-stat-card">
+
+                    <div class="stat-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <span>
+                            System Status
+                        </span>
+
+                        <strong>
+                            Active
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 APPLICATION QUICK ACTIONS
+                 ================================================= -->
+
+            <div
+                class="official-section-heading"
+                id="applications"
+            >
+
+                <div>
+
+                    <span>
+                        QUICK ACTIONS
+                    </span>
+
+                    <h2>
+                        Manage Services
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <div class="official-action-grid">
+
+
+                <a
+                    href="#applications"
+                    class="official-action-card"
+                >
+
+                    <div class="action-icon">
+                        ▤
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Applications
+                        </strong>
+
+                        <span>
+                            View and manage applications
+                        </span>
+
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+                <a
+                    href="#verification"
+                    class="official-action-card"
+                >
+
+                    <div class="action-icon">
+                        ✓
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Verification
+                        </strong>
+
+                        <span>
+                            Review pending applications
+                        </span>
+
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+                <a
+                    href="history.html"
+                    class="official-action-card"
+                >
+
+                    <div class="action-icon">
+                        ▣
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Certificate History
+                        </strong>
+
+                        <span>
+                            View generated certificates
+                        </span>
+
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+                <a
+                    href="#reports"
+                    class="official-action-card"
+                >
+
+                    <div class="action-icon">
+                        ◫
+                    </div>
+
+                    <div>
+
+                        <strong>
+                            Reports
+                        </strong>
+
+                        <span>
+                            View official reports
+                        </span>
+
+                    </div>
+
+                    <b>
+                        →
+                    </b>
+
+                </a>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 SEARCH CERTIFICATE
+                 ================================================= -->
+
+            <div class="official-panel">
+
+
+                <div class="official-panel-header">
+
+                    <div>
+
+                        <span>
+                            CERTIFICATE SEARCH
+                        </span>
+
+                        <h2>
+                            Find a Certificate
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="official-search">
+
+                    <input
+                        type="text"
+                        id="searchInput"
+                        placeholder="Search by Certificate No or Applicant Name"
+                    >
+
+
+                    <button
+                        type="button"
+                        class="official-primary-btn"
+                        onclick="searchCertificate()"
+                    >
+                        Search
+                    </button>
+
+                </div>
+
+
+                <div id="searchResult"></div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 GENERATE CERTIFICATE
+                 ================================================= -->
+
+            <div
+                class="official-panel"
+                id="certificates"
+            >
+
+
+                <div class="official-panel-header">
+
+                    <div>
+
+                        <span>
+                            CERTIFICATE SERVICE
+                        </span>
+
+                        <h2>
+                            Generate New Certificate
+                        </h2>
+
+                        <p>
+                            Create an official certificate
+                            after completing the required verification.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form id="certificateForm">
+
+
+                    <div class="official-form-grid">
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Applicant Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="name"
+                                placeholder="Enter applicant name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Father's Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="father"
+                                placeholder="Enter father's name"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Mother's Name
+                            </label>
+
+                            <input
+                                type="text"
+                                id="mother"
+                                placeholder="Enter mother's name"
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Village
+                            </label>
+
+                            <input
+                                type="text"
+                                id="village"
+                                placeholder="Enter village"
+                                required
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Post Office
+                            </label>
+
+                            <input
+                                type="text"
+                                id="post"
+                                placeholder="Enter post office"
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Police Station
+                            </label>
+
+                            <input
+                                type="text"
+                                id="ps"
+                                placeholder="Enter police station"
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                District
+                            </label>
+
+                            <input
+                                type="text"
+                                id="district"
+                                placeholder="Enter district"
+                            >
+
+                        </div>
+
+
+                        <div class="official-form-group">
+
+                            <label>
+                                Certificate Type
+                            </label>
+
+                            <select id="certificateType">
+
+                                <option>
+                                    Residence Certificate
+                                </option>
+
+                                <option>
+                                    Income Certificate
+                                </option>
+
+                                <option>
+                                    Character Certificate
+                                </option>
+
+                                <option>
+                                    Other Certificate
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <div class="official-form-group full-width">
+
+                            <label>
+                                Purpose
+                            </label>
+
+                            <textarea
+                                id="purpose"
+                                placeholder="Enter purpose of certificate"
+                            ></textarea>
+
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="official-form-actions">
+
+                        <button
+                            type="button"
+                            class="official-primary-btn"
+                            onclick="generateCertificate()"
+                        >
+                            Generate Certificate
+                        </button>
+
+                    </div>
+
+
+                </form>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 MANAGEMENT SHORTCUTS
+                 ================================================= -->
+
+            <div
+                class="official-panel"
+                id="locations"
+            >
+
+
+                <div class="official-panel-header">
+
+                    <div>
+
+                        <span>
+                            ADMINISTRATION
+                        </span>
+
+                        <h2>
+                            Management
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="official-management-grid">
+
+
+                    <a
+                        href="districts.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Districts
+                        </strong>
+
+                        <span>
+                            Manage districts
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="revenue-circles.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Revenue Circles
+                        </strong>
+
+                        <span>
+                            Manage revenue circles
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="mouzas.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Mouzas
+                        </strong>
+
+                        <span>
+                            Manage mouzas
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="villages.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Villages
+                        </strong>
+
+                        <span>
+                            Manage villages
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="users.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Users & Officials
+                        </strong>
+
+                        <span>
+                            Manage official accounts
+                        </span>
+                    </a>
+
+
+                    <a
+                        href="history.html"
+                        class="management-card"
+                    >
+                        <strong>
+                            Certificate History
+                        </strong>
+
+                        <span>
+                            View certificate records
+                        </span>
+                    </a>
+
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================================
+                 FOOTER
+                 ================================================= -->
+
+            <footer class="official-footer">
+
+                <span>
+                    © Gaon Pradhan Certificate Portal
+                </span>
+
+                <span>
+                    Official Government Service Portal
+                </span>
+
+            </footer>
+
+
+        </section>
+
+
+    </main>
+
+
 </div>
 
-<div class="card">
-<h3>Today's Certificates</h3>
-<h1 id="todayCertificates">0</h1>
-</div>
 
-<div class="card">
-<h3>This Month</h3>
-<h1 id="monthCertificates">0</h1>
-</div>
 
-</div>
+<!-- =====================================================
+     EXISTING JAVASCRIPT — DO NOT REMOVE
+     ===================================================== -->
 
-<div class="search-box">
-    <input
-        type="text"
-        id="searchInput"
-        placeholder="Search by Certificate No or Name">
+<script
+    type="module"
+    src="js/certificate.js"
+></script>
 
-    <button
-        class="btn"
-        onclick="searchCertificate()">
-        Search
-    </button>
-</div>
 
-<div id="searchResult"></div>
-<h2>Generate New Certificate</h2>
+<script
+    type="module"
+    src="js/dashboard.js"
+></script>
 
-<form id="certificateForm">
 
-<input type="text" id="name" placeholder="Applicant Name" required>
+<script
+    type="module"
+    src="js/search.js"
+></script>
 
-<input type="text" id="father" placeholder="Father's Name" required>
 
-<input type="text" id="mother" placeholder="Mother's Name">
+<script
+    type="module"
+    src="js/protect.js"
+></script>
 
-<input type="text" id="village" placeholder="Village" required>
 
-<input type="text" id="post" placeholder="Post Office">
+<script
+    type="module"
+    src="js/admin-setup.js"
+></script>
 
-<input type="text" id="ps" placeholder="Police Station">
 
-<input type="text" id="district" placeholder="District">
-
-<select id="certificateType">
-<option>Residence Certificate</option>
-<option>Income Certificate</option>
-<option>Character Certificate</option>
-<option>Other Certificate</option>
-</select>
-
-<textarea id="purpose" placeholder="Purpose"></textarea>
-
-<button type="button" class="btn" onclick="generateCertificate()">
-Generate Certificate
-</button>
-</form>
-
-<br>
-
-<a href="history.html" class="btn">Certificate History</a>
-
-<button class="btn" onclick="logout()">
-    Logout
-</button>
-
-</div>
-
-<script type="module" src="js/certificate.js"></script> 
-<script type="module" src="js/dashboard.js"></script>
-<script type="module" src="js/search.js"></script>
-<script type="module" src="js/protect.js"></script>
-<script type="module" src="js/admin-setup.js"></script> 
 </body>
+
 </html>
