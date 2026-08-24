@@ -20,14 +20,19 @@
     font-family:'Poppins',sans-serif;
 }
 
-body{
+
+/* Default Website Font */
+body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
 }
 
-.assamese {
+
+/* Assamese Font */
+.assamese,
+[lang="as"] {
     font-family: "Bornomala", sans-serif;
-    background:#f4f7fb;
-    color:#222;
 }
 
 /* Header */
