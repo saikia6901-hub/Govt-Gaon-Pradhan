@@ -3,7 +3,7 @@
 =========================== */
 @font-face {
     font-family: "Bornomala";
-    src: url("../assets/fonts/Bornomala-Regular.ttf") format("truetype");
+    src: url("../assets/Bornomala-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -11,7 +11,7 @@
 }
 .certificate,
 .certificate * {
-    font-family: "Assamese" !important;
+    font-family: "Bornomala" !important;
 }
 *{
     margin:0;
