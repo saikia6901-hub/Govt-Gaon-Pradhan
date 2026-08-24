@@ -2,9 +2,9 @@
    Gaon Pradhan Portal Style
 =========================== */
 @font-face {
-    font-family: "Assamese";
-    src: url("../assets/bangla.ttf") format("truetype");
-    font-weight: normal;
+    font-family: "Bornomala";
+    src: url("../assets/fonts/Bornomala-Regular.ttf") format("truetype");
+    font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
@@ -21,6 +21,11 @@
 }
 
 body{
+    font-family: Arial, sans-serif;
+}
+
+.assamese {
+    font-family: "Bornomala", sans-serif;
     background:#f4f7fb;
     color:#222;
 }
