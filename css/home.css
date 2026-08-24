@@ -2,7 +2,13 @@
    GAON PRADHAN CERTIFICATE PORTAL
    HOME PAGE STYLES
 ========================================= */
-
+@font-face {
+    font-family: "Bornomala";
+    src: url("../assets/Bornomala-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 * {
     margin: 0;
     padding: 0;
@@ -987,5 +993,5 @@ footer {
     }
   }
 .assamese {
-    font-family: "Assamese", sans-serif;
+    font-family: "Bornomala", !important;
 }
