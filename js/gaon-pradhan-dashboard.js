@@ -16,377 +16,213 @@ import {
 
 
 // =====================================================
-// GLOBAL DATA
-// =====================================================
-
-let currentUser = null;
-let gaonPradhanData = null;
-
-
-// =====================================================
 // AUTHENTICATION
 // =====================================================
 
-onAuthStateChanged(
-    auth,
-    async (user) => {
+onAuthStateChanged(auth, async (user) => {
 
-        console.log(
-            "GAON PRADHAN AUTH STATE:",
-            user
+    if (!user) {
+
+        window.location.href = "login.html";
+
+        return;
+    }
+
+
+    try {
+
+        console.log("GAON PRADHAN USER:", user.uid);
+
+
+        // =================================================
+        // LOAD USER PROFILE
+        // =================================================
+
+        const userRef = doc(
+            db,
+            "users",
+            user.uid
         );
 
+        const userSnap = await getDoc(userRef);
 
-        // =================================================
-        // USER NOT LOGGED IN
-        // =================================================
 
-        if (!user) {
+        if (!userSnap.exists()) {
 
-            window.location.href =
-                "login.html";
+            alert("Official profile not found.");
+
+            await signOut(auth);
+
+            window.location.href = "login.html";
 
             return;
-
         }
 
 
-        currentUser = user;
+        const userData = userSnap.data();
+
+        console.log(
+            "GAON PRADHAN PROFILE:",
+            userData
+        );
 
 
-        try {
+        // =================================================
+        // ROLE SECURITY
+        // =================================================
 
-            // =============================================
-            // LOAD USER PROFILE
-            // =============================================
-
-            const userRef =
-                doc(
-                    db,
-                    "users",
-                    user.uid
-                );
-
-
-            const userSnap =
-                await getDoc(userRef);
-
-
-            if (!userSnap.exists()) {
-
-                alert(
-                    "Official profile not found."
-                );
-
-                window.location.href =
-                    "login.html";
-
-                return;
-
-            }
-
-
-            gaonPradhanData =
-                userSnap.data();
-
-
-            console.log(
-                "GAON PRADHAN DATA:",
-                gaonPradhanData
-            );
-
-
-            // =============================================
-            // ROLE SECURITY
-            // =============================================
-
-            if (
-                gaonPradhanData.role !==
-                "gaon_pradhan"
-            ) {
-
-                alert(
-                    "Access denied. Gaon Pradhan account required."
-                );
-
-
-                // Send other officials to
-                // their normal official dashboard.
-
-                window.location.href =
-                    "dashboard.html";
-
-                return;
-
-            }
-
-
-            // =============================================
-            // LOAD DASHBOARD
-            // =============================================
-
-            loadOfficialInformation();
-
-            loadAssignedLocation();
-
-            loadCurrentDate();
-
-            setupMobileMenu();
-
-            await loadApplications();
-
-
-            console.log(
-                "Gaon Pradhan dashboard loaded successfully."
-            );
-
-
-        }
-        catch (error) {
-
-            console.error(
-                "GAON PRADHAN DASHBOARD ERROR:",
-                error
-            );
-
+        if (userData.role !== "gaon_pradhan") {
 
             alert(
-                "Unable to load Gaon Pradhan dashboard.\n\n" +
-                error.message
+                "Access denied. Gaon Pradhan account required."
             );
 
+            // IMPORTANT:
+            // Do not allow another official role
+            // to open this dashboard directly.
+
+            window.location.href = getDashboardByRole(
+                userData.role
+            );
+
+            return;
         }
 
-    }
-);
+
+        // =================================================
+        // DISPLAY USER INFORMATION
+        // =================================================
+
+        const name =
+            userData.name ||
+            user.displayName ||
+            "Gaon Pradhan";
 
 
-// =====================================================
-// LOAD OFFICIAL INFORMATION
-// =====================================================
-
-function loadOfficialInformation() {
-
-    const name =
-        gaonPradhanData.name ||
-        currentUser.displayName ||
-        "Gaon Pradhan";
+        const email =
+            user.email ||
+            userData.email ||
+            "";
 
 
-    const email =
-        currentUser.email ||
-        gaonPradhanData.email ||
-        "";
-
-
-    // =============================================
-    // HEADER
-    // =============================================
-
-    setText(
-        "headerGpName",
-        name
-    );
-
-
-    setText(
-        "dashboardGpName",
-        name
-    );
-
-
-    setText(
-        "sidebarGpName",
-        name
-    );
-
-
-    // =============================================
-    // OFFICIAL INFORMATION
-    // =============================================
-
-    setText(
-        "officialName",
-        name
-    );
-
-
-    setText(
-        "officialEmail",
-        email
-    );
-
-
-    setText(
-        "officialRole",
-        "Gaon Pradhan"
-    );
-
-
-    // =============================================
-    // AVATARS
-    // =============================================
-
-    const initials =
-        getInitials(name);
-
-
-    setText(
-        "headerGpAvatar",
-        initials
-    );
-
-
-    setText(
-        "sidebarGpAvatar",
-        initials
-    );
-
-}
-
-
-// =====================================================
-// LOAD ASSIGNED LOCATION
-// =====================================================
-
-function loadAssignedLocation() {
-
-    const location =
-        buildOfficialLocation(
-            gaonPradhanData
+        setText(
+            "headerGpName",
+            name
         );
 
 
-    setText(
-        "officialLocation",
-        location ||
-        "Official area not assigned"
-    );
-
-}
-
-
-// =====================================================
-// BUILD LOCATION
-// =====================================================
-
-function buildOfficialLocation(data) {
-
-    const parts = [];
-
-
-    // =============================================
-    // DISTRICT
-    // =============================================
-
-    if (data.districtName) {
-
-        parts.push(
-            data.districtName
+        setText(
+            "sidebarGpName",
+            name
         );
 
-    }
-    else if (data.district) {
 
-        parts.push(
-            data.district
+        setText(
+            "dashboardGpName",
+            name
+        );
+
+
+        setText(
+            "officialName",
+            name
+        );
+
+
+        setText(
+            "officialEmail",
+            email
+        );
+
+
+        setText(
+            "officialRole",
+            "Gaon Pradhan"
+        );
+
+
+        // =================================================
+        // AVATAR
+        // =================================================
+
+        const initials =
+            getInitials(name);
+
+
+        setText(
+            "headerGpAvatar",
+            initials
+        );
+
+
+        setText(
+            "sidebarGpAvatar",
+            initials
+        );
+
+
+        // =================================================
+        // OFFICIAL LOCATION
+        // =================================================
+
+        const location =
+            buildOfficialLocation(
+                userData
+            );
+
+
+        setText(
+            "officialLocation",
+            location ||
+            "Official area not assigned"
+        );
+
+
+        // =================================================
+        // CURRENT DATE
+        // =================================================
+
+        setCurrentDate();
+
+
+        // =================================================
+        // LOAD APPLICATIONS
+        // =================================================
+
+        await loadApplications(
+            userData
+        );
+
+
+        console.log(
+            "Gaon Pradhan Dashboard loaded successfully."
+        );
+
+
+    }
+    catch (error) {
+
+        console.error(
+            "GAON PRADHAN DASHBOARD ERROR:",
+            error
+        );
+
+
+        alert(
+            "Unable to load Gaon Pradhan Dashboard.\n\n" +
+            error.message
         );
 
     }
 
-
-    // =============================================
-    // REVENUE CIRCLE
-    // =============================================
-
-    if (data.revenueCircleName) {
-
-        parts.push(
-            data.revenueCircleName
-        );
-
-    }
-    else if (data.revenueCircle) {
-
-        parts.push(
-            data.revenueCircle
-        );
-
-    }
-
-
-    // =============================================
-    // MOUZA
-    // =============================================
-
-    if (data.mouzaName) {
-
-        parts.push(
-            data.mouzaName
-        );
-
-    }
-    else if (data.mouza) {
-
-        parts.push(
-            data.mouza
-        );
-
-    }
-
-
-    // =============================================
-    // LOT
-    // =============================================
-
-    if (data.lotName) {
-
-        parts.push(
-            data.lotName
-        );
-
-    }
-    else if (data.lot) {
-
-        parts.push(
-            data.lot
-        );
-
-    }
-
-
-    // =============================================
-    // VILLAGE
-    // =============================================
-
-    if (data.villageName) {
-
-        parts.push(
-            data.villageName
-        );
-
-    }
-    else if (data.village) {
-
-        parts.push(
-            data.village
-        );
-
-    }
-
-
-    return parts.join(
-        " → "
-    );
-
-}
+});
 
 
 // =====================================================
 // LOAD APPLICATIONS
 // =====================================================
 
-async function loadApplications() {
+async function loadApplications(userData) {
 
     try {
 
@@ -397,27 +233,21 @@ async function loadApplications() {
             );
 
 
-        let applicationsQuery;
-
-
-        // =================================================
-        // FIND MOST SPECIFIC ASSIGNED AREA
-        // =================================================
-
         /*
-         * Gaon Pradhan should normally have
-         * a village assigned.
+         * IMPORTANT
          *
-         * Therefore we first use villageId.
+         * Initially we load applications based on
+         * the assigned village.
          *
-         * If villageId is unavailable,
-         * fallback to Lot → Mouza → Revenue Circle → District.
+         * This means Gaon Pradhan will only see
+         * applications from their assigned village.
          */
 
 
-        if (
-            gaonPradhanData.villageId
-        ) {
+        let applicationsQuery;
+
+
+        if (userData.villageId) {
 
             applicationsQuery =
                 query(
@@ -425,15 +255,13 @@ async function loadApplications() {
                     where(
                         "villageId",
                         "==",
-                        gaonPradhanData.villageId
+                        userData.villageId
                     )
                 );
 
         }
 
-        else if (
-            gaonPradhanData.village
-        ) {
+        else if (userData.village) {
 
             applicationsQuery =
                 query(
@@ -441,71 +269,7 @@ async function loadApplications() {
                     where(
                         "village",
                         "==",
-                        gaonPradhanData.village
-                    )
-                );
-
-        }
-
-        else if (
-            gaonPradhanData.lotId
-        ) {
-
-            applicationsQuery =
-                query(
-                    applicationsRef,
-                    where(
-                        "lotId",
-                        "==",
-                        gaonPradhanData.lotId
-                    )
-                );
-
-        }
-
-        else if (
-            gaonPradhanData.mouzaId
-        ) {
-
-            applicationsQuery =
-                query(
-                    applicationsRef,
-                    where(
-                        "mouzaId",
-                        "==",
-                        gaonPradhanData.mouzaId
-                    )
-                );
-
-        }
-
-        else if (
-            gaonPradhanData.revenueCircleId
-        ) {
-
-            applicationsQuery =
-                query(
-                    applicationsRef,
-                    where(
-                        "revenueCircleId",
-                        "==",
-                        gaonPradhanData.revenueCircleId
-                    )
-                );
-
-        }
-
-        else if (
-            gaonPradhanData.districtId
-        ) {
-
-            applicationsQuery =
-                query(
-                    applicationsRef,
-                    where(
-                        "districtId",
-                        "==",
-                        gaonPradhanData.districtId
+                        userData.village
                     )
                 );
 
@@ -514,28 +278,17 @@ async function loadApplications() {
         else {
 
             console.warn(
-                "No official location assigned."
+                "Gaon Pradhan village is not assigned."
             );
 
 
-            updateStatistics(
-                []
-            );
+            updateStatistics([]);
 
-
-            renderRecentApplications(
-                []
-            );
-
+            renderRecentApplications([]);
 
             return;
-
         }
 
-
-        // =================================================
-        // GET APPLICATIONS
-        // =================================================
 
         const snapshot =
             await getDocs(
@@ -563,13 +316,13 @@ async function loadApplications() {
 
 
         console.log(
-            "GAON PRADHAN APPLICATIONS:",
+            "Applications:",
             applications
         );
 
 
         // =================================================
-        // UPDATE STATISTICS
+        // STATISTICS
         // =================================================
 
         updateStatistics(
@@ -578,52 +331,26 @@ async function loadApplications() {
 
 
         // =================================================
-        // SORT APPLICATIONS
-        // =================================================
-
-        applications.sort(
-            (a, b) => {
-
-                const aTime =
-                    getTimestamp(
-                        a.submittedAt
-                    );
-
-                const bTime =
-                    getTimestamp(
-                        b.submittedAt
-                    );
-
-
-                return bTime - aTime;
-
-            }
-        );
-
-
-        // =================================================
-        // RENDER RECENT APPLICATIONS
+        // RECENT APPLICATIONS
         // =================================================
 
         renderRecentApplications(
             applications
         );
 
+
     }
     catch (error) {
 
         console.error(
-            "APPLICATION LOADING ERROR:",
+            "APPLICATION LOAD ERROR:",
             error
         );
 
 
-        updateStatistics(
-            []
-        );
+        updateStatistics([]);
 
-
-        showApplicationError();
+        renderRecentApplications([]);
 
     }
 
@@ -654,10 +381,11 @@ function updateStatistics(
 
 
             const status =
-                normalizeStatus(
+                String(
                     application.applicationStatus ||
-                    application.status
-                );
+                    application.status ||
+                    "Pending"
+                ).toLowerCase();
 
 
             if (
@@ -689,10 +417,6 @@ function updateStatistics(
     );
 
 
-    // =============================================
-    // UPDATE UI
-    // =============================================
-
     setText(
         "totalApplications",
         total
@@ -717,27 +441,18 @@ function updateStatistics(
     );
 
 
+    // Sidebar pending badge
+
     setText(
         "sidebarPendingCount",
         pending
-    );
-
-
-    console.log(
-        "GAON PRADHAN STATISTICS:",
-        {
-            total,
-            pending,
-            approved,
-            rejected
-        }
     );
 
 }
 
 
 // =====================================================
-// RENDER RECENT APPLICATIONS
+// RECENT APPLICATIONS
 // =====================================================
 
 function renderRecentApplications(
@@ -753,13 +468,12 @@ function renderRecentApplications(
     if (!container) {
 
         return;
-
     }
 
 
-    // =============================================
-    // NO APPLICATIONS
-    // =============================================
+    // =================================================
+    // NO APPLICATION
+    // =================================================
 
     if (
         applications.length === 0
@@ -774,13 +488,13 @@ function renderRecentApplications(
                 </div>
 
                 <h3>
-                    No Applications Yet
+                    No Applications Found
                 </h3>
 
                 <p>
                     No certificate applications
                     have been submitted for your
-                    assigned area.
+                    assigned village yet.
                 </p>
 
             </div>
@@ -788,13 +502,29 @@ function renderRecentApplications(
         `;
 
         return;
-
     }
 
 
-    // =============================================
-    // MAX 5 RECENT
-    // =============================================
+    // =================================================
+    // SORT BY SUBMITTED DATE
+    // =================================================
+
+    applications.sort(
+        (a, b) => {
+
+            const aTime =
+                a.submittedAt?.seconds || 0;
+
+            const bTime =
+                b.submittedAt?.seconds || 0;
+
+            return bTime - aTime;
+
+        }
+    );
+
+
+    // Show maximum 5
 
     const recent =
         applications.slice(
@@ -814,80 +544,48 @@ function renderRecentApplications(
 
 
                 const statusClass =
-                    normalizeStatus(
-                        status
-                    );
-
-
-                const applicationNo =
-                    application.applicationNo ||
-                    application.id ||
-                    "Application";
-
-
-                const certificateType =
-                    application.certificateType ||
-                    "Certificate";
-
-
-                const applicantName =
-                    application.applicantName ||
-                    "Applicant";
-
-
-                const date =
-                    formatDate(
-                        application.submittedAt
-                    );
+                    String(status)
+                        .toLowerCase()
+                        .replace(
+                            /\s+/g,
+                            "-"
+                        );
 
 
                 return `
 
-                    <div
-                        class="gp-application-item"
-                        data-application-id="${escapeHtml(application.id)}"
-                    >
+                    <div class="gp-application-item">
 
-                        <div class="gp-application-icon">
-                            📄
-                        </div>
-
-
-                        <div class="gp-application-info">
+                        <div class="gp-application-main">
 
                             <strong>
-                                ${escapeHtml(applicationNo)}
+                                ${
+                                    application.applicationNo ||
+                                    "Application"
+                                }
                             </strong>
 
                             <span>
-                                ${escapeHtml(certificateType)}
+                                ${
+                                    application.applicantName ||
+                                    "Applicant"
+                                }
                             </span>
 
                             <small>
-                                ${escapeHtml(applicantName)}
-                                ${date ? " • " + escapeHtml(date) : ""}
+                                ${
+                                    application.certificateType ||
+                                    "Certificate"
+                                }
                             </small>
 
                         </div>
 
 
-                        <div class="gp-application-right">
-
-                            <span
-                                class="gp-application-status ${statusClass}"
-                            >
-                                ${escapeHtml(status)}
-                            </span>
-
-
-                            <button
-                                type="button"
-                                class="gp-application-view"
-                                onclick="viewApplication('${escapeHtml(application.id)}')"
-                            >
-                                View
-                            </button>
-
+                        <div
+                            class="gp-application-status ${statusClass}"
+                        >
+                            ${status}
                         </div>
 
                     </div>
@@ -901,349 +599,169 @@ function renderRecentApplications(
 
 
 // =====================================================
-// VIEW APPLICATION
+// BUILD OFFICIAL LOCATION
 // =====================================================
 
-window.viewApplication =
-    function (applicationId) {
+function buildOfficialLocation(
+    userData
+) {
 
-        if (!applicationId) {
-
-            return;
-
-        }
+    const parts = [];
 
 
-        window.location.href =
-            "gaon-pradhan-application-view.html?id=" +
-            encodeURIComponent(
-                applicationId
-            );
+    if (
+        userData.districtName
+    ) {
 
-    };
+        parts.push(
+            userData.districtName
+        );
 
+    }
+    else if (
+        userData.district
+    ) {
 
-// =====================================================
-// LOGOUT
-// =====================================================
+        parts.push(
+            userData.district
+        );
 
-window.logout =
-    async function () {
-
-        try {
-
-            const confirmed =
-                confirm(
-                    "Are you sure you want to logout?"
-                );
+    }
 
 
-            if (!confirmed) {
+    if (
+        userData.revenueCircleName
+    ) {
 
-                return;
+        parts.push(
+            userData.revenueCircleName
+        );
 
-            }
+    }
+    else if (
+        userData.revenueCircle
+    ) {
 
+        parts.push(
+            userData.revenueCircle
+        );
 
-            await signOut(
-                auth
-            );
-
-
-            window.location.href =
-                "login.html";
-
-        }
-        catch (error) {
-
-            console.error(
-                "LOGOUT ERROR:",
-                error
-            );
+    }
 
 
-            alert(
-                "Unable to logout. Please try again."
-            );
+    if (
+        userData.mouzaName
+    ) {
 
-        }
+        parts.push(
+            userData.mouzaName
+        );
 
-    };
+    }
+    else if (
+        userData.mouza
+    ) {
+
+        parts.push(
+            userData.mouza
+        );
+
+    }
+
+
+    if (
+        userData.lotName
+    ) {
+
+        parts.push(
+            userData.lotName
+        );
+
+    }
+    else if (
+        userData.lot
+    ) {
+
+        parts.push(
+            userData.lot
+        );
+
+    }
+
+
+    if (
+        userData.villageName
+    ) {
+
+        parts.push(
+            userData.villageName
+        );
+
+    }
+    else if (
+        userData.village
+    ) {
+
+        parts.push(
+            userData.village
+        );
+
+    }
+
+
+    return parts.join(
+        " → "
+    );
+
+}
 
 
 // =====================================================
 // CURRENT DATE
 // =====================================================
 
-function loadCurrentDate() {
+function setCurrentDate() {
 
-    const date =
+    const element =
+        document.getElementById(
+            "currentDate"
+        );
+
+
+    if (!element) {
+
+        return;
+    }
+
+
+    const today =
         new Date();
 
 
-    const formatted =
-        date.toLocaleDateString(
+    const options = {
+
+        weekday: "long",
+
+        year: "numeric",
+
+        month: "long",
+
+        day: "numeric"
+
+    };
+
+
+    element.textContent =
+        today.toLocaleDateString(
             "en-IN",
-            {
-                weekday: "long",
-                day: "numeric",
-                month: "long",
-                year: "numeric"
-            }
-        );
-
-
-    setText(
-        "currentDate",
-        formatted
-    );
-
-}
-
-
-// =====================================================
-// MOBILE MENU
-// =====================================================
-
-function setupMobileMenu() {
-
-    const menuButton =
-        document.getElementById(
-            "mobileMenuBtn"
-        );
-
-
-    const sidebar =
-        document.getElementById(
-            "gpSidebar"
-        );
-
-
-    const overlay =
-        document.getElementById(
-            "gpSidebarOverlay"
-        );
-
-
-    if (
-        !menuButton ||
-        !sidebar
-    ) {
-
-        return;
-
-    }
-
-
-    menuButton.addEventListener(
-        "click",
-        () => {
-
-            sidebar.classList.toggle(
-                "open"
-            );
-
-
-            if (overlay) {
-
-                overlay.classList.toggle(
-                    "active"
-                );
-
-            }
-
-        }
-    );
-
-
-    if (overlay) {
-
-        overlay.addEventListener(
-            "click",
-            closeMobileMenu
-        );
-
-    }
-
-
-    const navItems =
-        sidebar.querySelectorAll(
-            ".gp-nav-item"
-        );
-
-
-    navItems.forEach(
-        (item) => {
-
-            item.addEventListener(
-                "click",
-                () => {
-
-                    closeMobileMenu();
-
-                }
-            );
-
-        }
-    );
-
-}
-
-
-// =====================================================
-// CLOSE MOBILE MENU
-// =====================================================
-
-function closeMobileMenu() {
-
-    const sidebar =
-        document.getElementById(
-            "gpSidebar"
-        );
-
-
-    const overlay =
-        document.getElementById(
-            "gpSidebarOverlay"
-        );
-
-
-    if (sidebar) {
-
-        sidebar.classList.remove(
-            "open"
-        );
-
-    }
-
-
-    if (overlay) {
-
-        overlay.classList.remove(
-            "active"
-        );
-
-    }
-
-}
-
-
-// =====================================================
-// NORMALIZE STATUS
-// =====================================================
-
-function normalizeStatus(
-    status
-) {
-
-    if (!status) {
-
-        return "pending";
-
-    }
-
-
-    return String(
-        status
-    )
-        .trim()
-        .toLowerCase()
-        .replace(
-            /\s+/g,
-            "_"
+            options
         );
 
 }
 
 
 // =====================================================
-// GET FIRESTORE TIMESTAMP
-// =====================================================
-
-function getTimestamp(
-    timestamp
-) {
-
-    if (!timestamp) {
-
-        return 0;
-
-    }
-
-
-    if (
-        timestamp.seconds
-    ) {
-
-        return (
-            timestamp.seconds * 1000
-        );
-
-    }
-
-
-    if (
-        timestamp.toDate
-    ) {
-
-        return timestamp
-            .toDate()
-            .getTime();
-
-    }
-
-
-    if (
-        timestamp instanceof Date
-    ) {
-
-        return timestamp.getTime();
-
-    }
-
-
-    return 0;
-
-}
-
-
-// =====================================================
-// FORMAT DATE
-// =====================================================
-
-function formatDate(
-    timestamp
-) {
-
-    const time =
-        getTimestamp(
-            timestamp
-        );
-
-
-    if (!time) {
-
-        return "";
-
-    }
-
-
-    return new Date(
-        time
-    ).toLocaleDateString(
-        "en-IN",
-        {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        }
-    );
-
-}
-
-
-// =====================================================
-// GET INITIALS
+// INITIALS
 // =====================================================
 
 function getInitials(
@@ -1253,19 +771,16 @@ function getInitials(
     if (!name) {
 
         return "GP";
-
     }
 
 
     const words =
-        String(name)
+        name
             .trim()
             .split(/\s+/);
 
 
-    if (
-        words.length === 1
-    ) {
+    if (words.length === 1) {
 
         return words[0]
             .substring(0, 2)
@@ -1278,56 +793,6 @@ function getInitials(
         words[0][0] +
         words[words.length - 1][0]
     ).toUpperCase();
-
-}
-
-
-// =====================================================
-// SHOW APPLICATION ERROR
-// =====================================================
-
-function showApplicationError() {
-
-    const container =
-        document.getElementById(
-            "recentApplications"
-        );
-
-
-    if (!container) {
-
-        return;
-
-    }
-
-
-    container.innerHTML = `
-
-        <div class="gp-empty-state">
-
-            <div class="gp-empty-icon">
-                ⚠️
-            </div>
-
-            <h3>
-                Unable to Load Applications
-            </h3>
-
-            <p>
-                Please refresh the page and try again.
-            </p>
-
-            <button
-                type="button"
-                class="gp-view-all"
-                onclick="location.reload()"
-            >
-                Refresh
-            </button>
-
-        </div>
-
-    `;
 
 }
 
@@ -1358,43 +823,146 @@ function setText(
 
 
 // =====================================================
-// HTML ESCAPE
+// ROLE DASHBOARD REDIRECTION
 // =====================================================
 
-function escapeHtml(
-    value
+function getDashboardByRole(
+    role
 ) {
 
-    if (
-        value === null ||
-        value === undefined
-    ) {
+    switch (role) {
 
-        return "";
+        case "super_admin":
+
+            return "dashboard.html";
+
+
+        case "circle_officer":
+
+            return "circle-officer-dashboard.html";
+
+
+        case "sk":
+
+            return "sk-dashboard.html";
+
+
+        case "mandal":
+
+            return "mandal-dashboard.html";
+
+
+        case "gaon_pradhan":
+
+            return "gaon-pradhan-dashboard.html";
+
+
+        case "applicant":
+
+            return "applicant-dashboard.html";
+
+
+        default:
+
+            return "login.html";
 
     }
 
+}
 
-    return String(value)
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-        .replace(
-            /</g,
-            "&lt;"
-        )
-        .replace(
-            />/g,
-            "&gt;"
-        )
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-        .replace(
-            /'/g,
-            "&#039;"
-        );
+
+// =====================================================
+// LOGOUT
+// =====================================================
+
+window.logout =
+    async function () {
+
+        try {
+
+            await signOut(
+                auth
+            );
+
+
+            window.location.href =
+                "login.html";
+
+        }
+        catch (error) {
+
+            console.error(
+                "Logout error:",
+                error
+            );
+
+
+            alert(
+                "Unable to logout. Please try again."
+            );
+
+        }
+
+    };
+
+
+// =====================================================
+// MOBILE SIDEBAR
+// =====================================================
+
+const mobileMenuBtn =
+    document.getElementById(
+        "mobileMenuBtn"
+    );
+
+
+const sidebar =
+    document.getElementById(
+        "gpSidebar"
+    );
+
+
+const overlay =
+    document.getElementById(
+        "gpSidebarOverlay"
+    );
+
+
+if (
+    mobileMenuBtn &&
+    sidebar &&
+    overlay
+) {
+
+    mobileMenuBtn.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.toggle(
+                "open"
+            );
+
+            overlay.classList.toggle(
+                "active"
+            );
+
+        }
+    );
+
+
+    overlay.addEventListener(
+        "click",
+        () => {
+
+            sidebar.classList.remove(
+                "open"
+            );
+
+            overlay.classList.remove(
+                "active"
+            );
+
+        }
+    );
 
 }
