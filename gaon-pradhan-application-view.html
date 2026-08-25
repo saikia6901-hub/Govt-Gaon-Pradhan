@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Application Review | Gaon Pradhan Certificate Portal
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/gaon-pradhan-dashboard.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="css/gaon-pradhan-application-view.css"
+    >
+
+</head>
+
+
+<body class="gaon-pradhan-page">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="gp-header">
+
+    <div class="gp-header-left">
+
+        <button
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            type="button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+
+        <div class="gp-brand">
+
+            <div class="gp-brand-logo">
+                GP
+            </div>
+
+            <div class="gp-brand-text">
+
+                <strong>
+                    Gaon Pradhan
+                </strong>
+
+                <span>
+                    Certificate Portal
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="gp-header-right">
+
+        <div class="gp-user-info">
+
+            <strong id="headerGpName">
+                Gaon Pradhan
+            </strong>
+
+            <span>
+                Official Account
+            </span>
+
+        </div>
+
+
+        <div
+            class="gp-user-avatar"
+            id="headerGpAvatar"
+        >
+            GP
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     LAYOUT
+===================================================== -->
+
+<div class="gp-layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================= -->
+
+    <aside
+        class="gp-sidebar"
+        id="gpSidebar"
+    >
+
+        <div class="gp-sidebar-profile">
+
+            <div
+                class="gp-profile-avatar"
+                id="sidebarGpAvatar"
+            >
+                GP
+            </div>
+
+
+            <div class="gp-profile-info">
+
+                <strong id="sidebarGpName">
+                    Gaon Pradhan
+                </strong>
+
+                <span>
+                    Gaon Pradhan
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav class="gp-navigation">
+
+            <a
+                href="gaon-pradhan-dashboard.html"
+                class="gp-nav-item"
+            >
+
+                <span class="gp-nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+            <a
+                href="gaon-pradhan-applications.html"
+                class="gp-nav-item active"
+            >
+
+                <span class="gp-nav-icon">
+                    📄
+                </span>
+
+                <span>
+                    Applications
+                </span>
+
+                <span
+                    class="gp-nav-badge"
+                    id="sidebarPendingCount"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+            <a
+                href="gaon-pradhan-certificates.html"
+                class="gp-nav-item"
+            >
+
+                <span class="gp-nav-icon">
+                    📜
+                </span>
+
+                <span>
+                    Certificates
+                </span>
+
+            </a>
+
+
+            <a
+                href="gaon-pradhan-profile.html"
+                class="gp-nav-item"
+            >
+
+                <span class="gp-nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    My Profile
+                </span>
+
+            </a>
+
+
+            <div class="gp-nav-divider"></div>
+
+
+            <a
+                href="javascript:void(0)"
+                class="gp-nav-item logout-item"
+                onclick="logout()"
+            >
+
+                <span class="gp-nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </nav>
+
+
+        <div class="gp-sidebar-footer">
+
+            <span>
+                Gaon Pradhan Certificate Portal
+            </span>
+
+            <small>
+                Official Portal
+            </small>
+
+        </div>
+
+    </aside>
+
+
+
+    <div
+        class="gp-sidebar-overlay"
+        id="gpSidebarOverlay"
+    ></div>
+
+
+
+    <!-- =================================================
+         MAIN
+    ================================================= -->
+
+    <main class="gp-main">
+
+
+        <!-- PAGE HEADER -->
+
+        <section class="gp-page-header">
+
+            <div>
+
+                <div class="gp-breadcrumb">
+
+                    <a
+                        href="gaon-pradhan-applications.html"
+                    >
+                        Applications
+                    </a>
+
+                    <span>
+                        /
+                    </span>
+
+                    <strong>
+                        Review Application
+                    </strong>
+
+                </div>
+
+
+                <h1>
+                    Application Review
+                </h1>
+
+
+                <p>
+                    Review the submitted application
+                    and take appropriate action.
+                </p>
+
+            </div>
+
+
+            <div class="gp-header-date">
+
+                <span>
+                    Today
+                </span>
+
+                <strong id="currentDate">
+                    —
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             LOADING
+        ================================================= -->
+
+        <section
+            id="applicationLoading"
+            class="gp-review-loading"
+        >
+
+            <div class="gp-loader"></div>
+
+            <p>
+                Loading application details...
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================================
+             APPLICATION CONTENT
+        ================================================= -->
+
+        <section
+            id="applicationContent"
+            class="gp-review-content"
+            style="display:none;"
+        >
+
+
+            <!-- =================================================
+                 APPLICATION HEADER CARD
+            ================================================= -->
+
+            <div class="gp-review-header-card">
+
+                <div class="gp-review-title">
+
+                    <span class="gp-section-label">
+                        Application Number
+                    </span>
+
+                    <h2 id="applicationNo">
+                        —
+                    </h2>
+
+                    <p id="submittedDate">
+                        Submitted —
+                    </p>
+
+                </div>
+
+
+                <div
+                    id="applicationStatus"
+                    class="gp-review-status pending"
+                >
+                    Pending
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 APPLICANT INFORMATION
+            ================================================= -->
+
+            <div class="gp-panel">
+
+                <div class="gp-panel-header">
+
+                    <div>
+
+                        <span class="gp-section-label">
+                            Applicant Information
+                        </span>
+
+                        <h2>
+                            Personal Details
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="gp-info-grid">
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Applicant Name
+                        </span>
+
+                        <strong id="applicantName">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Father’s Name
+                        </span>
+
+                        <strong id="fatherName">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Mother’s Name
+                        </span>
+
+                        <strong id="motherName">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Mobile Number
+                        </span>
+
+                        <strong id="mobile">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Email
+                        </span>
+
+                        <strong id="applicantEmail">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 CERTIFICATE INFORMATION
+            ================================================= -->
+
+            <div class="gp-panel">
+
+                <div class="gp-panel-header">
+
+                    <div>
+
+                        <span class="gp-section-label">
+                            Certificate
+                        </span>
+
+                        <h2>
+                            Certificate Information
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="gp-info-grid">
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Certificate Type
+                        </span>
+
+                        <strong id="certificateType">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-info-item">
+
+                        <span>
+                            Purpose
+                        </span>
+
+                        <strong id="purpose">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 LOCATION
+            ================================================= -->
+
+            <div class="gp-panel">
+
+                <div class="gp-panel-header">
+
+                    <div>
+
+                        <span class="gp-section-label">
+                            Applicant Location
+                        </span>
+
+                        <h2>
+                            Address Details
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <div class="gp-location-chain">
+
+                    <div class="gp-location-step">
+
+                        <span>
+                            District
+                        </span>
+
+                        <strong id="district">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-location-arrow">
+                        →
+                    </div>
+
+
+                    <div class="gp-location-step">
+
+                        <span>
+                            Revenue Circle
+                        </span>
+
+                        <strong id="revenueCircle">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-location-arrow">
+                        →
+                    </div>
+
+
+                    <div class="gp-location-step">
+
+                        <span>
+                            Mouza
+                        </span>
+
+                        <strong id="mouza">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-location-arrow">
+                        →
+                    </div>
+
+
+                    <div class="gp-location-step">
+
+                        <span>
+                            Lot
+                        </span>
+
+                        <strong id="lot">
+                            —
+                        </strong>
+
+                    </div>
+
+
+                    <div class="gp-location-arrow">
+                        →
+                    </div>
+
+
+                    <div class="gp-location-step">
+
+                        <span>
+                            Village
+                        </span>
+
+                        <strong id="village">
+                            —
+                        </strong>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 REJECTION REASON
+            ================================================= -->
+
+            <div
+                id="rejectionSection"
+                class="gp-panel gp-rejection-section"
+                style="display:none;"
+            >
+
+                <div class="gp-panel-header">
+
+                    <div>
+
+                        <span class="gp-section-label">
+                            Rejection
+                        </span>
+
+                        <h2>
+                            Rejection Reason
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+                <p id="rejectionReason">
+                    —
+                </p>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ACTION PANEL
+            ================================================= -->
+
+            <div
+                id="reviewActions"
+                class="gp-review-actions"
+            >
+
+                <div>
+
+                    <span class="gp-section-label">
+                        Official Action
+                    </span>
+
+                    <h2>
+                        Review Application
+                    </h2>
+
+                    <p>
+                        Please verify all information
+                        before taking action.
+                    </p>
+
+                </div>
+
+
+                <div class="gp-action-buttons">
+
+                    <button
+                        type="button"
+                        id="rejectButton"
+                        class="gp-reject-button"
+                    >
+                        ✕ Reject Application
+                    </button>
+
+
+                    <button
+                        type="button"
+                        id="approveButton"
+                        class="gp-approve-button"
+                    >
+                        ✓ Approve Application
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             ERROR
+        ================================================= -->
+
+        <section
+            id="applicationError"
+            class="gp-review-error"
+            style="display:none;"
+        >
+
+            <div>
+                ⚠️
+            </div>
+
+            <h2>
+                Unable to Load Application
+            </h2>
+
+            <p id="errorMessage">
+                Something went wrong.
+            </p>
+
+            <a
+                href="gaon-pradhan-applications.html"
+                class="gp-back-button"
+            >
+                ← Back to Applications
+            </a>
+
+        </section>
+
+
+
+        <!-- FOOTER -->
+
+        <footer class="gp-footer">
+
+            <p>
+                © 2026 Gaon Pradhan Certificate Portal
+            </p>
+
+            <span>
+                Official Government Service Portal
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    type="module"
+    src="js/gaon-pradhan-application-view.js"
+></script>
+
+
+</body>
+
+</html>
