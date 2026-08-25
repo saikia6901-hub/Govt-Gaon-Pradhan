@@ -10,6 +10,1012 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <title>
+        District Management | Gaon Pradhan Certificate Portal
+    </title>
+
+    <!-- MAIN CSS -->
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+    <!-- DISTRICT MANAGEMENT CSS -->
+    <link
+        rel="stylesheet"
+        href="css/districts.css"
+    >
+
+</head>
+
+
+<body class="district-management-page">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="dm-header">
+
+    <div class="dm-header-left">
+
+        <button
+            type="button"
+            class="dm-mobile-menu"
+            id="mobileMenuBtn"
+            aria-label="Open Menu"
+        >
+            ☰
+        </button>
+
+
+        <div class="dm-brand">
+
+            <div class="dm-brand-logo">
+
+                <img
+                    src="assets/logo.png"
+                    alt="Gaon Pradhan Portal Logo"
+                >
+
+            </div>
+
+
+            <div class="dm-brand-text">
+
+                <strong>
+                    Gaon Pradhan
+                </strong>
+
+                <span>
+                    Certificate Portal
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="dm-header-right">
+
+        <div class="dm-admin-info">
+
+            <strong>
+                Super Admin
+            </strong>
+
+            <span id="adminEmail">
+                Loading...
+            </span>
+
+        </div>
+
+
+        <div class="dm-admin-avatar">
+            SA
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     LAYOUT
+===================================================== -->
+
+<div class="dm-layout">
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================= -->
+
+    <aside
+        class="dm-sidebar"
+        id="dmSidebar"
+    >
+
+
+        <!-- PROFILE -->
+
+        <div class="dm-sidebar-profile">
+
+            <div class="dm-profile-avatar">
+                SA
+            </div>
+
+
+            <div class="dm-profile-info">
+
+                <strong>
+                    Super Admin
+                </strong>
+
+                <span>
+                    Administrator
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="dm-navigation">
+
+
+            <a
+                href="dashboard.html"
+                class="dm-nav-item"
+            >
+
+                <span class="dm-nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+
+            <div class="dm-nav-section">
+                MASTER DATA
+            </div>
+
+
+            <a
+                href="districts.html"
+                class="dm-nav-item active"
+            >
+
+                <span class="dm-nav-icon">
+                    🗺️
+                </span>
+
+                <span>
+                    Districts
+                </span>
+
+            </a>
+
+
+            <a
+                href="revenue-circle.html"
+                class="dm-nav-item"
+            >
+
+                <span class="dm-nav-icon">
+                    🏛️
+                </span>
+
+                <span>
+                    Revenue Circles
+                </span>
+
+            </a>
+
+
+            <a
+                href="mouzas.html"
+                class="dm-nav-item"
+            >
+
+                <span class="dm-nav-icon">
+                    📍
+                </span>
+
+                <span>
+                    Mouzas
+                </span>
+
+            </a>
+
+
+            <a
+                href="village.html"
+                class="dm-nav-item"
+            >
+
+                <span class="dm-nav-icon">
+                    🏘️
+                </span>
+
+                <span>
+                    Villages
+                </span>
+
+            </a>
+
+
+
+            <div class="dm-nav-divider"></div>
+
+
+
+            <a
+                href="users.html"
+                class="dm-nav-item"
+            >
+
+                <span class="dm-nav-icon">
+                    👥
+                </span>
+
+                <span>
+                    Users
+                </span>
+
+            </a>
+
+
+            <a
+                href="javascript:void(0)"
+                class="dm-nav-item dm-logout"
+                onclick="logout()"
+            >
+
+                <span class="dm-nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </nav>
+
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="dm-sidebar-footer">
+
+            <strong>
+                Gaon Pradhan Certificate Portal
+            </strong>
+
+            <span>
+                Official Government Service
+            </span>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         SIDEBAR OVERLAY
+    ================================================= -->
+
+    <div
+        class="dm-sidebar-overlay"
+        id="dmSidebarOverlay"
+    ></div>
+
+
+
+    <!-- =================================================
+         MAIN
+    ================================================= -->
+
+    <main class="dm-main">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================= -->
+
+        <section class="dm-page-header">
+
+            <div>
+
+                <div class="dm-breadcrumb">
+
+                    <span>
+                        Administration
+                    </span>
+
+                    <span>
+                        /
+                    </span>
+
+                    <strong>
+                        Master Data
+                    </strong>
+
+                    <span>
+                        /
+                    </span>
+
+                    <strong>
+                        Districts
+                    </strong>
+
+                </div>
+
+
+                <h1>
+                    District Management
+                </h1>
+
+
+                <p>
+                    Manage Assam district master data
+                    used throughout the Gaon Pradhan Certificate Portal.
+                </p>
+
+            </div>
+
+
+            <div class="dm-date-card">
+
+                <span>
+                    Today
+                </span>
+
+                <strong id="currentDate">
+                    —
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <section class="dm-stats-grid">
+
+
+            <!-- TOTAL -->
+
+            <div class="dm-stat-card">
+
+                <div class="dm-stat-icon">
+                    🗺️
+                </div>
+
+                <div class="dm-stat-content">
+
+                    <span>
+                        Total Districts
+                    </span>
+
+                    <strong id="totalDistricts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIVE -->
+
+            <div class="dm-stat-card active">
+
+                <div class="dm-stat-icon">
+                    ✓
+                </div>
+
+                <div class="dm-stat-content">
+
+                    <span>
+                        Active Districts
+                    </span>
+
+                    <strong id="activeDistricts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- INACTIVE -->
+
+            <div class="dm-stat-card inactive">
+
+                <div class="dm-stat-icon">
+                    ⏸
+                </div>
+
+                <div class="dm-stat-content">
+
+                    <span>
+                        Inactive Districts
+                    </span>
+
+                    <strong id="inactiveDistricts">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATE -->
+
+            <div class="dm-stat-card state">
+
+                <div class="dm-stat-icon">
+                    🇮🇳
+                </div>
+
+                <div class="dm-stat-content">
+
+                    <span>
+                        State
+                    </span>
+
+                    <strong>
+                        Assam
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             ADD DISTRICT
+        ================================================= -->
+
+        <section class="dm-panel">
+
+
+            <div class="dm-panel-header">
+
+                <div>
+
+                    <span class="dm-section-label">
+                        District Master Data
+                    </span>
+
+                    <h2>
+                        Add New District
+                    </h2>
+
+                    <p>
+                        Add a district to the official master database.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <form
+                id="districtForm"
+                class="dm-form"
+            >
+
+
+                <div class="dm-form-group">
+
+                    <label for="districtName">
+                        District Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="districtName"
+                        placeholder="Enter district name"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="dm-form-group">
+
+                    <label for="districtCode">
+                        District Code
+                    </label>
+
+                    <input
+                        type="text"
+                        id="districtCode"
+                        placeholder="Example: LKP"
+                        maxlength="10"
+                        autocomplete="off"
+                        required
+                    >
+
+                </div>
+
+
+
+                <div class="dm-form-group">
+
+                    <label for="districtStatus">
+                        Status
+                    </label>
+
+                    <select id="districtStatus">
+
+                        <option value="active">
+                            Active
+                        </option>
+
+                        <option value="inactive">
+                            Inactive
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+
+                <div class="dm-form-action">
+
+                    <button
+                        type="submit"
+                        class="dm-primary-btn"
+                    >
+
+                        <span>
+                            +
+                        </span>
+
+                        Add District
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+
+
+        <!-- =================================================
+             OFFICIAL IMPORT
+        ================================================= -->
+
+        <section class="dm-import-card">
+
+
+            <div class="dm-import-icon">
+                📥
+            </div>
+
+
+            <div class="dm-import-content">
+
+                <span class="dm-section-label">
+                    Official Master Data
+                </span>
+
+                <h2>
+                    Import Official Districts
+                </h2>
+
+                <p>
+                    Import the official Assam district master list
+                    into the portal database.
+                </p>
+
+
+                <p
+                    id="importStatus"
+                    class="dm-import-status"
+                ></p>
+
+            </div>
+
+
+            <div class="dm-import-action">
+
+                <button
+                    type="button"
+                    id="importDistrictsBtn"
+                    class="dm-secondary-btn"
+                >
+
+                    📥
+                    Import Official Districts
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             DISTRICT LIST
+        ================================================= -->
+
+        <section class="dm-panel">
+
+
+            <div class="dm-panel-header dm-list-header">
+
+                <div>
+
+                    <span class="dm-section-label">
+                        Assam Master Data
+                    </span>
+
+                    <h2>
+                        District List
+                    </h2>
+
+                    <p>
+                        View and manage all registered districts.
+                    </p>
+
+                </div>
+
+
+                <div class="dm-list-tools">
+
+                    <div class="dm-search-box">
+
+                        <span>
+                            🔍
+                        </span>
+
+                        <input
+                            type="search"
+                            id="districtSearch"
+                            placeholder="Search district..."
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- LIST -->
+
+            <div
+                id="districtList"
+                class="dm-district-list"
+            >
+
+                <div class="dm-loading-state">
+
+                    <div class="dm-loader"></div>
+
+                    <p>
+                        Loading districts...
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             BACK BUTTON
+        ================================================= -->
+
+        <div class="dm-bottom-actions">
+
+            <button
+                type="button"
+                class="dm-outline-btn"
+                onclick="window.location.href='dashboard.html'"
+            >
+
+                ←
+                Back to Admin Dashboard
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================= -->
+
+        <footer class="dm-footer">
+
+            <p>
+                © 2026 Gaon Pradhan Certificate Portal
+            </p>
+
+            <span>
+                Official Government Service Portal
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     EDIT DISTRICT MODAL
+===================================================== -->
+
+<div
+    id="editModal"
+    class="dm-modal"
+>
+
+    <div class="dm-modal-backdrop"></div>
+
+
+    <div class="dm-modal-card">
+
+
+        <div class="dm-modal-header">
+
+            <div>
+
+                <span class="dm-section-label">
+                    District Master Data
+                </span>
+
+                <h2>
+                    Edit District
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="dm-modal-close"
+                id="cancelEditBtn"
+                aria-label="Close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+
+        <div class="dm-modal-body">
+
+
+            <input
+                type="hidden"
+                id="editDistrictId"
+            >
+
+
+            <div class="dm-form-group">
+
+                <label for="editDistrictName">
+                    District Name
+                </label>
+
+                <input
+                    type="text"
+                    id="editDistrictName"
+                    placeholder="District Name"
+                >
+
+            </div>
+
+
+            <div class="dm-form-group">
+
+                <label for="editDistrictCode">
+                    District Code
+                </label>
+
+                <input
+                    type="text"
+                    id="editDistrictCode"
+                    placeholder="District Code"
+                >
+
+            </div>
+
+
+            <div class="dm-form-group">
+
+                <label for="editDistrictStatus">
+                    Status
+                </label>
+
+                <select id="editDistrictStatus">
+
+                    <option value="active">
+                        Active
+                    </option>
+
+                    <option value="inactive">
+                        Inactive
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+
+        <div class="dm-modal-footer">
+
+            <button
+                type="button"
+                class="dm-outline-btn"
+                id="cancelEditBtn"
+            >
+                Cancel
+            </button>
+
+
+            <button
+                type="button"
+                class="dm-primary-btn"
+                id="saveEditBtn"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    type="module"
+    src="js/districts.js"
+></script>
+
+
+<!-- =====================================================
+     PAGE UI SCRIPT
+===================================================== -->
+
+<script>
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        /* CURRENT DATE */
+
+        const dateElement =
+            document.getElementById("currentDate");
+
+        if (dateElement) {
+
+            const today =
+                new Date();
+
+            dateElement.textContent =
+                today.toLocaleDateString(
+                    "en-IN",
+                    {
+                        day: "2-digit",
+                        month: "short",
+                        year: "numeric"
+                    }
+                );
+
+        }
+
+
+
+        /* MOBILE SIDEBAR */
+
+        const menuButton =
+            document.getElementById("mobileMenuBtn");
+
+        const sidebar =
+            document.getElementById("dmSidebar");
+
+        const overlay =
+            document.getElementById("dmSidebarOverlay");
+
+
+        if (
+            menuButton &&
+            sidebar &&
+            overlay
+        ) {
+
+            menuButton.addEventListener(
+                "click",
+                () => {
+
+                    sidebar.classList.toggle(
+                        "open"
+                    );
+
+                    overlay.classList.toggle(
+                        "show"
+                    );
+
+                }
+            );
+
+
+            overlay.addEventListener(
+                "click",
+                () => {
+
+                    sidebar.classList.remove(
+                        "open"
+                    );
+
+                    overlay.classList.remove(
+                        "show"
+                    );
+
+                }
+            );
+
+        }
+
+    }
+);
+
+</script>
+
+
+</body>
+
+</html><!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>District Management | Gaon Pradhan Portal</title>
 
     <link rel="stylesheet" href="css/style.css">
