@@ -1,0 +1,827 @@
+/* =====================================================
+   GAON PRADHAN APPLICATION VIEW
+   ===================================================== */
+
+.application-view-page {
+    min-height: 100vh;
+    background: #f5f7fb;
+}
+
+
+/* =====================================================
+   MAIN CONTENT
+   ===================================================== */
+
+.application-view-page .gp-main {
+    min-height: calc(100vh - 72px);
+}
+
+
+/* =====================================================
+   PAGE HEADER
+   ===================================================== */
+
+.application-view-page .gp-page-header {
+    margin-bottom: 24px;
+}
+
+.application-view-page .gp-page-header h1 {
+    margin: 8px 0 8px;
+    font-size: 30px;
+    font-weight: 800;
+    color: #172033;
+}
+
+.application-view-page .gp-page-header p {
+    margin: 0;
+    color: #687386;
+    font-size: 14px;
+}
+
+
+/* =====================================================
+   BACK BUTTON
+   ===================================================== */
+
+.gp-back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 18px;
+
+    padding: 9px 15px;
+
+    border: 1px solid #dce2ea;
+    border-radius: 8px;
+
+    background: #ffffff;
+    color: #344054;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition: all 0.2s ease;
+}
+
+.gp-back-button:hover {
+    background: #f0f4f8;
+    border-color: #c8d0da;
+    transform: translateY(-1px);
+}
+
+
+/* =====================================================
+   APPLICATION STATUS BAR
+   ===================================================== */
+
+.gp-application-status-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    padding: 20px 22px;
+
+    margin-bottom: 22px;
+
+    background: #ffffff;
+    border: 1px solid #e2e7ef;
+    border-radius: 14px;
+
+    box-shadow: 0 4px 18px rgba(20, 35, 60, 0.05);
+}
+
+.gp-application-number {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.gp-application-number span {
+    color: #7b8494;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.gp-application-number strong {
+    color: #172033;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+
+/* =====================================================
+   STATUS BADGE
+   ===================================================== */
+
+.gp-application-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 14px;
+
+    border-radius: 30px;
+
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.gp-application-status::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+}
+
+
+/* Pending */
+
+.gp-application-status.pending {
+    color: #a16207;
+    background: #fff7d6;
+}
+
+
+/* Approved */
+
+.gp-application-status.approved {
+    color: #167044;
+    background: #e9f8ef;
+}
+
+
+/* Rejected */
+
+.gp-application-status.rejected {
+    color: #b42318;
+    background: #fff0ef;
+}
+
+
+/* =====================================================
+   CONTENT GRID
+   ===================================================== */
+
+.gp-application-view-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(300px, 1fr);
+
+    gap: 22px;
+
+    align-items: start;
+}
+
+
+/* =====================================================
+   PANEL
+   ===================================================== */
+
+.gp-view-panel {
+    background: #ffffff;
+
+    border: 1px solid #e2e7ef;
+    border-radius: 14px;
+
+    box-shadow: 0 4px 18px rgba(20, 35, 60, 0.05);
+
+    overflow: hidden;
+}
+
+
+/* =====================================================
+   PANEL HEADER
+   ===================================================== */
+
+.gp-view-panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 20px 22px;
+
+    border-bottom: 1px solid #edf0f4;
+}
+
+.gp-view-panel-header h2 {
+    margin: 4px 0 0;
+
+    color: #172033;
+
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.gp-view-section-label {
+    color: #7b8494;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+}
+
+
+/* =====================================================
+   INFORMATION GRID
+   ===================================================== */
+
+.gp-information-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    gap: 0;
+
+    padding: 6px 22px 18px;
+}
+
+
+/* =====================================================
+   INFORMATION ITEM
+   ===================================================== */
+
+.gp-information-item {
+    padding: 17px 8px;
+
+    border-bottom: 1px solid #edf0f4;
+}
+
+.gp-information-item:nth-child(odd) {
+    padding-right: 24px;
+}
+
+.gp-information-item:nth-child(even) {
+    padding-left: 24px;
+}
+
+.gp-information-item span {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: #7b8494;
+
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.gp-information-item strong {
+    display: block;
+
+    color: #1d2939;
+
+    font-size: 14px;
+    font-weight: 650;
+
+    line-height: 1.5;
+
+    word-break: break-word;
+}
+
+
+/* =====================================================
+   FULL WIDTH ITEM
+   ===================================================== */
+
+.gp-information-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.gp-information-item.full-width strong {
+    font-weight: 500;
+}
+
+
+/* =====================================================
+   LOCATION BOX
+   ===================================================== */
+
+.gp-location-details {
+    margin: 20px 22px;
+
+    padding: 17px;
+
+    background: #f7f9fc;
+
+    border: 1px solid #e5eaf1;
+    border-radius: 10px;
+}
+
+.gp-location-details h3 {
+    margin: 0 0 12px;
+
+    color: #172033;
+
+    font-size: 14px;
+    font-weight: 750;
+}
+
+.gp-location-path {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+
+    color: #475467;
+
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.gp-location-path span {
+    color: #98a2b3;
+}
+
+.gp-location-path strong {
+    color: #344054;
+}
+
+
+/* =====================================================
+   PURPOSE BOX
+   ===================================================== */
+
+.gp-purpose-box {
+    margin: 20px 22px;
+
+    padding: 18px;
+
+    background: #fafbfc;
+
+    border: 1px solid #e4e8ee;
+    border-radius: 10px;
+}
+
+.gp-purpose-box span {
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #7b8494;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+}
+
+.gp-purpose-box p {
+    margin: 0;
+
+    color: #344054;
+
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+
+/* =====================================================
+   ACTION PANEL
+   ===================================================== */
+
+.gp-action-panel {
+    position: sticky;
+    top: 20px;
+}
+
+.gp-action-content {
+    padding: 22px;
+}
+
+
+/* =====================================================
+   ACTION DESCRIPTION
+   ===================================================== */
+
+.gp-action-description {
+    margin: 0 0 20px;
+
+    color: #667085;
+
+    font-size: 13px;
+    line-height: 1.65;
+}
+
+
+/* =====================================================
+   ACTION BUTTONS
+   ===================================================== */
+
+.gp-application-action {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    min-height: 46px;
+
+    margin-bottom: 11px;
+
+    border: 0;
+    border-radius: 9px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+.gp-application-action:hover {
+    transform: translateY(-1px);
+}
+
+.gp-application-action:active {
+    transform: translateY(0);
+}
+
+.gp-application-action:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+
+/* Approve */
+
+.gp-approve-button {
+    background: #087443;
+    color: #ffffff;
+
+    box-shadow: 0 5px 14px rgba(8, 116, 67, 0.18);
+}
+
+.gp-approve-button:hover {
+    box-shadow: 0 7px 18px rgba(8, 116, 67, 0.25);
+}
+
+
+/* Reject */
+
+.gp-reject-button {
+    background: #ffffff;
+    color: #b42318;
+
+    border: 1px solid #f0b4ae;
+}
+
+.gp-reject-button:hover {
+    background: #fff7f6;
+}
+
+
+/* =====================================================
+   ACTION DIVIDER
+   ===================================================== */
+
+.gp-action-divider {
+    height: 1px;
+
+    margin: 20px 0;
+
+    background: #edf0f4;
+}
+
+
+/* =====================================================
+   APPLICATION TIMELINE
+   ===================================================== */
+
+.gp-timeline {
+    display: flex;
+    flex-direction: column;
+
+    gap: 0;
+
+    padding: 0 22px 22px;
+}
+
+.gp-timeline-item {
+    position: relative;
+
+    display: flex;
+    gap: 12px;
+
+    padding-bottom: 18px;
+}
+
+.gp-timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.gp-timeline-item:not(:last-child)::after {
+    content: "";
+
+    position: absolute;
+
+    left: 6px;
+    top: 17px;
+
+    width: 1px;
+    height: calc(100% - 5px);
+
+    background: #dfe4eb;
+}
+
+.gp-timeline-dot {
+    position: relative;
+    z-index: 2;
+
+    flex: 0 0 13px;
+
+    width: 13px;
+    height: 13px;
+
+    margin-top: 2px;
+
+    border-radius: 50%;
+
+    background: #087443;
+
+    border: 3px solid #dff3e9;
+}
+
+.gp-timeline-content {
+    min-width: 0;
+}
+
+.gp-timeline-content strong {
+    display: block;
+
+    color: #344054;
+
+    font-size: 13px;
+}
+
+.gp-timeline-content span {
+    display: block;
+
+    margin-top: 3px;
+
+    color: #98a2b3;
+
+    font-size: 11px;
+}
+
+
+/* =====================================================
+   REJECTION BOX
+   ===================================================== */
+
+.gp-rejection-box {
+    display: none;
+
+    margin-top: 14px;
+
+    padding: 15px;
+
+    background: #fff7f6;
+
+    border: 1px solid #f2c4bf;
+
+    border-radius: 9px;
+}
+
+.gp-rejection-box.show {
+    display: block;
+}
+
+.gp-rejection-box label {
+    display: block;
+
+    margin-bottom: 7px;
+
+    color: #7a271a;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.gp-rejection-box textarea {
+    width: 100%;
+
+    min-height: 100px;
+
+    padding: 11px 12px;
+
+    border: 1px solid #e6b7b1;
+    border-radius: 7px;
+
+    background: #ffffff;
+
+    color: #344054;
+
+    font-family: inherit;
+    font-size: 13px;
+
+    resize: vertical;
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+.gp-rejection-box textarea:focus {
+    border-color: #c75b50;
+
+    box-shadow:
+        0 0 0 3px rgba(199, 91, 80, 0.08);
+}
+
+
+/* =====================================================
+   EMPTY / LOADING
+   ===================================================== */
+
+.gp-view-loading {
+    padding: 60px 20px;
+
+    text-align: center;
+
+    color: #667085;
+}
+
+.gp-view-empty {
+    padding: 50px 20px;
+
+    text-align: center;
+}
+
+.gp-view-empty-icon {
+    font-size: 42px;
+    margin-bottom: 12px;
+}
+
+.gp-view-empty h3 {
+    margin: 0 0 7px;
+
+    color: #344054;
+
+    font-size: 17px;
+}
+
+.gp-view-empty p {
+    margin: 0;
+
+    color: #98a2b3;
+
+    font-size: 13px;
+}
+
+
+/* =====================================================
+   ERROR MESSAGE
+   ===================================================== */
+
+.gp-application-error {
+    margin-bottom: 20px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #f1c0bb;
+    border-radius: 9px;
+
+    background: #fff5f4;
+
+    color: #b42318;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   SUCCESS MESSAGE
+   ===================================================== */
+
+.gp-application-success {
+    margin-bottom: 20px;
+
+    padding: 14px 16px;
+
+    border: 1px solid #b7dfc7;
+    border-radius: 9px;
+
+    background: #f0faf4;
+
+    color: #166534;
+
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+
+/* =====================================================
+   MOBILE MENU
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+    .gp-application-view-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .gp-action-panel {
+        position: static;
+    }
+
+}
+
+
+/* =====================================================
+   TABLET
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .gp-application-status-bar {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .gp-information-grid {
+        grid-template-columns: 1fr;
+
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .gp-information-item:nth-child(odd),
+    .gp-information-item:nth-child(even) {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .gp-information-item.full-width {
+        grid-column: auto;
+    }
+
+}
+
+
+/* =====================================================
+   MOBILE
+   ===================================================== */
+
+@media (max-width: 520px) {
+
+    .application-view-page .gp-page-header h1 {
+        font-size: 24px;
+    }
+
+    .gp-application-status-bar {
+        padding: 17px;
+        border-radius: 11px;
+    }
+
+    .gp-application-number strong {
+        font-size: 17px;
+    }
+
+    .gp-view-panel {
+        border-radius: 11px;
+    }
+
+    .gp-view-panel-header {
+        padding: 17px;
+    }
+
+    .gp-view-panel-header h2 {
+        font-size: 16px;
+    }
+
+    .gp-location-details,
+    .gp-purpose-box {
+        margin-left: 17px;
+        margin-right: 17px;
+    }
+
+    .gp-action-content {
+        padding: 17px;
+    }
+
+    .gp-timeline {
+        padding-left: 17px;
+        padding-right: 17px;
+    }
+
+}
