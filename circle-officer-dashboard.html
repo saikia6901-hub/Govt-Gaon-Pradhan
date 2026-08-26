@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Circle Officer Dashboard | Gaon Pradhan Certificate Portal
+    </title>
+
+
+    <!-- MAIN CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+
+
+    <!-- CIRCLE OFFICER DASHBOARD CSS -->
+
+    <link
+        rel="stylesheet"
+        href="css/circle-officer-dashboard.css"
+    >
+
+</head>
+
+
+<body class="circle-officer-page">
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="co-header">
+
+
+    <div class="co-header-left">
+
+
+        <!-- MOBILE MENU -->
+
+        <button
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+            type="button"
+            aria-label="Open menu"
+        >
+            ☰
+        </button>
+
+
+        <!-- BRAND -->
+
+        <div class="co-brand">
+
+
+            <div class="co-brand-logo">
+
+                <img
+                    src="assets/logo.png"
+                    alt="Gaon Pradhan Certificate Portal"
+                >
+
+            </div>
+
+
+            <div class="co-brand-text">
+
+                <strong>
+                    Gaon Pradhan
+                </strong>
+
+                <span>
+                    Certificate Portal
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- HEADER USER -->
+
+    <div class="co-header-right">
+
+
+        <div class="co-user-info">
+
+            <strong id="headerOfficerName">
+                Circle Officer
+            </strong>
+
+            <span>
+                Official Account
+            </span>
+
+        </div>
+
+
+        <div
+            class="co-user-avatar"
+            id="headerOfficerAvatar"
+        >
+            CO
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     MAIN LAYOUT
+===================================================== -->
+
+<div class="co-layout">
+
+
+
+    <!-- =================================================
+         SIDEBAR
+    ================================================= -->
+
+    <aside
+        class="co-sidebar"
+        id="coSidebar"
+    >
+
+
+        <!-- PROFILE -->
+
+        <div class="co-sidebar-profile">
+
+
+            <div
+                class="co-profile-avatar"
+                id="sidebarOfficerAvatar"
+            >
+                CO
+            </div>
+
+
+            <div class="co-profile-info">
+
+                <strong id="sidebarOfficerName">
+                    Circle Officer
+                </strong>
+
+                <span>
+                    Circle Officer
+                </span>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- NAVIGATION -->
+
+        <nav class="co-navigation">
+
+
+            <!-- DASHBOARD -->
+
+            <a
+                href="circle-officer-dashboard.html"
+                class="co-nav-item active"
+            >
+
+                <span class="co-nav-icon">
+                    🏠
+                </span>
+
+                <span>
+                    Dashboard
+                </span>
+
+            </a>
+
+
+
+            <!-- APPLICATIONS -->
+
+            <a
+                href="circle-officer-applications.html"
+                class="co-nav-item"
+            >
+
+                <span class="co-nav-icon">
+                    📄
+                </span>
+
+                <span>
+                    Applications
+                </span>
+
+                <span
+                    class="co-nav-badge"
+                    id="sidebarPendingCount"
+                >
+                    0
+                </span>
+
+            </a>
+
+
+
+            <!-- MANDAL MANAGEMENT -->
+
+            <a
+                href="circle-officer-mandal-management.html"
+                class="co-nav-item"
+            >
+
+                <span class="co-nav-icon">
+                    👨‍💼
+                </span>
+
+                <span>
+                    Mandal Management
+                </span>
+
+            </a>
+
+
+
+            <!-- GAON PRADHAN MANAGEMENT -->
+
+            <a
+                href="circle-officer-gaon-pradhan-management.html"
+                class="co-nav-item"
+            >
+
+                <span class="co-nav-icon">
+                    🏘️
+                </span>
+
+                <span>
+                    Gaon Pradhan Management
+                </span>
+
+            </a>
+
+
+
+            <!-- CERTIFICATES -->
+
+            <a
+                href="circle-officer-certificates.html"
+                class="co-nav-item"
+            >
+
+                <span class="co-nav-icon">
+                    📜
+                </span>
+
+                <span>
+                    Certificates
+                </span>
+
+            </a>
+
+
+
+            <!-- PROFILE -->
+
+            <a
+                href="circle-officer-profile.html"
+                class="co-nav-item"
+            >
+
+                <span class="co-nav-icon">
+                    👤
+                </span>
+
+                <span>
+                    My Profile
+                </span>
+
+            </a>
+
+
+
+            <!-- DIVIDER -->
+
+            <div class="co-nav-divider"></div>
+
+
+
+            <!-- LOGOUT -->
+
+            <a
+                href="javascript:void(0)"
+                class="co-nav-item logout-item"
+                onclick="logout()"
+            >
+
+                <span class="co-nav-icon">
+                    🚪
+                </span>
+
+                <span>
+                    Logout
+                </span>
+
+            </a>
+
+        </nav>
+
+
+
+        <!-- SIDEBAR FOOTER -->
+
+        <div class="co-sidebar-footer">
+
+            <span>
+                Gaon Pradhan Certificate Portal
+            </span>
+
+            <small>
+                Official Portal
+            </small>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- =================================================
+         SIDEBAR OVERLAY
+    ================================================= -->
+
+    <div
+        class="co-sidebar-overlay"
+        id="coSidebarOverlay"
+    ></div>
+
+
+
+    <!-- =================================================
+         MAIN CONTENT
+    ================================================= -->
+
+    <main class="co-main">
+
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================= -->
+
+        <section class="co-page-header">
+
+
+            <div>
+
+
+                <div class="co-breadcrumb">
+
+                    <span>
+                        Official Portal
+                    </span>
+
+                    <span>
+                        /
+                    </span>
+
+                    <strong>
+                        Circle Officer Dashboard
+                    </strong>
+
+                </div>
+
+
+
+                <h1>
+
+                    Welcome,
+                    <span id="dashboardOfficerName">
+                        Circle Officer
+                    </span>
+
+                </h1>
+
+
+
+                <p>
+                    Monitor certificate services,
+                    manage your jurisdiction,
+                    and supervise Mandals and Gaon Pradhans.
+                </p>
+
+            </div>
+
+
+
+            <!-- DATE -->
+
+            <div class="co-header-date">
+
+                <span>
+                    Today
+                </span>
+
+                <strong id="currentDate">
+                    —
+                </strong>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             JURISDICTION CARD
+        ================================================= -->
+
+        <section class="co-jurisdiction-card">
+
+
+            <div class="co-jurisdiction-icon">
+                📍
+            </div>
+
+
+            <div class="co-jurisdiction-content">
+
+
+                <span class="co-section-label">
+                    Assigned Jurisdiction
+                </span>
+
+
+                <h3 id="officialJurisdiction">
+                    Loading jurisdiction...
+                </h3>
+
+
+                <p>
+                    You can monitor and manage official
+                    activities within your assigned
+                    Revenue Circle.
+                </p>
+
+            </div>
+
+
+
+            <div class="co-jurisdiction-status">
+
+                <span>
+                    ●
+                </span>
+
+                Active Jurisdiction
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             STATISTICS
+        ================================================= -->
+
+        <section class="co-stats-grid">
+
+
+
+            <!-- APPLICATIONS -->
+
+            <div class="co-stat-card">
+
+
+                <div class="co-stat-icon">
+                    📄
+                </div>
+
+
+                <div class="co-stat-content">
+
+                    <span>
+                        Total Applications
+                    </span>
+
+                    <strong id="totalApplications">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- PENDING -->
+
+            <div class="co-stat-card pending">
+
+
+                <div class="co-stat-icon">
+                    ⏳
+                </div>
+
+
+                <div class="co-stat-content">
+
+                    <span>
+                        Pending Applications
+                    </span>
+
+                    <strong id="pendingApplications">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- APPROVED -->
+
+            <div class="co-stat-card approved">
+
+
+                <div class="co-stat-icon">
+                    ✓
+                </div>
+
+
+                <div class="co-stat-content">
+
+                    <span>
+                        Approved Applications
+                    </span>
+
+                    <strong id="approvedApplications">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- REJECTED -->
+
+            <div class="co-stat-card rejected">
+
+
+                <div class="co-stat-icon">
+                    ✕
+                </div>
+
+
+                <div class="co-stat-content">
+
+                    <span>
+                        Rejected Applications
+                    </span>
+
+                    <strong id="rejectedApplications">
+                        0
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             OFFICIAL STAFF STATISTICS
+        ================================================= -->
+
+        <section class="co-staff-grid">
+
+
+
+            <!-- MANDALS -->
+
+            <div class="co-staff-card">
+
+
+                <div class="co-staff-icon">
+                    👨‍💼
+                </div>
+
+
+                <div class="co-staff-content">
+
+                    <span>
+                        Assigned Mandals
+                    </span>
+
+                    <strong id="totalMandals">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="circle-officer-mandal-management.html"
+                    class="co-staff-link"
+                >
+                    Manage →
+                </a>
+
+            </div>
+
+
+
+            <!-- GAON PRADHANS -->
+
+            <div class="co-staff-card">
+
+
+                <div class="co-staff-icon">
+                    🏘️
+                </div>
+
+
+                <div class="co-staff-content">
+
+                    <span>
+                        Gaon Pradhans
+                    </span>
+
+                    <strong id="totalGaonPradhans">
+                        0
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="circle-officer-gaon-pradhan-management.html"
+                    class="co-staff-link"
+                >
+                    Manage →
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             CONTENT GRID
+        ================================================= -->
+
+        <section class="co-content-grid">
+
+
+
+            <!-- =================================================
+                 RECENT APPLICATIONS
+            ================================================= -->
+
+            <div class="co-panel co-applications-panel">
+
+
+                <div class="co-panel-header">
+
+
+                    <div>
+
+                        <span class="co-section-label">
+                            Certificate Services
+                        </span>
+
+                        <h2>
+                            Recent Applications
+                        </h2>
+
+                    </div>
+
+
+                    <a
+                        href="circle-officer-applications.html"
+                        class="co-view-all"
+                    >
+                        View All →
+                    </a>
+
+                </div>
+
+
+
+                <!-- APPLICATION LIST -->
+
+                <div
+                    class="co-applications-list"
+                    id="recentApplications"
+                >
+
+
+                    <div class="co-loading-state">
+
+                        <div class="co-loader"></div>
+
+                        <p>
+                            Loading applications...
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 QUICK ACTIONS
+            ================================================= -->
+
+            <div class="co-panel co-actions-panel">
+
+
+                <div class="co-panel-header">
+
+
+                    <div>
+
+                        <span class="co-section-label">
+                            Administration
+                        </span>
+
+                        <h2>
+                            Quick Actions
+                        </h2>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="co-quick-actions">
+
+
+
+                    <!-- APPLICATIONS -->
+
+                    <a
+                        href="circle-officer-applications.html"
+                        class="co-action-card"
+                    >
+
+                        <div class="co-action-icon">
+                            📄
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Review Applications
+                            </strong>
+
+                            <span>
+                                Monitor submitted applications
+                            </span>
+
+                        </div>
+
+
+                        <span class="co-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- MANDAL -->
+
+                    <a
+                        href="circle-officer-mandal-management.html"
+                        class="co-action-card"
+                    >
+
+                        <div class="co-action-icon">
+                            👨‍💼
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Manage Mandals
+                            </strong>
+
+                            <span>
+                                Assign and supervise Mandals
+                            </span>
+
+                        </div>
+
+
+                        <span class="co-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- GAON PRADHAN -->
+
+                    <a
+                        href="circle-officer-gaon-pradhan-management.html"
+                        class="co-action-card"
+                    >
+
+                        <div class="co-action-icon">
+                            🏘️
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Manage Gaon Pradhans
+                            </strong>
+
+                            <span>
+                                Assign Gaon Pradhans to villages
+                            </span>
+
+                        </div>
+
+
+                        <span class="co-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+
+
+                    <!-- CERTIFICATES -->
+
+                    <a
+                        href="circle-officer-certificates.html"
+                        class="co-action-card"
+                    >
+
+                        <div class="co-action-icon">
+                            📜
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                Certificates
+                            </strong>
+
+                            <span>
+                                Monitor issued certificates
+                            </span>
+
+                        </div>
+
+
+                        <span class="co-action-arrow">
+                            →
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             OFFICIAL INFORMATION
+        ================================================= -->
+
+        <section class="co-panel co-official-panel">
+
+
+            <div class="co-panel-header">
+
+
+                <div>
+
+                    <span class="co-section-label">
+                        Official Information
+                    </span>
+
+                    <h2>
+                        Account Details
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="co-info-grid">
+
+
+
+                <!-- NAME -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        Officer Name
+                    </span>
+
+                    <strong id="officialName">
+                        —
+                    </strong>
+
+                </div>
+
+
+
+                <!-- EMAIL -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        Email
+                    </span>
+
+                    <strong id="officialEmail">
+                        —
+                    </strong>
+
+                </div>
+
+
+
+                <!-- ROLE -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        Role
+                    </span>
+
+                    <strong id="officialRole">
+                        Circle Officer
+                    </strong>
+
+                </div>
+
+
+
+                <!-- DISTRICT -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        District
+                    </span>
+
+                    <strong id="officialDistrict">
+                        —
+                    </strong>
+
+                </div>
+
+
+
+                <!-- REVENUE CIRCLE -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        Revenue Circle
+                    </span>
+
+                    <strong id="officialRevenueCircle">
+                        —
+                    </strong>
+
+                </div>
+
+
+
+                <!-- STATUS -->
+
+                <div class="co-info-item">
+
+                    <span>
+                        Account Status
+                    </span>
+
+                    <strong class="co-status-active">
+                        ● Active
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             FOOTER
+        ================================================= -->
+
+        <footer class="co-footer">
+
+
+            <p>
+                © 2026 Gaon Pradhan Certificate Portal
+            </p>
+
+
+            <span>
+                Official Government Service Portal
+            </span>
+
+        </footer>
+
+
+    </main>
+
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script
+    type="module"
+    src="js/circle-officer-dashboard.js"
+></script>
+
+
+</body>
+
+</html>
