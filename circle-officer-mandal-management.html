@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Mandal Management | Circle Officer Dashboard
+</title>
+
+
+<!-- MAIN CSS -->
+<link rel="stylesheet" href="css/style.css">
+
+
+<!-- PAGE CSS -->
+<link rel="stylesheet" href="css/circle-officer-mandal-management.css">
+
+
+</head>
+
+
+<body class="circle-officer-page">
+
+
+<!-- ================= HEADER ================= -->
+
+<header class="co-header">
+
+
+<div class="co-header-left">
+
+
+<button 
+class="mobile-menu-btn"
+id="mobileMenuBtn">
+☰
+</button>
+
+
+
+<div class="co-brand">
+
+
+<div class="co-brand-logo">
+
+<img 
+src="assets/logo.png"
+alt="Gaon Pradhan Portal">
+
+</div>
+
+
+
+<div class="co-brand-text">
+
+<strong>
+Gaon Pradhan
+</strong>
+
+<span>
+Certificate Portal
+</span>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="co-header-right">
+
+
+<div class="co-user-info">
+
+<strong id="headerOfficerName">
+Circle Officer
+</strong>
+
+
+<span>
+Official Account
+</span>
+
+</div>
+
+
+<div class="co-user-avatar"
+id="headerOfficerAvatar">
+
+CO
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+
+
+<!-- ================= LAYOUT ================= -->
+
+<div class="co-layout">
+
+
+
+<!-- ================= SIDEBAR ================= -->
+
+
+<aside class="co-sidebar"
+id="coSidebar">
+
+
+<div class="co-sidebar-profile">
+
+
+<div class="co-profile-avatar"
+id="sidebarOfficerAvatar">
+
+CO
+
+</div>
+
+
+<div class="co-profile-info">
+
+<strong id="sidebarOfficerName">
+Circle Officer
+</strong>
+
+
+<span>
+Circle Officer
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<nav class="co-navigation">
+
+
+<a href="circle-officer-dashboard.html"
+class="co-nav-item">
+
+<span>
+🏠
+</span>
+
+Dashboard
+
+</a>
+
+
+
+<a href="circle-officer-applications.html"
+class="co-nav-item">
+
+<span>
+📄
+</span>
+
+Applications
+
+</a>
+
+
+
+
+<a href="circle-officer-mandal-management.html"
+class="co-nav-item active">
+
+
+<span>
+👨‍💼
+</span>
+
+
+Mandal Management
+
+
+</a>
+
+
+
+
+<a href="circle-officer-gaon-pradhan-management.html"
+class="co-nav-item">
+
+
+<span>
+🏘️
+</span>
+
+
+Gaon Pradhan Management
+
+
+</a>
+
+
+
+
+
+<a href="circle-officer-certificates.html"
+class="co-nav-item">
+
+
+<span>
+📜
+</span>
+
+
+Certificates
+
+
+</a>
+
+
+
+
+
+<a href="circle-officer-profile.html"
+class="co-nav-item">
+
+
+<span>
+👤
+</span>
+
+
+My Profile
+
+
+</a>
+
+
+
+
+<div class="co-nav-divider"></div>
+
+
+
+
+<a href="javascript:void(0)"
+onclick="logout()"
+class="co-nav-item logout-item">
+
+
+<span>
+🚪
+</span>
+
+Logout
+
+
+</a>
+
+
+
+</nav>
+
+
+
+</aside>
+
+
+
+
+
+
+
+<!-- ================= MAIN ================= -->
+
+
+<main class="co-main">
+
+
+
+<section class="co-page-header">
+
+
+<div>
+
+
+<div class="co-breadcrumb">
+
+<span>
+Official Portal
+</span>
+
+<span>
+/
+</span>
+
+<strong>
+Mandal Management
+</strong>
+
+
+</div>
+
+
+
+
+<h1>
+
+Mandal Management
+
+</h1>
+
+
+
+<p>
+
+Create, manage and assign Mandal officials under your Revenue Circle.
+
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ================= JURISDICTION ================= -->
+
+
+<section class="co-jurisdiction-card">
+
+
+<div class="co-jurisdiction-icon">
+
+📍
+
+</div>
+
+
+
+<div>
+
+
+<span class="co-section-label">
+
+Assigned Jurisdiction
+
+</span>
+
+
+<h3 id="officialJurisdiction">
+
+Loading...
+
+</h3>
+
+
+<p>
+
+Only Mandals under your assigned Revenue Circle can be managed.
+
+</p>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ================= CREATE BUTTON ================= -->
+
+
+<section class="management-actions">
+
+
+<button 
+class="primary-btn"
+id="openCreateMandal">
+
+
++ Create New Mandal Account
+
+</button>
+
+
+</section>
+
+
+
+
+
+
+
+<!-- ================= MANDAL LIST ================= -->
+
+
+<section class="co-panel">
+
+
+<div class="co-panel-header">
+
+
+<div>
+
+
+<span class="co-section-label">
+
+Official Staff
+
+</span>
+
+
+<h2>
+
+Assigned Mandals
+
+</h2>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="table-container">
+
+
+<table class="official-table">
+
+
+<thead>
+
+<tr>
+
+<th>
+Name
+</th>
+
+
+<th>
+User ID
+</th>
+
+
+<th>
+Mobile
+</th>
+
+
+<th>
+Revenue Circle
+</th>
+
+
+<th>
+Status
+</th>
+
+
+<th>
+Action
+</th>
+
+
+</tr>
+
+</thead>
+
+
+
+<tbody id="mandalTableBody">
+
+
+<tr>
+
+<td colspan="6">
+
+Loading Mandals...
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<!-- ================= CREATE MODAL ================= -->
+
+
+<div class="modal"
+id="createMandalModal">
+
+
+
+<div class="modal-content">
+
+
+
+<div class="modal-header">
+
+
+<h2>
+Create Mandal Account
+</h2>
+
+
+<button id="closeModal">
+
+×
+</button>
+
+
+</div>
+
+
+
+
+
+<form id="mandalCreateForm">
+
+
+
+<label>
+Full Name
+</label>
+
+
+<input 
+type="text"
+id="mandalName"
+required>
+
+
+
+
+
+<label>
+Mobile Number
+</label>
+
+
+<input 
+type="tel"
+id="mandalMobile"
+required>
+
+
+
+
+
+<label>
+Email / User ID
+</label>
+
+
+<input 
+type="email"
+id="mandalEmail"
+required>
+
+
+
+
+
+<label>
+Password
+</label>
+
+
+<input 
+type="password"
+id="mandalPassword"
+required>
+
+
+
+
+
+<label>
+District
+</label>
+
+
+<input 
+type="text"
+id="mandalDistrict"
+readonly>
+
+
+
+
+
+<label>
+Revenue Circle
+</label>
+
+
+<input 
+type="text"
+id="mandalRevenueCircle"
+readonly>
+
+
+
+
+
+
+
+<button 
+type="submit"
+class="primary-btn">
+
+Create Account
+
+</button>
+
+
+
+</form>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<footer class="co-footer">
+
+<p>
+
+© 2026 Gaon Pradhan Certificate Portal
+
+</p>
+
+
+<span>
+
+Official Government Service Portal
+
+</span>
+
+
+</footer>
+
+
+
+
+
+</main>
+
+
+</div>
+
+
+
+
+
+
+
+<script 
+type="module"
+src="js/circle-officer-mandal-management.js">
+
+</script>
+
+
+</body>
+
+</html>
