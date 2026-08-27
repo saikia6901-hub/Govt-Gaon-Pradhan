@@ -1,0 +1,481 @@
+/* =====================================================
+   CIRCLE OFFICER MANDAL MANAGEMENT
+   GAON PRADHAN CERTIFICATE PORTAL
+===================================================== */
+
+
+
+/* ===============================
+   PAGE ACTION BUTTON
+================================ */
+
+.management-actions {
+
+    margin: 25px 0;
+
+}
+
+
+.primary-btn {
+
+    background: #046A38;
+
+    color: white;
+
+    border: none;
+
+    padding: 13px 24px;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+
+}
+
+
+.primary-btn:hover {
+
+    background: #034d29;
+
+    transform: translateY(-2px);
+
+}
+
+
+
+
+
+/* ===============================
+   PANEL TABLE
+================================ */
+
+
+.table-container {
+
+    width: 100%;
+
+    overflow-x: auto;
+
+}
+
+
+
+.official-table {
+
+    width: 100%;
+
+    border-collapse: collapse;
+
+    background: white;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+}
+
+
+
+.official-table thead {
+
+    background: #046A38;
+
+    color: white;
+
+}
+
+
+
+.official-table th {
+
+    padding: 15px;
+
+    text-align: left;
+
+    font-size: 14px;
+
+}
+
+
+
+.official-table td {
+
+    padding: 14px;
+
+    border-bottom: 1px solid #e5e7eb;
+
+    font-size: 14px;
+
+}
+
+
+
+.official-table tbody tr:hover {
+
+    background: #f5faf7;
+
+}
+
+
+
+
+/* STATUS */
+
+.status-active {
+
+    color: #15803d;
+
+    background: #dcfce7;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+
+.status-inactive {
+
+    color: #b91c1c;
+
+    background: #fee2e2;
+
+    padding: 5px 12px;
+
+    border-radius: 20px;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+
+
+
+/* ===============================
+   ACTION BUTTONS
+================================ */
+
+
+.table-action-btn {
+
+    border: none;
+
+    padding: 7px 14px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+    font-weight: 600;
+
+}
+
+
+
+.edit-btn {
+
+    background: #2563eb;
+
+    color:white;
+
+}
+
+
+
+.disable-btn {
+
+    background:#dc2626;
+
+    color:white;
+
+}
+
+
+
+.enable-btn {
+
+    background:#16a34a;
+
+    color:white;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   MODAL
+================================ */
+
+
+.modal {
+
+    display:none;
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.55);
+
+    z-index:9999;
+
+    padding:20px;
+
+}
+
+
+
+
+.modal-content {
+
+    background:white;
+
+    max-width:520px;
+
+    margin:60px auto;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,0.2);
+
+}
+
+
+
+
+
+.modal-header {
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:20px;
+
+}
+
+
+
+.modal-header h2 {
+
+    margin:0;
+
+    color:#046A38;
+
+}
+
+
+
+
+
+.modal-header button {
+
+    border:none;
+
+    background:none;
+
+    font-size:28px;
+
+    cursor:pointer;
+
+    color:#555;
+
+}
+
+
+
+
+
+/* ===============================
+   FORM
+================================ */
+
+
+#mandalCreateForm {
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:12px;
+
+}
+
+
+
+#mandalCreateForm label {
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:#374151;
+
+}
+
+
+
+#mandalCreateForm input {
+
+
+    width:100%;
+
+    padding:12px;
+
+    border:1px solid #d1d5db;
+
+    border-radius:8px;
+
+    font-size:14px;
+
+}
+
+
+
+#mandalCreateForm input:focus {
+
+    outline:none;
+
+    border-color:#046A38;
+
+    box-shadow:0 0 0 3px rgba(4,106,56,0.15);
+
+}
+
+
+
+
+#mandalCreateForm input[readonly] {
+
+    background:#f3f4f6;
+
+    cursor:not-allowed;
+
+}
+
+
+
+
+
+/* ===============================
+   EMPTY STATE
+================================ */
+
+
+.empty-state {
+
+    text-align:center;
+
+    padding:40px;
+
+    color:#6b7280;
+
+}
+
+
+
+.empty-state h3 {
+
+    margin-top:10px;
+
+    color:#374151;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   MOBILE RESPONSIVE
+================================ */
+
+
+
+@media(max-width:768px){
+
+
+.management-actions {
+
+    text-align:center;
+
+}
+
+
+
+.primary-btn {
+
+    width:100%;
+
+}
+
+
+
+.modal-content {
+
+    margin:30px auto;
+
+    padding:20px;
+
+}
+
+
+
+.official-table th,
+
+.official-table td {
+
+    white-space:nowrap;
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   LOADING
+================================ */
+
+
+.loading-text {
+
+    text-align:center;
+
+    padding:30px;
+
+    color:#6b7280;
+
+}
