@@ -43,6 +43,10 @@ const secondaryApp =
 const secondaryAuth =
     getAuth(
         secondaryApp
+
+import {
+getAuth
+} from "https://www.gstatic.com/firebasejs/12.17.1/firebase-auth.js";
     );
 
 
@@ -405,43 +409,29 @@ return;
 
 html += `
 
+<tr>
 
-<div class="management-card">
+<td>${data.name || ""}</td>
 
+<td>${data.email || ""}</td>
 
-<h3>
-${data.name}
-</h3>
+<td>${data.mobile || ""}</td>
 
+<td>${data.revenueCircle || ""}</td>
 
-<p>
-Email:
-${data.email}
-</p>
-
-
-<p>
-District:
-${data.district}
-</p>
-
-
-<p>
-Revenue Circle:
-${data.revenueCircle}
-</p>
-
-
+<td>
 <span class="status-active">
 Active
 </span>
+</td>
 
+<td>
+<button>
+View
+</button>
+</td>
 
-</div>
-
-
-`;
-
+</tr>
 
 
 }
