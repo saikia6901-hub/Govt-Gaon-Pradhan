@@ -30,7 +30,7 @@ import {
 
 import {
     firebaseConfig
-} from "./firebase-config.js";
+} from "./firebase.js";
 
 
 const secondaryApp =
