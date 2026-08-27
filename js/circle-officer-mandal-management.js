@@ -29,7 +29,9 @@ import {
 // ========================================
 
 import {
-    firebaseConfig
+ auth,
+ db,
+ firebaseConfig
 } from "./firebase.js";
 
 
