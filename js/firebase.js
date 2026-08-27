@@ -27,6 +27,7 @@ const auth = getAuth(app);
 export {
   db,
   auth,
+  firebaseConfig,
   collection,
   addDoc,
   getDocs,
