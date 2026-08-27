@@ -53,7 +53,7 @@ const secondaryAuth =
 
 const form =
 document.getElementById(
-    "mandalForm"
+    "mandalCreateForm"
 );
 
 
