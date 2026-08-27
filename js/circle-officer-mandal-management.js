@@ -53,13 +53,31 @@ const secondaryAuth =
 
 const form =
 document.getElementById(
-    "mandalCreateForm"
+   "mandalCreateForm"
 );
 
 
 const list =
 document.getElementById(
-    "mandalList"
+   "mandalTableBody"
+);
+
+
+const createButton =
+document.getElementById(
+   "openCreateMandal"
+);
+
+
+const modal =
+document.getElementById(
+   "createMandalModal"
+);
+
+
+const closeModal =
+document.getElementById(
+   "closeModal"
 );
 
 
